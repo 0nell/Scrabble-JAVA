@@ -3,14 +3,13 @@
 public class Player {
 
 	private String name;
-	private int score;
+	private int score = 0;
 	Frame frame;
 	
 	
-	public Player(String name, int score, Frame frame) {
+	public Player(String name, Frame frame) {
 		super();
 		this.name = name;
-		this.score = score;
 		this.frame = frame;
 	}
 
