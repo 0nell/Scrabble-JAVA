@@ -9,39 +9,13 @@ public class PlayerTest {
 	Player Lleno;
 	Player Sean;
 
-	public void frameClassTest(){	
-		//Stores letters and displays them
-		System.out.println("Stores and displays the letters in the player's frame");
-		frame1.displayFrame();
-		frame2.displayFrame();
-		frame3.displayFrame();
 
-		frame1.removeLetter(frame1.letters.get(0));
-		System.out.println(frame2.contains('G'));
-		System.out.println(frame3.contains(frame3.letters.get(3)));
-		frame1.displayFrame();
-
-		for(int i = 0; i < 6; i++){
-			if(frame1.contains(frame1.letters.get(0)))
-				frame1.removeLetter(frame1.letters.get(0));
-		}
-		System.out.println(frame1.isEmpty());
-		System.out.println(frame2.isEmpty());
-		frame1.addLetter('D');
-		frame1.displayFrame();
-
-		frame1.addLetter(Pool.draw());
-		frame1.addLetter(Pool.draw());
-		frame1.displayFrame();
-		
-	}
 
 	public static void main(String[] args) {
 		PlayerTest pt = new PlayerTest();
 		pt.frameClassTest();
-
+		pt.PlayerClassTest();
 	}
-
 	public PlayerTest() {
 		for (int i = 0; i < 7; i++) {
 			frame1.addLetter(Pool.draw());
@@ -53,5 +27,97 @@ public class PlayerTest {
 		Lleno = new Player("Lleno", frame2);
 		Sean = new Player("Sean", frame3);
 	}
+
+
+	public void PlayerClassTest() {
+		
+		//Allow Player's name to be set
+		Ahmed.setName("Ahmed Jouda");
+		Lleno.setName("Lleno Anya");
+		Sean.setName("Sean McDonnell");
+		System.out.println("TEST: NAME ALLOWED TO BE SET\n----------------------------");
+		System.out.println("->Expected for Ahmed: Ahmed Jouda\nGot: " + Ahmed.getName());
+		System.out.println("->Expected for Lleno: Lleno Anya\nGot: " + Lleno.getName());
+		System.out.println("->Expected for Sean: Sean McDonnell\nGot: " + Sean.getName());
+		
+		//Allow Score to be increased
+		Ahmed.increaseScore(7); 	//increase score by 7
+		Lleno.increaseScore(5); 	//increase score by 5
+		Sean.increaseScore(3); 		//increase score by 3
+		System.out.println("\nTEST: SCORES ALLOWED TO INCREASE\n--------------------------------");
+		System.out.println("->Expected for Ahmed: 7\nGot: " + Ahmed.getScore());
+		System.out.println("->Expected for Lleno: 7\nGot: " + Lleno.getScore());
+		System.out.println("->Expected for Sean: 7\nGot: " + Sean.getScore());
+		
+		//Display Player's name
+		Ahmed.getName();
+		Lleno.getName();
+		Sean.getName();
+		System.out.println("\nTEST: ALLOWS TO DISPLAY NAME\n--------------------------------");
+		System.out.println("->Expected for Ahmed: Ahmed Jouda\nGot: " + Ahmed.getName());
+		System.out.println("->Expected for Lleno: Lleno Anya\nGot: " + Lleno.getName());
+		System.out.println("->Expected for Sean: Sean McDonnell\nGot: " + Sean.getName());
+		
+		
+		//Allow access to player's frame
+		System.out.println("\nTEST: ALLOWS ACCESS TO PLAYER'S FRAME\n-------------------------------------");
+		System.out.println("Ahmed's Frame"); Ahmed.getFrame();
+		System.out.println("Lleno's Frame"); Lleno.getFrame();
+		System.out.println("Sean's Frame"); Sean.getFrame();
+		
+		//Allow Player to be reset
+		System.out.println("\nTEST: RESETING THE PLAYER (NAME & SCORE)\n----------------------------------------");
+		Ahmed.reset();
+		Lleno.reset();
+		Sean.reset();
+		System.out.println("->Expected for ALL: Empty name & score = 0");
+		System.out.println("\nGot for Ahmed: " + "\nName: " + Ahmed.getName() + "Score: " + Ahmed.getScore());
+		System.out.println("\nGot for Lleno: " + "\nName: " + Lleno.getName() + "Score: " + Lleno.getScore());
+		System.out.println("\nGot for Sean: " + "\nName: " + Sean.getName() + "Score: " + Sean.getScore());
+		
+		System.out.println("\n\n*** END OF PLAYER CLASS TEST ***");
+	}
+
+	public void frameClassTest(){	
+		//Stores letters and displays them
+		System.out.println("TEST: LETTERS STORED AND DISPLAYED\n----------------------------");
+		System.out.println("Frame 1:");
+		frame1.displayFrame();
+		System.out.println("Frame 2:");
+		frame2.displayFrame();
+		System.out.println("Frame 3:");
+		frame3.displayFrame();
+
+		System.out.println("\nTEST: ALLOWS LETTERS TO BE REMOVED FROM A FRAME\n----------------------------");
+		frame1.removeLetter(frame1.letters.get(0));
+		frame1.displayFrame();
+		
+		System.out.println("\nTEST: CHECKS IF LETTER IS IN THE FRAME\n----------------------------");
+		System.out.println("->Expected for Frame 1: true\nGot: " + frame3.contains(frame3.letters.get(3)));
+		System.out.println("Frame 1:");
+		
+
+		System.out.println("\nTEST: CHECKS IF THE FRAME IS EMPTY\n----------------------------");
+		for(int i = 0; i < 6; i++){
+			if(frame1.contains(frame1.letters.get(0)))
+				frame1.removeLetter(frame1.letters.get(0));
+		}
+		System.out.println("->Expected for Frame 1: true\nGot: " + frame1.isEmpty());
+		System.out.println("->Expected for Frame 2: false\nGot: " + frame2.isEmpty());
+
+		frame1.addLetter('D');
+		System.out.println("Frame 1:");
+		frame1.displayFrame();
+
+		System.out.println("\nTEST: ALLOWS FRAME TO BE REFILLED FROM THE POOL\n----------------------------");
+		for (int i = 0; i < 6; i++) {
+			frame1.addLetter(Pool.draw());
+		}
+		System.out.println("Frame 1:");
+		frame1.displayFrame();
+		
+	}
+	
+	
 }
 	
