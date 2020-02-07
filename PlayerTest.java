@@ -1,6 +1,4 @@
 
-
-
 public class PlayerTest {
 	Frame frame1 = new Frame();
 	Frame frame2 = new Frame();
