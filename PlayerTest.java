@@ -12,9 +12,10 @@ public class PlayerTest {
 
 
 	public static void main(String[] args) {
-		PlayerTest pt = new PlayerTest();
-		pt.frameClassTest();
-		pt.PlayerClassTest();
+		PlayerTest test = new PlayerTest();
+		test.frameClassTest();
+		test.PlayerClassTest();
+		test.poolClassTest();
 	}
 	public PlayerTest() {
 		for (int i = 0; i < 7; i++) {
@@ -46,8 +47,8 @@ public class PlayerTest {
 		Sean.increaseScore(3); 		//increase score by 3
 		System.out.println("\nTEST: SCORES ALLOWED TO INCREASE\n--------------------------------");
 		System.out.println("->Expected for Ahmed: 7\nGot: " + Ahmed.getScore());
-		System.out.println("->Expected for Lleno: 7\nGot: " + Lleno.getScore());
-		System.out.println("->Expected for Sean: 7\nGot: " + Sean.getScore());
+		System.out.println("->Expected for Lleno: 5\nGot: " + Lleno.getScore());
+		System.out.println("->Expected for Sean: 3\nGot: " + Sean.getScore());
 		
 		//Display Player's name
 		Ahmed.getName();
@@ -115,7 +116,54 @@ public class PlayerTest {
 		}
 		System.out.println("Frame 1:");
 		frame1.displayFrame();
+	}
 		
+	public void poolClassTest()
+	{
+		System.out.println("\n------------------------------------");
+		System.out.println("          POOL CLASS TEST           ");
+		System.out.println("------------------------------------");
+		//test getValue()
+		System.out.println("\nExpected: 1");
+		System.out.println("Got: " + Pool.getValue('A'));
+		System.out.println("\nExpected: 10");
+		System.out.println("\nGot: " + Pool.getValue('Z'));
+		System.out.println("\nExpected: 0");
+		System.out.println("Got: " + Pool.getValue(' '));
+		System.out.println("\nExpected: 3");
+		System.out.println("Got: " + Pool.getValue('B'));
+	
+		//test toString
+		System.out.println("\nReset the pool");
+		Pool.reset(); //resets the pool back to its full 100 tiles
+		
+		System.out.println("\nExpected: 100");
+		System.out.println("Got: " + Pool.remaining());
+	
+		System.out.println("\ndrew " + Pool.draw());
+		System.out.println("drew " + Pool.draw());
+		System.out.println("drew " + Pool.draw());
+		System.out.println("drew " + Pool.draw());
+	
+		System.out.println("\nExpected: 96");
+		System.out.println("Got: " + Pool.remaining());
+	
+		System.out.println("\nswapped char in and drew " + Pool.draw('A'));
+	
+		System.out.println("\nExpected: 96");
+		System.out.println("Got: " + Pool.remaining());
+	
+		System.out.println("\ndrew " + Pool.draw());
+	
+		System.out.println("\nExpected: 95");
+		System.out.println("Got: " + Pool.remaining());
+	
+	
+		System.out.println("\nReset the pool");
+		Pool.reset();
+	
+		System.out.println("\nExpected: 100");
+		System.out.println("Got: " + Pool.remaining());
 	}
 	
 	
