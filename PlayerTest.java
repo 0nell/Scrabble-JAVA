@@ -12,7 +12,7 @@ public class PlayerTest {
 	public static void main(String[] args) {
 		PlayerTest test = new PlayerTest();
 		test.frameClassTest();
-		test.PlayerClassTest();
+		test.playerClassTest();
 		test.poolClassTest();
 	}
 	public PlayerTest() {
@@ -28,8 +28,10 @@ public class PlayerTest {
 	}
 
 
-	public void PlayerClassTest() {
-		
+	public void playerClassTest() {
+		System.out.println("\n------------------------------------");
+		System.out.println("          PLAYER CLASS TEST           ");
+		System.out.println("------------------------------------");
 		//Allow Player's name to be set
 		Ahmed.setName("Ahmed Jouda");
 		Lleno.setName("Lleno Anya");
@@ -78,6 +80,9 @@ public class PlayerTest {
 	}
 
 	public void frameClassTest(){	
+		System.out.println("\n------------------------------------");
+		System.out.println("          FRAME CLASS TEST           ");
+		System.out.println("------------------------------------");
 		//Stores letters and displays them
 		System.out.println("TEST: LETTERS STORED AND DISPLAYED\n----------------------------");
 		System.out.println("Frame 1:");
