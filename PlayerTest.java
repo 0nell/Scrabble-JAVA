@@ -74,9 +74,53 @@ public class PlayerTest {
 		System.out.println("\n\n*** END OF PLAYER CLASS TEST ***");
 	}
 
+	public void poolTest(void)
+	{
+		//test getValue()
+		System.out.println("Expected: 1");
+		System.out.println("Got: " + Pool.getValue('A'));
+		System.out.println("\nExpected: 10");
+		System.out.println("\nGot: " + Pool.getValue('Z'));
+		System.out.println("\nExpected: 0");
+		System.out.println("Got: " + Pool.getValue(' '));
+		System.out.println("\nExpected: 3");
+		System.out.println("Got: " + Pool.getValue('B'));
+	
+		//test toString
+		System.out.println("\nExpected: 100");
+		System.out.println("Got: " + Pool.remaining());
+	
+		System.out.println("drew " + Pool.draw());
+		System.out.println("drew " + Pool.draw());
+		System.out.println("drew " + Pool.draw());
+		System.out.println("drew " + Pool.draw());
+	
+		System.out.println("\nExpected: 96");
+		System.out.println("Got: " + Pool.remaining());
+	
+		System.out.println("swapped char in and drew " + draw('A'));
+	
+		System.out.println("\nExpected: 96");
+		System.out.println("Got: " + Pool.remaining());
+	
+		System.out.println("drew " + Pool.draw());
+	
+		System.out.println("\nExpected: 95");
+		System.out.println("Got: " + Pool.remaining());
+	
+	
+		Sytem.out.println("Reset the pool");
+		Pool.reset();
+	
+		System.out.println("\nExpected: 100");
+		System.out.println("Got: " + Pool.remaining());
+	}
+	
+
 	public static void main(String[] args) {
 		PlayerTest ourTest = new PlayerTest();
 		ourTest.PlayerClassTest();
+		ourTest.poolTest();
 	}
 	
 	
