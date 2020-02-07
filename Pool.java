@@ -43,14 +43,16 @@ public class Pool
 		char a = ' ';
 		Random rn = new Random();
 		int rand = rn.nextInt(remaining()) + 1;
+		int r = rand;
 		for(int i = 0; i < 27; i++)
 		{
-			rand -= amount[i];
-			if(rand <= 0)
+			r -= amount[i];
+			if(r <= 0)
 			{
 				a = alph.charAt(i);
 				amount[i]--;
 				total--;
+				break;
 			}
 		}	
 		return a;
