@@ -74,10 +74,13 @@ public class PlayerTest {
 		System.out.println("\n\n*** END OF PLAYER CLASS TEST ***");
 	}
 
-	public void poolTest(void)
+	public void poolTest()
 	{
+		System.out.println("\n------------------------------------");
+		System.out.println("          POOL CLASS TEST           ");
+		System.out.println("------------------------------------");
 		//test getValue()
-		System.out.println("Expected: 1");
+		System.out.println("\nExpected: 1");
 		System.out.println("Got: " + Pool.getValue('A'));
 		System.out.println("\nExpected: 10");
 		System.out.println("\nGot: " + Pool.getValue('Z'));
@@ -87,10 +90,13 @@ public class PlayerTest {
 		System.out.println("Got: " + Pool.getValue('B'));
 	
 		//test toString
+		System.out.println("\nReset the pool");
+		Pool.reset(); //resets the pool back to its full 100 tiles
+		
 		System.out.println("\nExpected: 100");
 		System.out.println("Got: " + Pool.remaining());
 	
-		System.out.println("drew " + Pool.draw());
+		System.out.println("\ndrew " + Pool.draw());
 		System.out.println("drew " + Pool.draw());
 		System.out.println("drew " + Pool.draw());
 		System.out.println("drew " + Pool.draw());
@@ -98,18 +104,18 @@ public class PlayerTest {
 		System.out.println("\nExpected: 96");
 		System.out.println("Got: " + Pool.remaining());
 	
-		System.out.println("swapped char in and drew " + draw('A'));
+		System.out.println("\nswapped char in and drew " + Pool.draw('A'));
 	
 		System.out.println("\nExpected: 96");
 		System.out.println("Got: " + Pool.remaining());
 	
-		System.out.println("drew " + Pool.draw());
+		System.out.println("\ndrew " + Pool.draw());
 	
 		System.out.println("\nExpected: 95");
 		System.out.println("Got: " + Pool.remaining());
 	
 	
-		Sytem.out.println("Reset the pool");
+		System.out.println("\nReset the pool");
 		Pool.reset();
 	
 		System.out.println("\nExpected: 100");
