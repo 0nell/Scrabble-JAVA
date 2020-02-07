@@ -40,13 +40,14 @@ public class Frame{
         letters.add(l);
     }
 
-    public void removeLetter(char l){
-        letters.remove(letters.indexOf(l));
+    public void removeLetter(char l) {
+            letters.remove(letters.indexOf(l));
+        
     }
-    public boolean checkForLetter(char l){
+    public boolean contains(char l){
         return letters.contains(l);
     }
-    public boolean checkEmpty(){
+    public boolean isEmpty(){
         return letters.isEmpty();
     }
 
