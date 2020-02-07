@@ -41,20 +41,18 @@ public class Pool
 	public static char draw()
 	{
 		char a = ' ';
-		boolean done = false;
 		Random rn = new Random();
-		while(!done)
+		int rand = rn.nextInt(remaining()) + 1;
+		for(int i = 0; i < 27; i++)
 		{
-			int rand = rn.nextInt(27);
-			if(amount[rand] > 0)
+			rand -= amount[i];
+			if(rand <= 0)
 			{
-				a = alph.charAt(rand);
-				amount[rand]--;
+				a = alph.charAt(i);
+				amount[i]--;
 				total--;
-				done = true;
 			}
-		}
-		
+		}	
 		return a;
 	}
 	

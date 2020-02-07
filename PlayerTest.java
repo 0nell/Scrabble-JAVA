@@ -126,7 +126,9 @@ public class PlayerTest {
 		System.out.println("\n------------------------------------");
 		System.out.println("          POOL CLASS TEST           ");
 		System.out.println("------------------------------------");
+
 		//test getValue()
+		System.out.println("------------------------------------\nTest the getValue method\n------------------------------------");
 		System.out.println("\nExpected: 1");
 		System.out.println("Got: " + Pool.getValue('A'));
 		System.out.println("\nExpected: 10");
