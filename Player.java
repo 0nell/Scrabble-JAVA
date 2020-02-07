@@ -48,6 +48,12 @@ public class Player {
 	public void reset() {
 		score = 0;
 		name = null;
+		//empty frame
+		int size = frame.getSize();
+		for(int i = 0; i < size; i++){
+			if(frame.contains(frame.letters.get(0)))
+				frame.removeLetter(frame.letters.get(0));
+		}
 	}
 	
 	

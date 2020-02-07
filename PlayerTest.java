@@ -71,10 +71,10 @@ public class PlayerTest {
 		Ahmed.reset();
 		Lleno.reset();
 		Sean.reset();
-		System.out.println("->Expected for ALL: Empty name & score = 0");
-		System.out.println("\nGot for Ahmed: " + "\nName: " + Ahmed.getName() + "Score: " + Ahmed.getScore());
-		System.out.println("\nGot for Lleno: " + "\nName: " + Lleno.getName() + "Score: " + Lleno.getScore());
-		System.out.println("\nGot for Sean: " + "\nName: " + Sean.getName() + "Score: " + Sean.getScore());
+		System.out.println("->Expected for ALL: Empty name & Empty Frame & score = 0 ");
+		System.out.println("\nGot for Ahmed: " + "\nName: " + Ahmed.getName() + "Score: " + Ahmed.getScore() + " Frame: "); Ahmed.getFrame();
+		System.out.println("\nGot for Lleno: " + "\nName: " + Lleno.getName() + "Score: " + Lleno.getScore() + " Frame: "); Lleno.getFrame();
+		System.out.println("\nGot for Sean: " + "\nName: " + Sean.getName() + "Score: " + Sean.getScore() + " Frame: "); Sean.getFrame();
 		
 		System.out.println("\n\n*** END OF PLAYER CLASS TEST ***");
 	}
