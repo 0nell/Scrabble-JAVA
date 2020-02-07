@@ -19,6 +19,12 @@ public class Frame{
         
     }
 
+    public void refill(){
+        for(int i = 0; i < 7 - this.getSize(); i++){
+            this.addLetter(Pool.draw());
+        }
+    }
+
     /**
      * @return the letters
      */
@@ -26,12 +32,7 @@ public class Frame{
         return letters;
     }
 
-    /**
-     * @param letters the letters to set
-     */
-    public void setLetters(ArrayList<Character> letters) {
-        this.letters = letters;
-    }
+
     public int getSize()
     {
         return letters.size();
