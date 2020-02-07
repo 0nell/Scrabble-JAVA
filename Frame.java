@@ -10,7 +10,6 @@ oAllows a frame to be refilled from the pool
 oAllows a frame to be displayed */
 public class Frame{
     ArrayList<Character> letters;
-
     /**
      * 
      */
@@ -59,8 +58,5 @@ public class Frame{
         
     } 
 
-
-
-    
 
 }
