@@ -139,11 +139,13 @@ public class PlayerTest {
 		System.out.println("Got: " + Pool.getValue('B'));
 	
 		//test toString
+
+		System.out.println("----------------------------------------------\nTest the reset, draw and getNumOfTiles methods\n----------------------------------------------");
 		System.out.println("\nReset the pool");
 		Pool.reset(); //resets the pool back to its full 100 tiles
 		
 		System.out.println("\nExpected: 100");
-		System.out.println("Got: " + Pool.remaining());
+		System.out.println("Got: " + Pool.getNumOfTiles());
 	
 		System.out.println("\ndrew " + Pool.draw());
 		System.out.println("drew " + Pool.draw());
@@ -151,24 +153,30 @@ public class PlayerTest {
 		System.out.println("drew " + Pool.draw());
 	
 		System.out.println("\nExpected: 96");
-		System.out.println("Got: " + Pool.remaining());
+		System.out.println("Got: " + Pool.getNumOfTiles());
 	
 		System.out.println("\nswapped char in and drew " + Pool.draw('A'));
 	
 		System.out.println("\nExpected: 96");
-		System.out.println("Got: " + Pool.remaining());
+		System.out.println("Got: " + Pool.getNumOfTiles());
 	
 		System.out.println("\ndrew " + Pool.draw());
 	
 		System.out.println("\nExpected: 95");
-		System.out.println("Got: " + Pool.remaining());
+		System.out.println("Got: " + Pool.getNumOfTiles());
 	
 	
 		System.out.println("\nReset the pool");
 		Pool.reset();
 	
 		System.out.println("\nExpected: 100");
-		System.out.println("Got: " + Pool.remaining());
+		System.out.println("Got: " + Pool.getNumOfTiles());
+
+		System.out.println("------------------------------------------\nTest isEmpty method\n------------------------------------------");
+		System.out.println("\nExpected: false");
+		System.out.println("Got: " + Pool.isEmpty());
+
+
 	}
 	
 	
