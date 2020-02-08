@@ -1,63 +1,48 @@
 import java.util.ArrayList;
 
-/*A class called Frame that:
-oStores the letters that each player has in their frame
-oAllows letters to be removed from a frame
-oAllows a check to be made if letters are in the frame
-oAllows a check to be made to see if the frame is empty
-oAllows access to the letters in the frame
-oAllows a frame to be refilled from the pool
-oAllows a frame to be displayed */
-public class Frame{
-    ArrayList<Character> letters;
-    /**
-     * 
-     */
+public class Frame {
+    ArrayList<Character> tiles;
+    static int maxSize = 7;
+
     public Frame() {
-        this.letters = new ArrayList<Character>(7);
-        
+        this.tiles = new ArrayList<Character>(maxSize);
     }
 
-    public void refill(){
-        for(int i = 0; i < 7 - this.getSize(); i++){
-            this.addLetter(Pool.draw());
+    public void refillFrame() {
+        int currentSize = this.getSize();
+        for (int i = 0; i < maxSize - currentSize; i++) {
+            this.addTile(Pool.draw());
         }
     }
 
-    /**
-     * @return the letters
-     */
-    public ArrayList<Character> getLetters() {
-        return letters;
+    public void emptyFrame() {
+        tiles.clear();
     }
 
-
-    public int getSize()
-    {
-        return letters.size();
-    }
-    public void addLetter(char l){
-        letters.add(l);
+    public int getSize() {
+        return tiles.size();
     }
 
-    public void removeLetter(char l) {
-            letters.remove(letters.indexOf(l));
-        
-    }
-    public boolean contains(char l){
-        return letters.contains(l);
-    }
-    public boolean isEmpty(){
-        return letters.isEmpty();
+    public void addTile(char tile) {
+        tiles.add(tile);
     }
 
-    public void displayFrame(){
-        for(int i = 0; i < letters.size(); i ++){
-            System.out.print("|"+letters.get(i)+"|");
-        }
+    public void removeTile(char tile) {
+        tiles.remove(tiles.indexOf(tile));
+    }
+
+    public boolean contains(char l) {
+        return tiles.contains(l);
+    }
+
+    public boolean isEmpty() {
+        return tiles.isEmpty();
+    }
+
+    public void displayFrame() {
+        for (int i = 0; i < tiles.size(); i++)
+            System.out.print("|" + tiles.get(i) + "|");
         System.out.print("\n");
-        
-    } 
-
+    }
 
 }
