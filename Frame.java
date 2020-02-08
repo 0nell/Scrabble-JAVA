@@ -10,7 +10,7 @@ public class Frame {
 
     public void refillFrame() {
         int currentSize = this.getSize();
-        for (int i = 0; i < maxSize - currentSize; i++) {
+        for (int i = 0; i < maxSize - currentSize && !Pool.isEmpty(); i++) {
             this.addTile(Pool.draw());
         }
     }
