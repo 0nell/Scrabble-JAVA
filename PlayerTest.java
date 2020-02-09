@@ -9,12 +9,14 @@ public class PlayerTest {
 
 	public static void main(String[] args) {
 		PlayerTest test = new PlayerTest();
-		test.poolClassTest();
+		
 		test.frameClassTest();
 		test.playerClassTest();
+		test.poolClassTest();
 	}
 
 	public PlayerTest() {
+		
 		firstFrame.refillFrame();
 		secondFrame.refillFrame();
 		ThirdFrame.refillFrame();
@@ -115,7 +117,7 @@ public class PlayerTest {
 		System.out.println("Test if A is in the second Frame");
 		System.out.println("the second Frame:");
 		secondFrame.displayFrame();
-		System.out.println("->Result: " + ThirdFrame.contains('A'));
+		System.out.println("->Result: " + secondFrame.contains('A'));
 
 		System.out.println("\nTEST: CHECKS IF THE FRAME IS EMPTY\n----------------------------");
 		firstFrame.emptyFrame();
