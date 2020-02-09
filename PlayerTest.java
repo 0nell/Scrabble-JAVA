@@ -105,21 +105,21 @@ public class PlayerTest {
 		System.out.println("the first Frame:");
 		firstFrame.displayFrame();
 		
-		System.out.println("Removing: " + firstFrame.tiles.get(0));
+		System.out.println("Removing: |" + firstFrame.tiles.get(0)+"|");
 		firstFrame.removeTile(firstFrame.tiles.get(0));
 		firstFrame.displayFrame();
 		
-		System.out.println("Removing: " + firstFrame.tiles.get(1));
+		System.out.println("Removing:|" + firstFrame.tiles.get(1)+"|");
 		firstFrame.removeTile(firstFrame.tiles.get(1));
 		firstFrame.displayFrame();
 
 		//Allows frame to be checked for certain tiles
 		System.out.println("\nTEST: CHECKS IF TILE IS IN THE FRAME\n----------------------------");
-		System.out.println("Test if "+ThirdFrame.tiles.get(3) + " is in the third Frame");
+		System.out.println("Test if |"+ThirdFrame.tiles.get(3) + "| is in the third Frame");
 		System.out.println("the third Frame:");
 		ThirdFrame.displayFrame();
 		System.out.println("->Result: " + ThirdFrame.contains(ThirdFrame.tiles.get(3)));
-		System.out.println("Test if A is in the second Frame");
+		System.out.println("Test if |A| is in the second Frame");
 		System.out.println("the second Frame:");
 		secondFrame.displayFrame();
 		System.out.println("->Result: " + secondFrame.contains('A'));
@@ -136,7 +136,7 @@ public class PlayerTest {
 
 		//Allows frame to be accessed to add tiles
 		System.out.println("\nTEST: CHECKS IF THE FRAME CAN BE ACCESSED TO ADD ELEMENTS\n----------------------------");
-		System.out.println("Adding D:");
+		System.out.println("Adding |D|:");
 		firstFrame.addTile('D');
 		System.out.println("the first Frame:");
 		firstFrame.displayFrame();
@@ -223,5 +223,7 @@ public class PlayerTest {
 		System.out.println("\n\n->Check if pool is empty");
 		System.out.println("->Expected: true");
 		System.out.println("Got: " + Pool.isEmpty());
+
+		System.out.println("\n\n*** END OF POOL CLASS TEST ***");
 	}
 }
