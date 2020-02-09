@@ -8,8 +8,11 @@ public class Frame {
         this.tiles = new ArrayList<Character>(maxSize);
     }
 
+    /*
+    *   Refills the frame as long as the pool is not empty
+    */
     public void refillFrame() {
-        int currentSize = this.getSize();
+        int currentSize = this.numOfTiles();
         for (int i = 0; i < maxSize - currentSize && !Pool.isEmpty(); i++) {
             this.addTile(Pool.draw());
         }
@@ -19,7 +22,7 @@ public class Frame {
         tiles.clear();
     }
 
-    public int getSize() {
+    public int numOfTiles() {
         return tiles.size();
     }
 
@@ -40,7 +43,7 @@ public class Frame {
     }
 
     public void displayFrame() {
-        for (int i = 0; i < tiles.size(); i++)
+        for (int i = 0; i < numOfTiles(); i++)
             System.out.print("|" + tiles.get(i) + "|");
         System.out.print("\n");
     }

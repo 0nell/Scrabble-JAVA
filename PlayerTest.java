@@ -33,24 +33,9 @@ public class PlayerTest {
 		Lleno.setName("Lleno Anya");
 		Sean.setName("Sean McDonnell");
 		System.out.println("TEST: NAME ALLOWED TO BE SET\n----------------------------");
-		if(Ahmed.getName() == "Ahmed Jouda"){
-			System.out.println("SUCCESS");
-		}
-		else{
-			System.out.println("=>FAILIURE");
-		}
-		if(Lleno.getName() == "Lleno Anya"){
-			System.out.println("SUCCESS");
-		}
-		else{
-			System.out.println("=>FAILIURE");
-		}
-		if(Sean.getName() == "Sean McDonnell"){
-			System.out.println("SUCCESS");
-		}
-		else{
-			System.out.println("->FAILIURE");
-		}
+		System.out.println("->Expected for Ahmed: Ahmed Jouda\nGot: " + Ahmed.getName());
+		System.out.println("->Expected for Lleno: Lleno Anya\nGot: " + Lleno.getName());
+		System.out.println("->Expected for Sean: Sean McDonnell\nGot: " + Sean.getName());
 
 		// Allow Score to be increased
 		Ahmed.increaseScore(7); // increase score by 7
