@@ -34,8 +34,8 @@ public class Frame {
         tiles.remove(tiles.indexOf(tile));
     }
 
-    public boolean contains(char l) {
-        return tiles.contains(l);
+    public boolean contains(char tile) {
+        return tiles.contains(tile);
     }
 
     public boolean isEmpty() {
