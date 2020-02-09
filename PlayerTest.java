@@ -151,70 +151,77 @@ public class PlayerTest {
 	}
 
 	public void poolClassTest() {
-		System.out.println("\n------------------------------------");
-		System.out.println("          POOL CLASS TEST           ");
-		System.out.println("------------------------------------");
+		System.out.println("\n----------------------------------------");
+		System.out.println("            POOL CLASS TEST             ");
+		System.out.println("----------------------------------------");
 
-		// test getValue()
-		System.out.println(
-				"------------------------\nTest the getValue method\n------------------------");
-		System.out.println("\nExpected: 1");
+		//tests if the the score associated with a tile can be queried
+		System.out.println("TEST: ALLOWS VALUE OF TILE TO BE QUERIED\n----------------------------------------");
+		System.out.println("->Expected value for tile A: 1");
 		System.out.println("Got: " + Pool.getValue('A'));
-		System.out.println("\nExpected: 10");
-		System.out.println("\nGot: " + Pool.getValue('Z'));
-		System.out.println("\nExpected: 0");
+		System.out.println("->Expected value for tile Z: 10");
+		System.out.println("Got: " + Pool.getValue('Z'));
+		System.out.println("->Expected value for blank tile: 0");
 		System.out.println("Got: " + Pool.getValue(' '));
-		System.out.println("\nExpected: 3");
+		System.out.println("->Expected vallue for tile B: 3");
 		System.out.println("Got: " + Pool.getValue('B'));
 	
-
-		System.out.println("--------------------------------------------------------\nTest the reset, draw, swapTile and getNumOfTiles methods\n--------------------------------------------------------");
-		System.out.println("\nReset the pool");
+		//tests if the pool can be reset and if the number of tiles left in the pool can be queried
+		System.out.println("\nTEST: ALLOWS POOL TO BE RESET\n      ALLOWS DISPLAY OF NUMBER OF TILES IN THE POOL\n----------------------------------------------------------------------");
+		System.out.println("The above tests for player and frame have drawn 27 tiles from the pool");
+		System.out.println("->Expected amount of tiles in the pool: 73");
+		System.out.println("Got: " + Pool.getNumOfTiles());
+		System.out.println("\nReset the pool using reset() method");
 		Pool.reset(); // resets the pool back to its full 100 tiles
-
-		System.out.println("\nExpected: 100");
-		System.out.println("Got: " + Pool.getNumOfTiles());
-	
-		System.out.println("\ndrew " + Pool.draw());
-		System.out.println("drew " + Pool.draw());
-		System.out.println("drew " + Pool.draw());
-		System.out.println("drew " + Pool.draw());
-
-		System.out.println("\nExpected: 96");
-		System.out.println("Got: " + Pool.getNumOfTiles());
-	
-		System.out.println("\nswapped char in and drew " + Pool.swapTile('A'));
-
-		System.out.println("\nExpected: 96");
-		System.out.println("Got: " + Pool.getNumOfTiles());
-	
-		System.out.println("\ndrew " + Pool.draw());
-
-		System.out.println("\nExpected: 95");
-		System.out.println("Got: " + Pool.getNumOfTiles());
-	
-	
-		System.out.println("\nReset the pool");
-		Pool.reset();
-
-		System.out.println("\nExpected: 100");
+		System.out.println("\n->Expected amount of tiles in the pool: 100");
 		System.out.println("Got: " + Pool.getNumOfTiles());
 
-		System.out.println("-------------------\nTest isEmpty method\n-------------------");
-		System.out.println("\nExpected: false");
-		System.out.println("Got: " + Pool.isEmpty());
-
-		System.out.println("\nEmptied the loop using draw");
-
-		for(int i = 0; i< 100; i++)
+		//tests whether tiles can be drawn from the pool at random
+		System.out.println("\nTEST: ALLOWS TILES TO BE DRAWN AT RANDOM FROM POOL\n--------------------------------------------------");
+		System.out.println("->Drew " + "|" + Pool.draw() + "|");
+		System.out.println("->Expected amount of tiles in the pool: 99");
+		System.out.println("Got: " + Pool.getNumOfTiles());
+		System.out.println("->Drew " + "|" + Pool.draw() + "|");
+		System.out.println("->Expected amount of tiles in the pool: 98");
+		System.out.println("Got: " + Pool.getNumOfTiles());
+		System.out.println("->Drew " + "|" + Pool.draw() + "|");
+		System.out.println("->Expected amount of tiles in the pool: 97");
+		System.out.println("Got: " + Pool.getNumOfTiles());
+		System.out.println("->Drew " + "|" + Pool.draw() + "|");
+		System.out.println("->Expected amount of tiles in the pool: 96");
+		System.out.println("Got: " + Pool.getNumOfTiles());
+		System.out.println("->Drew " + "|" + Pool.draw() + "|");
+		System.out.println("->Expected amount of tiles in the pool: 95");
+		System.out.println("Got: " + Pool.getNumOfTiles());
+		System.out.println("\nDrawing 10 more tiles from pool at random\n");
+		for(int i = 1; i<= 10; i++)	//draws and prints 10 tiles
 		{
-			Pool.draw();
+			System.out.print("|" + Pool.draw() + "|");
 		}
-		System.out.println("\nExpected: true");
+		System.out.println("\n\n->Expected amount of tiles in the pool: 85");
+		System.out.println("Got: " + Pool.getNumOfTiles());
+		System.out.println("\n->Swapped in an unwanted tile and drew " +  "|" + Pool.swapTile('A') + "|");
+		System.out.println("->Expected amount of tiles in the pool: 90");
+		System.out.println("Got: " + Pool.getNumOfTiles());
+
+		//tests whether the pool can be checked to see if its empty
+		System.out.println("\nTEST: ALLOWS THE POOL TO BE CHECKED TO SEE IF ITS EMPTY\n-------------------------------------------------------");
+		System.out.println("->Reset the pool using reset() method\n");
+		Pool.reset(); // resets the pool back to its full 100 tiles
+		System.out.println("->Check if pool is empty");
+		System.out.println("->Expected: false");
 		System.out.println("Got: " + Pool.isEmpty());
-
-
-
+		System.out.println("\n->Drew 100 tiles\n");
+		for(int i = 1; i<= 100; i++)	//prints the tiles drawn in rows of 10
+		{
+			System.out.print("|" + Pool.draw() + "|");
+			if(i % 10 == 0)
+			{
+				System.out.print("\n");
+			}
+		}
+		System.out.println("\n\n->Check if pool is empty");
+		System.out.println("->Expected: true");
+		System.out.println("Got: " + Pool.isEmpty());
 	}
-
 }
