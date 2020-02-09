@@ -15,14 +15,16 @@ public class Pool
 	/*RETURNS SCORE OF TILE CHARACTER INPUT*/
 	public static int getValue(char c)
 	{
+		int tileValue = 0;
 		if(c == ' ')				
 		{
-			return scoreOfTile[26];
+			tileValue = scoreOfTile[26];
 		}
 		else 
 		{
-			return scoreOfTile[c - 'A'];	//eg A would correspond to scoreOfTile[0], B to scoreOfTile[2]...
+			tileValue = scoreOfTile[c - 'A'];	//eg A would correspond to scoreOfTile[0], B to scoreOfTile[2]...
 		}
+		return tileValue;
 	}
 	
 	
