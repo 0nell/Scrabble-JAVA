@@ -146,7 +146,7 @@ public class PlayerTest {
 
 		// test getValue()
 		System.out.println(
-				"------------------------------------\nTest the getValue method\n------------------------------------");
+				"------------------------\nTest the getValue method\n------------------------");
 		System.out.println("\nExpected: 1");
 		System.out.println("Got: " + Pool.getValue('A'));
 		System.out.println("\nExpected: 10");
@@ -157,7 +157,7 @@ public class PlayerTest {
 		System.out.println("Got: " + Pool.getValue('B'));
 	
 
-		System.out.println("----------------------------------------------\nTest the reset, draw and getNumOfTiles methods\n----------------------------------------------");
+		System.out.println("--------------------------------------------------------\nTest the reset, draw, swapTile and getNumOfTiles methods\n--------------------------------------------------------");
 		System.out.println("\nReset the pool");
 		Pool.reset(); // resets the pool back to its full 100 tiles
 
@@ -172,7 +172,7 @@ public class PlayerTest {
 		System.out.println("\nExpected: 96");
 		System.out.println("Got: " + Pool.getNumOfTiles());
 	
-		System.out.println("\nswapped char in and drew " + Pool.draw('A'));
+		System.out.println("\nswapped char in and drew " + Pool.swapTile('A'));
 
 		System.out.println("\nExpected: 96");
 		System.out.println("Got: " + Pool.getNumOfTiles());
@@ -189,9 +189,19 @@ public class PlayerTest {
 		System.out.println("\nExpected: 100");
 		System.out.println("Got: " + Pool.getNumOfTiles());
 
-		System.out.println("------------------------------------------\nTest isEmpty method\n------------------------------------------");
+		System.out.println("-------------------\nTest isEmpty method\n-------------------");
 		System.out.println("\nExpected: false");
 		System.out.println("Got: " + Pool.isEmpty());
+
+		System.out.println("\nEmptied the loop using draw");
+
+		for(int i = 0; i< 100; i++)
+		{
+			Pool.draw();
+		}
+		System.out.println("\nExpected: true");
+		System.out.println("Got: " + Pool.isEmpty());
+
 
 
 	}

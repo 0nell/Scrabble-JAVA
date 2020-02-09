@@ -50,12 +50,12 @@ public class Pool
 	public static char draw()
 	{
 		char a = ' ';	
-
+		boolean tileFound = false;
 		Random rn = new Random();				
 		int rand = rn.nextInt(getNumOfTiles()) + 1;	
 		int r = rand;	//initializes r to be a random number between 1 and the amount remaining in the pool,
 
-		for(int i = 0; i < 27; i++)		
+		for(int i = 0; i < 27 && !tileFound; i++)		
 		{
 			r -= amountOfTile[i];		//minuses the amount of that specific character in the pool from the random index
 			if(r <= 0)			//when the index becomes <= 0 the character of that random index has been reached
@@ -63,14 +63,14 @@ public class Pool
 				a = Tiles.charAt(i);		//sets a to that character
 				amountOfTile[i]--;			
 				numOfTiles--;			 	//reduces the total amount of tiles by 1
-				break;
+				tileFound = true;
 			}
 		}	
 		return a;
 	}
 	
 	/*SWAPS INPUT CHARACTER WITH NEW CHARACTER FROM POOL*/
-	public static char draw(char a)
+	public static char swapTile(char a)
 	{
 		if(a == ' ')	
 		{
