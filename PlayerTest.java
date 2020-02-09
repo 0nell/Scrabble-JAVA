@@ -17,10 +17,12 @@ public class PlayerTest {
 
 	public PlayerTest() {
 		
+		//Initial Tile Storage
 		firstFrame.refillFrame();
 		secondFrame.refillFrame();
 		ThirdFrame.refillFrame();
 
+		//Initial player creation
 		Ahmed = new Player("Ahmed", firstFrame);
 		Lleno = new Player("Lleno", secondFrame);
 		Sean = new Player("Sean", ThirdFrame);
@@ -88,6 +90,7 @@ public class PlayerTest {
 		System.out.println("\n------------------------------------");
 		System.out.println("          FRAME CLASS TEST           ");
 		System.out.println("------------------------------------");
+		
 		// Stores tiles and displays them
 		System.out.println("TEST: TILES STORED AND DISPLAYED\n----------------------------");
 		System.out.println("the first Frame:");
@@ -97,6 +100,7 @@ public class PlayerTest {
 		System.out.println("the third Frame:");
 		ThirdFrame.displayFrame();
 
+		//Allows tiles to be removed
 		System.out.println("\nTEST: ALLOWS TILES TO BE REMOVED FROM A FRAME\n----------------------------");
 		System.out.println("the first Frame:");
 		firstFrame.displayFrame();
@@ -109,6 +113,7 @@ public class PlayerTest {
 		firstFrame.removeTile(firstFrame.tiles.get(1));
 		firstFrame.displayFrame();
 
+		//Allows frame to be checked for certain tiles
 		System.out.println("\nTEST: CHECKS IF TILE IS IN THE FRAME\n----------------------------");
 		System.out.println("Test if "+ThirdFrame.tiles.get(3) + " is in the third Frame");
 		System.out.println("the third Frame:");
@@ -119,6 +124,7 @@ public class PlayerTest {
 		secondFrame.displayFrame();
 		System.out.println("->Result: " + secondFrame.contains('A'));
 
+		//Allows frame to be checked to see if it is empty
 		System.out.println("\nTEST: CHECKS IF THE FRAME IS EMPTY\n----------------------------");
 		firstFrame.emptyFrame();
 		System.out.println("the first Frame:");
@@ -128,17 +134,20 @@ public class PlayerTest {
 		secondFrame.displayFrame();
 		System.out.println("->Expected for the second Frame: false\nGot: " + secondFrame.isEmpty());
 
-
+		//Allows frame to be accessed to add tiles
 		System.out.println("\nTEST: CHECKS IF THE FRAME CAN BE ACCESSED TO ADD ELEMENTS\n----------------------------");
 		System.out.println("Adding D:");
 		firstFrame.addTile('D');
 		System.out.println("the first Frame:");
 		firstFrame.displayFrame();
 
+		//Allows frame to be refilled from the pool
 		System.out.println("\nTEST: ALLOWS FRAME TO BE REFILLED FROM THE POOL\n----------------------------");
 		firstFrame.refillFrame();
 		System.out.println("the first Frame:");
 		firstFrame.displayFrame();
+
+		System.out.println("\n\n*** END OF FRAME CLASS TEST ***");
 	}
 
 	public void poolClassTest() {
