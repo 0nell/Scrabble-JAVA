@@ -1,9 +1,11 @@
 public class Square{
     String value;
     char tile;
+    boolean empty;
 
     Square() {
-        value = "  ";
+        empty = true;
+        value = " ";
     }
     
     void setTile(char tile){
@@ -18,6 +20,14 @@ public class Square{
     }
     void setValue(String value) {
         this.value = value;
+    }
+
+    public boolean isEmpty() {
+        return empty;
+    }
+
+    public void setEmpty(boolean empty) {
+        this.empty = empty;
     }
 
 }
