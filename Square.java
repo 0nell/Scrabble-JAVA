@@ -5,7 +5,7 @@ public class Square{
 
     Square() {
         blank = true;
-        value = " ";
+        value = "  ";
     }
 
     void setTile(Tile tile) {
