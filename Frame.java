@@ -1,51 +1,66 @@
 import java.util.ArrayList;
 
 public class Frame {
-    ArrayList<Character> tiles;
-    static int maxSize = 7;
 
-    public Frame() {
-        this.tiles = new ArrayList<Character>(maxSize);
-    }
+	private static final int MAX_TILES = 7;
+	private ArrayList<Tile> tiles;
+	
+	Frame() {
+		tiles = new ArrayList<Tile>();
+	}
 
-    /*
-    *   Refills the frame as long as the pool is not empty
-    */
-    public void refillFrame() {
-        int currentSize = this.numOfTiles();
-        for (int i = 0; i < maxSize - currentSize && !Pool.isEmpty(); i++) {
-            this.addTile(Pool.draw());
-        }
-    }
+	public int size() {
+		return(tiles.size());
+	}
+	
+	public boolean isEmpty() {
+		return tiles.isEmpty();
+	}
+	
+	public boolean isFull() {
+		return tiles.size() == MAX_TILES;
+	}
+	
+	public boolean isAvailable(String letters) {
+		boolean found = true;
+		if (letters.length() > tiles.size()) {
+			found = false;
+		}
+		else {
+			ArrayList<Tile> copyTiles = new ArrayList<Tile>(tiles);
+			for (int i=0; (i<letters.length()) && found; i++) {
+				Tile tileSought = new Tile(letters.charAt(i));
+				if (copyTiles.contains(tileSought)) {
+					copyTiles.remove(tileSought);
+				}
+				else {
+					found = false;
+				}
+			}
+		}
+		return found;
+	}
+	
+	public ArrayList<Tile> getTiles() {
+		return tiles;
+	}
 
-    public void emptyFrame() {
-        tiles.clear();
-    }
+	// remove precondition: isAvailable(letters) is true
+	public void remove(String letters) {
+		for (int i=0; (i<letters.length()); i++) {
+			tiles.remove(new Tile(letters.charAt(i)));
+		}
+	}
 
-    public int numOfTiles() {
-        return tiles.size();
-    }
+	public void refill(Pool pool) {
+		int numTilesToDraw = MAX_TILES - tiles.size();
+		ArrayList<Tile> draw = pool.drawTiles(numTilesToDraw);
+		tiles.addAll(draw);
+	}
 
-    public void addTile(char tile) {
-        tiles.add(tile);
-    }
-
-    public void removeTile(char tile) {
-        tiles.remove(tiles.indexOf(tile));
-    }
-
-    public boolean contains(char tile) {
-        return tiles.contains(tile);
-    }
-
-    public boolean isEmpty() {
-        return tiles.isEmpty();
-    }
-
-    public void displayFrame() {
-        for (int i = 0; i < numOfTiles(); i++)
-            System.out.print("|" + tiles.get(i) + "|");
-        System.out.print("\n");
-    }
-
+	@Override
+	public String toString() {
+		return tiles.toString();
+	}
+	
 }
