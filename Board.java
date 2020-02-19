@@ -1,5 +1,14 @@
 public class Board{
     Square squares[][];
+    
+    void resetBoard(){
+        for(int i = 0; i < 15; i ++){
+            for(int j = 0; j < 15; j++){
+                squares[i][j].setTile(null);
+                squares[i][j].setEmpty(true);
+            }
+        }
+    }
     Board(){
         squares = new Square[15][15];
         
