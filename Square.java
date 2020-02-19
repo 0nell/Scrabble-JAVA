@@ -1,33 +1,36 @@
 public class Square{
+    private boolean blank;
+    private Tile tile;
     String value;
-    char tile;
-    boolean empty;
 
     Square() {
-        empty = true;
+        blank = true;
         value = " ";
     }
-    
-    void setTile(char tile){
+
+    void setTile(Tile tile) {
         this.tile = tile;
+        this.setEmpty(false);
     }
-    char getTile(){
+
+    Tile getTile() {
         return this.tile;
     }
-    
+
     String getValue() {
         return this.value;
     }
+
     void setValue(String value) {
         this.value = value;
     }
 
     public boolean isEmpty() {
-        return empty;
+        return blank;
     }
 
     public void setEmpty(boolean empty) {
-        this.empty = empty;
+        this.blank = empty;
     }
 
 }

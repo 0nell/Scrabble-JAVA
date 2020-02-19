@@ -1,4 +1,3 @@
-import javax.swing.text.AttributeSet;
 
 public class Tile {
 
