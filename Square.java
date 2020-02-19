@@ -29,6 +29,13 @@ public class Square{
         return blank;
     }
 
+    public String toString(){
+        if(this.isEmpty()){
+            return "|" + getValue() + "|";
+        }
+        else
+            return "| " + tile.getLetter() + "|";
+    }
     public void setEmpty(boolean empty) {
         this.blank = empty;
     }

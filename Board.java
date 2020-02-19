@@ -44,10 +44,7 @@ public class Board{
     void printBoard(){
         for(int i = 0; i < 15; i ++){
             for(int j = 0; j < 15; j++){
-                if(squares[i][j].isEmpty())
-                    System.out.print("|"+ squares[i][j].getValue()+"|");
-                else
-                    System.out.print("|"+ squares[i][j].getTile()+"| ");
+                System.out.print(squares[i][j].toString());
             }
             System.out.print(" " + i + "\n");
         }
