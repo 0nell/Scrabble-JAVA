@@ -59,7 +59,17 @@ public class Board{
 
     }
         
-
+    public boolean checkBounds(String word, int pos[], boolean across){
+        if(across){
+            if(word.length() + pos[0] > 14)
+                return false;
+        }
+        else{
+            if(word.length() + pos[1] > 14)
+                return false;
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
         Board board = new Board();
