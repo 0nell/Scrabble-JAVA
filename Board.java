@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Board{
     Square squares[][];
     
@@ -58,6 +60,42 @@ public class Board{
         }
 
     }
+    
+    
+    void placeWord(String word, int firstLetterX, int firstLetterY, String direction) throws IllegalArgumentException {
+    	if (isValidWord(word) != true) {
+			throw new IllegalArgumentException("Word is invalid");
+		}
+    	//Put string into a tile array list
+    	ArrayList<Tile> stringTiles = new ArrayList<Tile>();
+    	for (int i = 0; i < word.length(); i++) {
+    		Tile tempTile = new Tile(word.charAt(i));
+    		stringTiles.add(tempTile);
+		}
+    	
+    	//place based on direction
+    	if (direction == "right") {
+    		for (int i = 0; i < stringTiles.size(); i++) {
+    			squares[firstLetterY][firstLetterX].setTile(stringTiles.get(i));
+    			firstLetterX++;
+			}
+		}
+    	else if (direction == "down") {
+    		for (int i = 0; i < stringTiles.size(); i++) {
+    			squares[firstLetterY][firstLetterX].setTile(stringTiles.get(i));
+    			firstLetterY++;
+			}
+			
+		}
+    	else {
+			throw new IllegalArgumentException("Invalid Direction");
+		}
+    }
+    
+    boolean isValidWord(String word) {
+    	//to be implemented
+    	return true;
+    }
         
     public boolean checkBounds(String word, int pos[], boolean across){
         if(across){
@@ -73,6 +111,7 @@ public class Board{
 
     public static void main(String[] args) {
         Board board = new Board();
+        board.placeWord("RUN", 0, 4, "right");
         board.printBoard();
 
     }
