@@ -108,9 +108,14 @@ public class Board{
         boolean out = false;
 
         //tests if the word is within the bounds of the board
-        if (direction == "right") 
+        if(x > 14 || x < 0 || y < 0 || y > 0)
         {
-            if(x < 0 || x + word.length()-1 > 14)
+            out = true;
+            valid = false;
+        }
+        else if (direction == "right") 
+        {
+            if(x + word.length()-1 > 14)
             {
                 System.out.println("The word is not within the bounds of the board");
                 out = true;
@@ -119,17 +124,16 @@ public class Board{
         }
         else if (direction == "down") 
         {
-            if(y < 0 || y + word.length()-1 > 14)
+            if(y + word.length()-1 > 14)
             {
                 System.out.println("The word is not within the bounds of the board");
                 out = true;
                 valid = false;
             }
         }
-        System.out.println(out);
-        if(out)
+
+        if(!out)
         {
-            System.out.println("whyyyyyyyy");
             //checks if word is being placed around letters and if they conflict
             if (direction == "right") 
             {
