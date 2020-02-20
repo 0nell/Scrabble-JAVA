@@ -2,7 +2,9 @@ import java.util.ArrayList;
 
 public class Board{
     Square squares[][];
-    
+    boolean empty = true;
+    boolean connects = false;
+
     void resetBoard(){
         for(int i = 0; i < 15; i ++){
             for(int j = 0; j < 15; j++){
@@ -10,6 +12,7 @@ public class Board{
                 squares[i][j].setEmpty(true);
             }
         }
+        empty = true;
     }
     Board(){
         squares = new Square[15][15];
@@ -44,6 +47,7 @@ public class Board{
     }
 
     void printBoard(){
+        System.out.println("\n----------------------------------------------------------------\n");
         for(int i = 0; i < 15; i ++){
             for(int j = 0; j < 15; j++){
                 System.out.print(squares[i][j].toString());
@@ -58,14 +62,17 @@ public class Board{
         for(int i = 10; i < 15; i ++){
             System.out.print(" " + i+ " ");
         }
+        System.out.println("\n----------------------------------------------------------------\n");
 
     }
     
     
-    void placeWord(String word, int firstLetterX, int firstLetterY, String direction) throws IllegalArgumentException {
-    	if (isValidWord(word) != true) {
+    void placeWord(Player p, String word, int firstLetterX, int firstLetterY, String direction) throws IllegalArgumentException {
+    	if (isValidWord(p,word,firstLetterX,firstLetterY,direction) != true) {
 			throw new IllegalArgumentException("Word is invalid");
-		}
+        }
+        
+        empty = false;
     	//Put string into a tile array list
     	ArrayList<Tile> stringTiles = new ArrayList<Tile>();
     	for (int i = 0; i < word.length(); i++) {
@@ -92,9 +99,236 @@ public class Board{
 		}
     }
     
-    boolean isValidWord(String word) {
-    	//to be implemented
-    	return true;
+    boolean isValidWord(Player p, String word, int firstLetterX, int firstLetterY, String direction) {
+        boolean valid = true;
+        int taken [] = {0,0,0,0,0,0,0}; //needed to check whether word is placed around already paced letter
+        boolean atLeastOne = false;
+        int x = firstLetterX;
+        int y = firstLetterY;
+        boolean out = false;
+
+        //tests if the word is within the bounds of the board
+        if (direction == "right") 
+        {
+            if(x < 0 || x + word.length()-1 > 14)
+            {
+                System.out.println("The word is not within the bounds of the board");
+                out = true;
+                valid = false;
+            }
+        }
+        else if (direction == "down") 
+        {
+            if(y < 0 || y + word.length()-1 > 14)
+            {
+                System.out.println("The word is not within the bounds of the board");
+                out = true;
+                valid = false;
+            }
+        }
+        System.out.println(out);
+        if(out)
+        {
+            System.out.println("whyyyyyyyy");
+            //checks if word is being placed around letters and if they conflict
+            if (direction == "right") 
+            {
+                for (int i = 0; i < word.length(); i++) 
+                {
+                    if(squares[y][x].isEmpty() != true)
+                    {
+                        if(word.charAt(i) != squares[y][x].getTile().getLetter())
+                        {
+                            System.out.println("Word cannot be placed because it is being placed on top of a letter");
+                            valid = false;
+                        }
+                        else
+                        {
+                            taken[i] = 1;
+                        }
+                    }
+                    x++;
+                }			
+            }
+            else if (direction == "down") 
+            {
+                for (int i = 0; i < word.length(); i++) 
+                {
+                    if(squares[y][x].isEmpty() != true)
+                    {
+                        if(word.charAt(i) != squares[y][x].getTile().getLetter())
+                        {
+                            System.out.println("Word cannot be placed because it conflicts with existing letters");
+                            valid = false;
+                        }
+                        else
+                        {
+                            taken[i] = 1;
+                        }
+                    }
+                    y++;
+                }	
+            }
+
+
+            
+            String letters = "";
+            for(int i = 0; i  < word.length(); i++)
+            {
+                if(taken[i] == 0)
+                {
+                    letters += word.charAt(i);
+                    atLeastOne = true;
+                }
+                else
+                {
+                    connects = true;
+                }
+            }
+
+
+            //test if frame has at least one letter
+            if(!atLeastOne)
+            {
+                System.out.println("Placement does not include at least one letter from the frame");
+                valid = false;
+            }
+
+            //test if frame contains necessary letters
+            if(p.getFrame().isAvailable(letters) != true)
+            {
+                System.out.println("The players frame does not contain the letters needed for this word");
+                valid = false;
+            }
+
+            x = firstLetterX;
+            y = firstLetterY;
+            
+            
+            
+
+            //test if this is the first word, its in the centre
+            if(empty)
+            {
+                boolean centre = false;
+
+                if (direction == "right") {
+                    for (int i = 0; i < word.length(); i++) 
+                    {
+                        if(x == 7 && y == 7)
+                        {
+                            centre = true;
+                        }
+                        x++;
+                    }
+                }
+                else if (direction == "down") {
+                    for (int i = 0; i < word.length(); i++) 
+                    {
+                        if(x == 7 && y == 7)
+                        {
+                            centre = true;
+                        }
+                        y++;
+                    }
+                }
+
+                if(centre == false)
+                {
+                    System.out.println("The first word is not placed covering the centre square");
+                    valid = false;
+                }
+            }
+            else if(!connects)  //tests if word connects to another word
+            {
+                if (direction == "right") {
+                    for (int i = 0; i < word.length() && !connects; i++) 
+                    {
+                        if(i == 0 && x != 0)
+                        {
+                            if(squares[y][x-1].isEmpty() == false)
+                            {
+                                connects = true;
+                            }
+                        }
+
+                        if(y != 0)
+                        {
+                            if(squares[y-1][x].isEmpty() == false)
+                            {
+                                connects = true;
+                            }
+                        }
+
+                        if(y != 14)
+                        {
+                            if(squares[y+1][x].isEmpty() == false)
+                            {
+                                connects = true;
+                            }
+                        }
+
+                        if(i == word.length() -1 && x != 14)
+                        {
+                            if(squares[y][x+1].isEmpty() == false)
+                            {
+                                connects = true;
+                            }
+                        }
+
+                        x++;
+                    }
+                }
+                else if (direction == "down") {
+                    for (int i = 0; i < word.length() && !connects; i++) 
+                    {
+                        {
+                            if(i == 0 && y != 0)
+                            {
+                                if(squares[y-1][x].isEmpty() == false)
+                                {
+                                    connects = true;
+                                }
+                            }
+        
+                            if(firstLetterX != 0)
+                            {
+                                if(squares[y][x-1].isEmpty() == false)
+                                {
+                                    connects = true;
+                                }
+                            }
+        
+                            if(firstLetterX != 14)
+                            {
+                                if(squares[y][x+1].isEmpty() == false)
+                                {
+                                    connects = true;
+                                }
+                            }
+        
+                            if(i == word.length() -1 && y != 14)
+                            {
+                                if(squares[y+1][x].isEmpty() == false)
+                                {
+                                    connects = true;
+                                }
+                            }
+        
+                            y++;
+                        }
+                    }
+                }
+
+                if(!connects)
+                {
+                    System.out.println("The word does not connect to an existing word");
+                    valid = false;
+                }
+            }
+        }
+
+    	return valid;
     }
         
     public boolean checkBounds(String word, int pos[], boolean across){
@@ -110,8 +344,15 @@ public class Board{
     }
 
     public static void main(String[] args) {
+        Pool pool = new Pool();
         Board board = new Board();
-        board.placeWord("RUN", 0, 4, "right");
+        Player player1 = new Player();
+        player1.setName("Chris");
+        player1.getFrame().refill(pool);
+        System.out.println(player1.getFrame() + "\n\n");
+        board.placeWord(player1,"I", 7, 7, "right");
+        board.printBoard();
+        board.placeWord(player1,"E", 7, 15, "right");
         board.printBoard();
 
     }
