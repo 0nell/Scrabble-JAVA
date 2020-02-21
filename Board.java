@@ -356,7 +356,7 @@ public class Board{
         System.out.println(player1.getFrame() + "\n\n");
         board.placeWord(player1,"I", 7, 7, "right");
         board.printBoard();
-        board.placeWord(player1,"E", 7, 15, "right");
+        board.placeWord(player1,"E", 7, 8, "right");
         board.printBoard();
 
     }
