@@ -105,8 +105,9 @@ public class Board{
         boolean out = false;
 
         //tests if the word is within the bounds of the board
-        if(x > 14 || x < 0 || y < 0 || y > 0)
+        if(x > 14 || x < 0 || y < 0 || y > 14)
         {
+        	System.out.println("The word is not within the bounds of the board");
             out = true;
             valid = false;
         }
