@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Board{
     Square squares[][];
     boolean connects = false;
+    static String lettersToRemove = "";
 
     void resetBoard(){
         for(int i = 0; i < 15; i ++){
@@ -94,6 +95,8 @@ public class Board{
     	else {
 			throw new IllegalArgumentException("Invalid Direction");
 		}
+    	p.getFrame().remove(lettersToRemove);
+    	lettersToRemove = "";
     }
     
     boolean isValidWord(Player p, String word, int firstLetterX, int firstLetterY, String direction) {
@@ -173,13 +176,11 @@ public class Board{
             }
 
 
-            
-            String letters = "";
             for(int i = 0; i  < word.length(); i++)
             {
                 if(taken[i] == 0)
                 {
-                    letters += word.charAt(i);
+                    lettersToRemove += word.charAt(i);
                     atLeastOne = true;
                 }
                 else
@@ -197,7 +198,7 @@ public class Board{
             }
 
             //test if frame contains necessary letters
-            if(p.getFrame().isAvailable(letters) != true)
+            if(p.getFrame().isAvailable(lettersToRemove) != true)
             {
                 System.out.println("The players frame does not contain the letters needed for this word");
                 valid = false;
@@ -354,8 +355,10 @@ public class Board{
         System.out.println(player1.getFrame() + "\n\n");
         board.placeWord(player1,"I", 7, 7, "right");
         board.printBoard();
-        board.placeWord(player1,"E", 7, 15, "right");
+        System.out.println(player1.getFrame() + "\n\n");
+        board.placeWord(player1,"E", 7, 8, "right");
         board.printBoard();
+        System.out.println(player1.getFrame() + "\n\n");
 
     }
 }
