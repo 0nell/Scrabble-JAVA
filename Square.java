@@ -1,10 +1,10 @@
 public class Square{
-    private boolean blank;
+    private boolean empty;
     private Tile tile;
     String value;
 
     Square() {
-        blank = true;
+        empty = true;
         value = "  ";
     }
 
@@ -26,7 +26,7 @@ public class Square{
     }
 
     public boolean isEmpty() {
-        return blank;
+        return empty;
     }
 
     public String toString(){
@@ -37,7 +37,7 @@ public class Square{
             return "| " + tile.getLetter() + "|";
     }
     public void setEmpty(boolean empty) {
-        this.blank = empty;
+        this.empty = empty;
     }
 
 }

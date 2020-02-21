@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class Board{
     Square squares[][];
-    boolean empty = true;
     boolean connects = false;
 
     void resetBoard(){
@@ -12,7 +11,6 @@ public class Board{
                 squares[i][j].setEmpty(true);
             }
         }
-        empty = true;
     }
     Board(){
         squares = new Square[15][15];
@@ -72,7 +70,6 @@ public class Board{
 			throw new IllegalArgumentException("Word is invalid");
         }
         
-        empty = false;
     	//Put string into a tile array list
     	ArrayList<Tile> stringTiles = new ArrayList<Tile>();
     	for (int i = 0; i < word.length(); i++) {
@@ -212,7 +209,7 @@ public class Board{
             
 
             //test if this is the first word, its in the centre
-            if(empty)
+            if(squares[7][7].isEmpty())
             {
                 boolean centre = false;
 
