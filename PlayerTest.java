@@ -1,5 +1,14 @@
 import java.util.ArrayList;
 
+/**
+ * Team Name: El Cucharachas
+ * 
+ * Students:
+ * - Ahmed Jouda 	18329393
+ * - Sean Mcdonnell 18391961
+ * - Lleno Anya 	18357493
+ *
+ */
 public class PlayerTest {
 
 	// For full marks, you should include automated comparison between actual and expected results
