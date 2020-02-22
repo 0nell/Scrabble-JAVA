@@ -123,6 +123,90 @@ public class Board {
         
     }
 
+    boolean checkConnects(String word, int x, int y, String direction){
+        if (direction == "right") {
+            for (int i = 0; i < word.length() && !connects; i++) 
+            {
+                if(i == 0 && x != 0)
+                {
+                    if(squares[y][x-1].isEmpty() == false)
+                    {
+                        return true;
+                    }
+                }
+
+                if(y != 0)
+                {
+                    if(squares[y-1][x].isEmpty() == false)
+                    {
+                        return true;
+                    }
+                }
+
+                if(y != 14)
+                {
+                    if(squares[y+1][x].isEmpty() == false)
+                    {
+                        return true;
+                    }
+                }
+
+                if(i == word.length() -1 && x != 14)
+                {
+                    if(squares[y][x+1].isEmpty() == false)
+                    {
+                        return true;
+                    }
+                }
+
+                x++;
+            }
+        }
+        else if (direction == "down") {
+            for (int i = 0; i < word.length() && !connects; i++) 
+            {
+                {
+                    if(i == 0 && y != 0)
+                    {
+                        if(squares[y-1][x].isEmpty() == false)
+                        {
+                            return true;
+                        }
+                    }
+
+                    if(x != 0)
+                    {
+                        if(squares[y][x-1].isEmpty() == false)
+                        {
+                            return true;
+                        }
+                    }
+
+                    if(x != 14)
+                    {
+                        if(squares[y][x+1].isEmpty() == false)
+                        {
+                            return true;
+                        }
+                    }
+
+                    if(i == word.length() -1 && y != 14)
+                    {
+                        if(squares[y+1][x].isEmpty() == false)
+                        {
+                            return true;
+                        }
+                    }
+
+                    y++;
+                }
+            }
+        }
+
+            System.out.println("The word does not connect to an existing word");
+            return false;
+    }
+
     boolean isValidWord(Player p, String word, int firstLetterX, int firstLetterY, String direction) {
         boolean valid = true;
         int taken[] = { 0, 0, 0, 0, 0, 0, 0 }; // needed to check whether word is placed around already paced letter
@@ -159,12 +243,12 @@ public class Board {
             {
                 for (int i = 0; i < word.length(); i++) 
                 {
-                    if(squares[y][x].isEmpty() != true)
+                    if(squares[y][x].isEmpty() != true)     
                     {
                         if(word.charAt(i) != squares[y][x].getTile().getLetter())
                         {
                             System.out.println("Word cannot be placed because it conflicts with existing letters");
-                            valid = false;
+                            valid = false;                  
                         }
                         else
                         {
@@ -172,7 +256,7 @@ public class Board {
                         }
                     }
                     y++;
-                }	
+                }	        
             }
 
 
@@ -214,88 +298,7 @@ public class Board {
             }
             else if (!connects)  //tests if word connects to another word
             {
-                if (direction == "right") {
-                    for (int i = 0; i < word.length() && !connects; i++) 
-                    {
-                        if(i == 0 && x != 0)
-                        {
-                            if(squares[y][x-1].isEmpty() == false)
-                            {
-                                connects = true;
-                            }
-                        }
-
-                        if(y != 0)
-                        {
-                            if(squares[y-1][x].isEmpty() == false)
-                            {
-                                connects = true;
-                            }
-                        }
-
-                        if(y != 14)
-                        {
-                            if(squares[y+1][x].isEmpty() == false)
-                            {
-                                connects = true;
-                            }
-                        }
-
-                        if(i == word.length() -1 && x != 14)
-                        {
-                            if(squares[y][x+1].isEmpty() == false)
-                            {
-                                connects = true;
-                            }
-                        }
-
-                        x++;
-                    }
-                }
-                else if (direction == "down") {
-                    for (int i = 0; i < word.length() && !connects; i++) 
-                    {
-                        {
-                            if(i == 0 && y != 0)
-                            {
-                                if(squares[y-1][x].isEmpty() == false)
-                                {
-                                    connects = true;
-                                }
-                            }
-        
-                            if(firstLetterX != 0)
-                            {
-                                if(squares[y][x-1].isEmpty() == false)
-                                {
-                                    connects = true;
-                                }
-                            }
-        
-                            if(firstLetterX != 14)
-                            {
-                                if(squares[y][x+1].isEmpty() == false)
-                                {
-                                    connects = true;
-                                }
-                            }
-        
-                            if(i == word.length() -1 && y != 14)
-                            {
-                                if(squares[y+1][x].isEmpty() == false)
-                                {
-                                    connects = true;
-                                }
-                            }
-        
-                            y++;
-                        }
-                    }
-                }
-
-                if(!connects)
-                {
-                    System.out.println("The word does not connect to an existing word");
+                if(!checkConnects(word, x, y, direction)){
                     valid = false;
                 }
             }
