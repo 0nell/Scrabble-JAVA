@@ -66,6 +66,27 @@ public class Frame {
 		ArrayList<Tile> draw = pool.drawTiles(numTilesToDraw);
 		tiles.addAll(draw);
 	}
+	
+	
+	//Method used for testing to avoid randomization
+	public void refillForTest() {
+		ArrayList<Tile> draw = new ArrayList<Tile>();
+		Tile tempTile = new Tile('W');
+		draw.add(tempTile);
+		tempTile = new Tile('C');
+		draw.add(tempTile);
+		tempTile = new Tile('A');
+		draw.add(tempTile);
+		tempTile = new Tile('T');
+		draw.add(tempTile);
+		tempTile = new Tile('I');
+		draw.add(tempTile);
+		tempTile = new Tile('N');
+		draw.add(tempTile);
+		tempTile = new Tile('L');
+		draw.add(tempTile);
+		tiles.addAll(draw);
+	}
 
 	@Override
 	public String toString() {
