@@ -1,4 +1,12 @@
-
+/**
+ * Team Name: El Cucharachas
+ * 
+ * Students:
+ * - Ahmed Jouda 	18329393
+ * - Sean Mcdonnell 18391961
+ * - Lleno Anya 	18357493
+ *
+ */
 public class Tile {
 
     private static final int BLANK_VALUE = 0;

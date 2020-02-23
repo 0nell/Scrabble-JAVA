@@ -1,5 +1,14 @@
 import java.util.ArrayList;
 
+/**
+ * Team Name: El Cucharachas
+ * 
+ * Students:
+ * - Ahmed Jouda 	18329393
+ * - Sean Mcdonnell 18391961
+ * - Lleno Anya 	18357493
+ *
+ */
 public class Frame {
 
 	private static final int MAX_TILES = 7;
@@ -55,6 +64,27 @@ public class Frame {
 	public void refill(Pool pool) {
 		int numTilesToDraw = MAX_TILES - tiles.size();
 		ArrayList<Tile> draw = pool.drawTiles(numTilesToDraw);
+		tiles.addAll(draw);
+	}
+	
+	
+	//Method used for testing to avoid randomization
+	public void refillForTest() {
+		ArrayList<Tile> draw = new ArrayList<Tile>();
+		Tile tempTile = new Tile('W');
+		draw.add(tempTile);
+		tempTile = new Tile('C');
+		draw.add(tempTile);
+		tempTile = new Tile('A');
+		draw.add(tempTile);
+		tempTile = new Tile('T');
+		draw.add(tempTile);
+		tempTile = new Tile('I');
+		draw.add(tempTile);
+		tempTile = new Tile('N');
+		draw.add(tempTile);
+		tempTile = new Tile('L');
+		draw.add(tempTile);
 		tiles.addAll(draw);
 	}
 
