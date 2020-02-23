@@ -89,14 +89,14 @@ public class BoardTest {
 			errorThrown=true;
 		}
 		board.printBoard();
-		System.out.println("Placed 'C' over empty square which shouldn't throw an error.\\nEXPECTED: error thrown = false\\nGOT: error thrown =" + errorThrown);
+		System.out.println("Placed 'C' over empty square which shouldn't throw an error.\nEXPECTED: error thrown = false\nGOT: error thrown =" + errorThrown);
 		System.out.println("\n\nTry place tile 'T' over 'I' at 7,7");
 		try {
 			board.placeWord(player1, "t", 7, 7, "right");
 		} catch (Exception e) {
 			errorThrown=true;
 		}
-		System.out.println("Placed 't' over 'I' which should throw an error.\\nEXPECTED: error thrown = true\\nGOT: error thrown =" + errorThrown);
+		System.out.println("Placed 't' over 'I' which should throw an error.\nEXPECTED: error thrown = true\nGOT: error thrown =" + errorThrown);
 		
 		System.out.println("\n***************************************************************");
 		System.out.println("\nTEST SEVEN : IF ITS THE 1ST WORD, IT MUST BE AT THE CENTRE");
@@ -154,6 +154,26 @@ public class BoardTest {
 		System.out.println("\nTest to place 'TIN' right");
 		board.placeWord(player1, "TIN", 7, 9, "right");
 		board.printBoard();
+
+		System.out.println("\n***************************************************************");
+		System.out.println("\nTEST TEN : CHECK WHETHER AT LEAST ONE TILE FROM THE RACK IS USED");
+		System.out.println("\n***************************************************************");
+		//reset the board to start fresh & refill frame
+		board.resetBoard();
+		player1.getFrame().refillForTest();
+		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
+		System.out.println("\nPlace 'CAT' down");
+		board.placeWord(player1, "CAT", 7, 7, "down");
+		board.printBoard();
+		boolean used = false;
+		//Trying to put 'CAT' over 'CAT' which uses no new tiles form frame
+		try {
+			board.placeWord(player1, "CAT", 7, 7, "down");
+		} catch (IllegalArgumentException e) {
+			used = true;
+		}
+		System.out.println("Placed 'CAT'over 'CAT' which should return an error.\nEXPECTED: error thrown = true\nGOT: error thrown ="+used);
+		board.printBoard();
 	}
 	
 	
@@ -161,7 +181,7 @@ public class BoardTest {
 	//WORD VALID TEST: DONE - Check if player has required tiles
 	//				   DONE - Check if the placement is within bounds of the board
 	//				   DONE - Check whether the word conflicts with any existing letters
-	//				   Check whether the placement uses at least one letter from the rack
+	//				   DONE - Check whether the placement uses at least one letter from the rack
 	//				   DONE - Check if it is the 1st word, it is in the center of the board
 	//				   DONE -Check if it isn't the 1st word, it connects with words already on the board
 	
