@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class Board{
     Square squares[][];
-    boolean empty = true;
     boolean connects = false;
+    static String lettersToRemove = "";
 
     void resetBoard(){
         for(int i = 0; i < 15; i ++){
@@ -12,7 +12,6 @@ public class Board{
                 squares[i][j].setEmpty(true);
             }
         }
-        empty = true;
     }
     Board(){
         squares = new Square[15][15];
@@ -72,7 +71,6 @@ public class Board{
 			throw new IllegalArgumentException("Word is invalid");
         }
         
-        empty = false;
     	//Put string into a tile array list
     	ArrayList<Tile> stringTiles = new ArrayList<Tile>();
     	for (int i = 0; i < word.length(); i++) {
@@ -97,6 +95,8 @@ public class Board{
     	else {
 			throw new IllegalArgumentException("Invalid Direction");
 		}
+    	p.getFrame().remove(lettersToRemove);
+    	lettersToRemove = "";
     }
     
     boolean isValidWord(Player p, String word, int firstLetterX, int firstLetterY, String direction) {
@@ -108,8 +108,9 @@ public class Board{
         boolean out = false;
 
         //tests if the word is within the bounds of the board
-        if(x > 14 || x < 0 || y < 0 || y > 0)
+        if(x > 14 || x < 0 || y < 0 || y > 14)
         {
+        	System.out.println("The word is not within the bounds of the board");
             out = true;
             valid = false;
         }
@@ -175,13 +176,11 @@ public class Board{
             }
 
 
-            
-            String letters = "";
             for(int i = 0; i  < word.length(); i++)
             {
                 if(taken[i] == 0)
                 {
-                    letters += word.charAt(i);
+                    lettersToRemove += word.charAt(i);
                     atLeastOne = true;
                 }
                 else
@@ -199,7 +198,7 @@ public class Board{
             }
 
             //test if frame contains necessary letters
-            if(p.getFrame().isAvailable(letters) != true)
+            if(p.getFrame().isAvailable(lettersToRemove) != true)
             {
                 System.out.println("The players frame does not contain the letters needed for this word");
                 valid = false;
@@ -212,7 +211,7 @@ public class Board{
             
 
             //test if this is the first word, its in the centre
-            if(empty)
+            if(squares[7][7].isEmpty())
             {
                 boolean centre = false;
 
@@ -356,8 +355,10 @@ public class Board{
         System.out.println(player1.getFrame() + "\n\n");
         board.placeWord(player1,"I", 7, 7, "right");
         board.printBoard();
+        System.out.println(player1.getFrame() + "\n\n");
         board.placeWord(player1,"E", 7, 8, "right");
         board.printBoard();
+        System.out.println(player1.getFrame() + "\n\n");
 
     }
 }
