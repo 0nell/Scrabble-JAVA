@@ -152,7 +152,7 @@ public class Board {
 	}
 
 	// Checks if the first word is being placed in the center
-	private boolean checkFirstWord(String word, int x, int y, String direction) {
+	boolean checkFirstWord(String word, int x, int y, String direction) {
 		if (direction == "right") {
 			for (int i = 0; i < word.length(); i++) {
 				if (x == 7 && y == 7) {
@@ -175,7 +175,7 @@ public class Board {
 	}
 
 	// Checks if the the word being placed connects with previously placed words
-	private boolean checkConnects(String word, int x, int y, String direction) {
+	boolean checkConnects(String word, int x, int y, String direction) {
 		if (direction == "right") {
 			for (int i = 0; i < word.length() && !connects; i++) {
 				if (i == 0 && x != 0) {
@@ -239,7 +239,7 @@ public class Board {
 		System.out.println("The word does not connect to an existing word");
 		return false;
 	}
-	private boolean checkConflict(String word, int x, int y, String direction) {
+	boolean checkConflict(String word, int x, int y, String direction) {
 		int taken[] = { 0, 0, 0, 0, 0, 0, 0 }; // needed to check whether word is placed around already paced letter
 		boolean valid = true;
 		if (direction == "right") {
@@ -275,7 +275,7 @@ public class Board {
 		return valid;
 	}
 
-	private boolean checkLetterUsedFromFrame(int[] taken, String word) {
+	boolean checkLetterUsedFromFrame(int[] taken, String word) {
 		boolean atLeastOne = false; // placement uses at least one letter from the rack
 		for (int i = 0; i < word.length(); i++) {
 			if (taken[i] == 0) {
@@ -294,7 +294,7 @@ public class Board {
 	}
 
 	// tests if the word is within the bounds of the board
-	private boolean checkBounds(String word, int x, int y, String direction) {
+	boolean checkBounds(String word, int x, int y, String direction) {
 		if (x > 14 || x < 0 || y < 0 || y > 14) {
 			System.out.println("The word is not within the bounds of the board");
 			return false;
