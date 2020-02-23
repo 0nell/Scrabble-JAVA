@@ -82,8 +82,8 @@ public class Board {
 		
 		// if the word is invalid throw an illegal argument exception
 		if (isValidWord(p, word, firstLetterX, firstLetterY, direction) != true) {
-            lettersToRemove = "";
-            throw new IllegalArgumentException("Word is invalid");
+			lettersToRemove = "";
+			throw new IllegalArgumentException("Word is invalid");
 		}
 
 		// Put string (given word) into a tile array list, each letter = 1 tile
