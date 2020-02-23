@@ -77,27 +77,22 @@ public class BoardTest {
 		board.checkBounds("A", 1, 2, "right");
 		
 		System.out.println("\n***************************************************************");
-		System.out.println("\nTEST FIVE : CHECK WHETHER PLACEMENT CONFLICTS WITH AN EXISTING LETTER");
+		System.out.println("\nTEST SIX : CHECK WHETHER PLACEMENT CONFLICTS WITH AN EXISTING LETTER");
 		System.out.println("\n***************************************************************");
 		//Check whether the word conflicts with any existing letters
-		Board board2 = new Board();
-		Player player2 = new Player();
-		player2.setName("Mark");
-		player2.getFrame().refillForTest();
-		System.out.println("Test Frame made: "+player2.getFrame() + "\n\n");
 		boolean errorThrown = false;
-		//System.out.println("Test Frame made: "+player1.getFrame() + "\n\n");
-		System.out.println("Try place tile 'C' over an empty square at 7,7");
+		System.out.println("Test Frame made: "+player1.getFrame() + "\n\n");
+		System.out.println("Try place tile 'C' over an empty square at 7,8");
 		try {
-			board2.placeWord(player2, "i", 7, 7, "right");
-		} catch (Exception e) {
+			board.placeWord(player1, "c", 7, 8, "right");
+		} catch (IllegalArgumentException e) {
 			errorThrown=true;
 		}
-		board2.printBoard();
-		System.out.println("Placed 't' over empty square which shouldn't throw an error.\\nEXPECTED: error thrown = false\\nGOT: error thrown =" + errorThrown);
+		board.printBoard();
+		System.out.println("Placed 'C' over empty square which shouldn't throw an error.\\nEXPECTED: error thrown = false\\nGOT: error thrown =" + errorThrown);
 		System.out.println("\n\nTry place tile 'T' over 'I' at 7,7");
 		try {
-			board2.placeWord(player2, "i", 7, 7, "right");
+			board.placeWord(player1, "t", 7, 7, "right");
 		} catch (Exception e) {
 			errorThrown=true;
 		}
