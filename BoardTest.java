@@ -75,6 +75,9 @@ public class BoardTest {
 		System.out.println("\nTry place at coordinates 1 & 2:");
 		System.out.println("EXPECTED: *nothing as it passes (no error)*" + "\nGOT: ");
 		board.checkBounds("A", 1, 2, "right");
+		System.out.println("\nTry place a 3 letter word right, so not all letters are on the board, at coordinates 13 & 13:");
+		System.out.println("EXPECTED: \nThe word is not within the bounds of the board" + "\nGOT: ");
+		board.checkBounds("CAT", 13, 13, "right");
 		
 		System.out.println("\n***************************************************************");
 		System.out.println("\nTEST SIX : CHECK WHETHER PLACEMENT CONFLICTS WITH AN EXISTING LETTER");
