@@ -179,15 +179,5 @@ public class BoardTest {
 		board.printBoard();
 	}
 	
-	
-
-	//WORD VALID TEST: DONE - Check if player has required tiles
-	//				   DONE - Check if the placement is within bounds of the board
-	//				   DONE - Check whether the word conflicts with any existing letters
-	//				   DONE - Check whether the placement uses at least one letter from the rack
-	//				   DONE - Check if it is the 1st word, it is in the center of the board
-	//				   DONE -Check if it isn't the 1st word, it connects with words already on the board
-	
-	
 
 }
