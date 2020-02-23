@@ -82,7 +82,8 @@ public class Board {
 		
 		// if the word is invalid throw an illegal argument exception
 		if (isValidWord(p, word, firstLetterX, firstLetterY, direction) != true) {
-			throw new IllegalArgumentException("Word is invalid");
+            lettersToRemove = "";
+            throw new IllegalArgumentException("Word is invalid");
 		}
 
 		// Put string (given word) into a tile array list, each letter = 1 tile
@@ -121,69 +122,74 @@ public class Board {
 
 		if (checkBounds(word, x, y, direction)) {
 
-			// checks if word is being placed around letters and if they conflict
-			if (direction == "right") {
-				for (int i = 0; i < word.length(); i++) {
-					if (squares[y][x].isEmpty() != true) {
-						if (word.charAt(i) != squares[y][x].getTile().getLetter()) {
-							System.out.println("Word cannot be placed because it is being placed on top of a letter");
-							valid = false;
-						} else {
-							taken[i] = 1;
-						}
-					}
-					x++;
-				}
-			} else if (direction == "down") {
-				for (int i = 0; i < word.length(); i++) {
-					if (squares[y][x].isEmpty() != true) {
-						if (word.charAt(i) != squares[y][x].getTile().getLetter()) {
-							System.out.println("Word cannot be placed because it conflicts with existing letters");
-							valid = false;
-						} else {
-							taken[i] = 1;
-						}
-					}
-					y++;
-				}
-			}
-
-			for (int i = 0; i < word.length(); i++) {
-				if (taken[i] == 0) {
-					lettersToRemove += word.charAt(i);
-					atLeastOne = true;	//placement uses at least one letter from the rack
-				} else {
-					connects = true;
-				}
-			}
-
-			// test if frame has at least one letter
-			if (!atLeastOne) {
-				System.out.println("Placement does not include at least one letter from the frame");
-				valid = false;
-			}
-
-			// test if players frame contains necessary letters
-			if (p.getFrame().isAvailable(lettersToRemove) != true) {
-				System.out.println("The players frame does not contain the letters needed for this word");
-				valid = false;
-			}
-
-			x = firstLetterX;
-			y = firstLetterY;
-
 			if (squares[7][7].isEmpty()) {
 				
 				//test if its the first word being placed is in the center, if not its not valid
 				if (!checkFirstWord(word, x, y, direction)) {
 					valid = false;
 				}
-			} else if (!connects) // tests if word connects to another word, if not its not valid
-			{
-				if (!checkConnects(word, x, y, direction)) {
+			}
+			
+			else{
+				// checks if word is being placed around letters and if they conflict
+				if (direction == "right") {
+					for (int i = 0; i < word.length(); i++) {
+						if (squares[y][x].isEmpty() != true) {
+							if (word.charAt(i) != squares[y][x].getTile().getLetter()) {
+								System.out.println("Word cannot be placed because it is being placed on top of a letter");
+								valid = false;
+							} else {
+								taken[i] = 1;
+							}
+						}
+						x++;
+					}
+				} else if (direction == "down") {
+					for (int i = 0; i < word.length(); i++) {
+						if (squares[y][x].isEmpty() != true) {
+							if (word.charAt(i) != squares[y][x].getTile().getLetter()) {
+								System.out.println("Word cannot be placed because it conflicts with existing letters");
+								valid = false;
+							} else {
+								taken[i] = 1;
+							}
+						}
+						y++;
+					}
+				}
+
+				for (int i = 0; i < word.length(); i++) {
+					if (taken[i] == 0) {
+						lettersToRemove += word.charAt(i);
+						atLeastOne = true;	//placement uses at least one letter from the rack
+					} else {
+						connects = true;
+					}
+				}
+
+				// test if frame has at least one letter
+				if (!atLeastOne) {
+					System.out.println("Placement does not include at least one letter from the frame");
 					valid = false;
 				}
+
+				// test if players frame contains necessary letters
+				if (p.getFrame().isAvailable(lettersToRemove) != true) {
+					System.out.println("The players frame does not contain the letters needed for this word");
+					valid = false;
+				}
+
+				x = firstLetterX;
+				y = firstLetterY;
+
+				if (!connects) // tests if word connects to another word, if not its not valid
+				{
+					if (!checkConnects(word, x, y, direction)) {
+						valid = false;
+					}
+				}
 			}
+			
 		}
 
 		return valid;
@@ -294,21 +300,28 @@ public class Board {
 	}
 
 	public static void main(String[] args) {
-		Pool pool = new Pool();
-		Board board = new Board();
-		Player player1 = new Player();
-		player1.setName("Chris");
-		player1.getFrame().refill(pool);
-		System.out.println(player1.getFrame() + "\n\n");
-		board.placeWord(player1, "i", 7, 7, "right");
-		board.printBoard();
-		System.out.println(player1.getFrame() + "\n\n");
-		board.placeWord(player1, "E", 7, 8, "right");
-		board.printBoard();
-		System.out.println(player1.getFrame() + "\n\n");
-		board.placeWord(player1, "A", 8, 8, "right");
-		board.printBoard();
-		System.out.println(player1.getFrame() + "\n\n");
+		Board board2 = new Board();
+		Player player2 = new Player();
+		player2.setName("Mark");
+		player2.getFrame().refillForTest();
+		System.out.println("Test Frame made: "+player2.getFrame() + "\n\n");
+		boolean errorThrown = false;
+		//System.out.println("Test Frame made: "+player1.getFrame() + "\n\n");
+		System.out.println("Try place tile 'C' over an empty square at 7,7");
+		try {
+			board2.placeWord(player2, "c", 7, 7, "right");
+		} catch (Exception e) {
+			errorThrown=true;
+		}
+		board2.printBoard();
+		System.out.println("Placed 't' over empty square which shouldn't throw an error.\\nEXPECTED: error thrown = false\\nGOT: error thrown =" + errorThrown);
+		System.out.println("\n\nTry place tile 'T' over 'I' at 7,7");
+		try {
+			board2.placeWord(player2, "i", 7, 7, "right");
+		} catch (Exception e) {
+			errorThrown=true;
+		}
+		System.out.println("Placed 't' over 'I' which should throw an error.\\nEXPECTED: error thrown = true\\nGOT: error thrown =" + errorThrown);
 
 	}
 }
