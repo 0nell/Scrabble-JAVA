@@ -98,19 +98,72 @@ public class BoardTest {
 		}
 		System.out.println("Placed 't' over 'I' which should throw an error.\\nEXPECTED: error thrown = true\\nGOT: error thrown =" + errorThrown);
 		
+		System.out.println("\n***************************************************************");
+		System.out.println("\nTEST SEVEN : IF ITS THE 1ST WORD, IT MUST BE AT THE CENTRE");
+		System.out.println("\n***************************************************************");
+		//reset the board to start fresh
+		board.resetBoard();
+		System.out.println("Remaining tiles: "+player1.getFrame() + "\n\n");
+		System.out.println("Try place 'WAT' at the center.");
+		board.placeWord(player1, "WAT", 7, 7, "right");
+		board.printBoard();
+		System.out.println("Reset Board. Try place 'NL' at anywhere but the center the center.");
+		board.resetBoard();
+		boolean center = true;
+		try {
+			board.placeWord(player1, "NL", 7, 8, "right");
+		} catch (IllegalArgumentException e) {
+			center = false;
+		}
+		System.out.println("It fails. Its is not placed at center.\nExpected: false\nGot: "+center);
+		board.printBoard();
+		
+		System.out.println("\n***************************************************************");
+		System.out.println("\nTEST EIGHT : IF IT ISN'T THE 1ST WORD, IT CONNECTS WITH WORDS ALREADY ON THE BOARD");
+		System.out.println("\n***************************************************************");
+		//reset the board to start fresh
+		board.resetBoard();
+		System.out.println("Remaining tiles: "+player1.getFrame() + "\n\n");
+		System.out.println("Place 'N' at the center.");
+		board.placeWord(player1, "N", 7, 7, "right");
+		board.printBoard();
+		System.out.println("Now try place L somewhere unconnected with N.");
+		boolean connect = true;		
+		try {
+			board.placeWord(player1, "L", 10, 8, "right");
+		} catch (IllegalArgumentException e) {
+			connect = false;
+		}
+		System.out.println("It fails. Its is not connected.\nExpected: false\nGot: "+connect);
+		board.printBoard();
+		System.out.println("Now try place L somewhere connected with N.");
+		board.placeWord(player1, "L", 7, 8, "right");
+		board.printBoard();
+		System.out.println("It works and L is added.");
+		
+		System.out.println("\n***************************************************************");
+		System.out.println("\nTEST NINE : PLACE WORDS TEST - DOWN & RIGHT");
+		System.out.println("\n***************************************************************");
+		//reset the board to start fresh & refill frame
+		board.resetBoard();
+		player1.getFrame().refillForTest();
+		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
+		System.out.println("\nTest to place 'CAT' down");
+		board.placeWord(player1, "CAT", 7, 7, "down");
+		board.printBoard();
+		System.out.println("\nTest to place 'TIN' right");
+		board.placeWord(player1, "TIN", 7, 9, "right");
+		board.printBoard();
 	}
 	
 	
 
-	
-	
-	//Place word test both right and down
 	//WORD VALID TEST: DONE - Check if player has required tiles
 	//				   DONE - Check if the placement is within bounds of the board
-	//				   Check whether the word conflicts with any existing letters
-	//				   Check whether the placement uses atleast one letter from the rack
-	//				   Check if it is the 1st word, it is in the center of the board
-	//				   Check if it isn't the 1st word, it connects with words already on the board
+	//				   DONE - Check whether the word conflicts with any existing letters
+	//				   Check whether the placement uses at least one letter from the rack
+	//				   DONE - Check if it is the 1st word, it is in the center of the board
+	//				   DONE -Check if it isn't the 1st word, it connects with words already on the board
 	
 	
 

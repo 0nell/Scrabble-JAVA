@@ -158,7 +158,7 @@ public class Board {
 				}
 			}
 
-			// test if frame has at least one letter
+			//Check whether the placement uses at least one letter from the rack
 			if (!atLeastOne) {
 				System.out.println("Placement does not include at least one letter from the frame");
 				valid = false;
