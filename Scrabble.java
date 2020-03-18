@@ -19,6 +19,53 @@ public class Scrabble {
 		s = scan.next();
 		player2.setName(s);
 		System.out.print("Player 1 is " + player1.getName() + "\n" + "Player 2 is " + player2.getName());
+		System.out.print("\n\n****************\n   SCRABBLE   \n****************");
+		
+		//fill both players frames
+		player1.getFrame().refill(pool);
+		player2.getFrame().refill(pool);
+		
+		Player p;
+		String word, direction;
+		int x, y;
+		//game ends when pool is empty & one player has no tiles left || no possible plays
+		while (!pool.isEmpty()&&(!player1.getFrame().isEmpty()||!player2.getFrame().isEmpty())) {
+			System.out.println("\nGAME ON");
+			Board board = new Board();
+			board.printBoard();
+	
+			p = player1;
+			System.out.println(player1.getFrame());
+			System.out.println(player1.getName() + " insert word: ");
+			word = scan.next();
+			System.out.println(player1.getName() + " insert x coordinate: ");
+			scan.nextLine();
+			x = scan.nextInt();
+			System.out.println(player1.getName() + " insert y coordinate: ");
+			y = scan.nextInt();
+			System.out.println(player1.getName() + " insert direction: ");
+			direction = scan.next();
+			System.out.println(x + word + direction + y);
+			board.placeWord(p, word, x, y, direction);
+			board.printBoard();
+			
+			p= player2;
+			System.out.println(player2.getFrame());
+			System.out.println(player2.getName() + " insert word: ");
+			word = scan.next();
+			System.out.println(player2.getName() + " insert x coordinate: ");
+			x = scan.nextInt();
+			System.out.println(player2.getName() + " insert y coordinate: ");
+			y = scan.nextInt();
+			System.out.println(player2.getName() + " insert direction: ");
+			direction = scan.next();
+			board.placeWord(p, word, x, y, direction);
+			board.printBoard();
+			break;
+			
+		}
+		
+		scan.close();
 	}
 	
 }

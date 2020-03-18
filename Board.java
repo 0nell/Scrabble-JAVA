@@ -92,12 +92,12 @@ public class Board {
 		}
 
 		// place on board based on direction specified
-		if (direction == "right") {
+		if (direction.equals("right")) {
 			for (int i = 0; i < stringTiles.size(); i++) {
 				squares[firstLetterY][firstLetterX].setTile(stringTiles.get(i));
 				firstLetterX++;
 			}
-		} else if (direction == "down") {
+		} else if (direction.equals("down")) {
 			for (int i = 0; i < stringTiles.size(); i++) {
 				squares[firstLetterY][firstLetterX].setTile(stringTiles.get(i));
 				firstLetterY++;
@@ -153,14 +153,14 @@ public class Board {
 
 	// Checks if the first word is being placed in the center
 	boolean checkFirstWord(String word, int x, int y, String direction) {
-		if (direction == "right") {
+		if (direction.equals("right")) {
 			for (int i = 0; i < word.length(); i++) {
 				if (x == 7 && y == 7) {
 					return true;
 				}
 				x++;
 			}
-		} else if (direction == "down") {
+		} else if (direction.equals("down")) {
 			for (int i = 0; i < word.length(); i++) {
 				if (x == 7 && y == 7) {
 					return true;
@@ -176,7 +176,7 @@ public class Board {
 
 	// Checks if the the word being placed connects with previously placed words
 	boolean checkConnects(String word, int x, int y, String direction) {
-		if (direction == "right") {
+		if (direction.equals("right")) {
 			for (int i = 0; i < word.length() && !connects; i++) {
 				if (i == 0 && x != 0) {
 					if (squares[y][x - 1].isEmpty() == false) {
@@ -204,7 +204,7 @@ public class Board {
 
 				x++;
 			}
-		} else if (direction == "down") {
+		} else if (direction.equals("down")) {
 			for (int i = 0; i < word.length() && !connects; i++) {
 				{
 					if (i == 0 && y != 0) {
