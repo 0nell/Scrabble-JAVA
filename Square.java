@@ -1,3 +1,5 @@
+
+
 /**
  * Team Name: El Cucharachas
  * 
@@ -7,7 +9,9 @@
  * - Lleno Anya 	18357493
  *
  */
-public class Square{
+import javafx.scene.control.Label;
+
+public class Square extends Label {
     private boolean empty;
     private Tile tile;
     String value;
@@ -15,11 +19,15 @@ public class Square{
     Square() {
         empty = true;
         value = "  ";
+        this.setPrefSize(60,60);
+        this.setStyle("-fx-font-size: 50; ");
+        this.setStyle("-fx-border-color: black;");
     }
 
     void setTile(Tile tile) {
         this.tile = tile;
         this.setEmpty(false);
+        this.setText(String.valueOf(tile.getLetter()));
     }
 
     Tile getTile() {
@@ -32,6 +40,7 @@ public class Square{
 
     void setValue(String value) {
         this.value = value;
+        this.setText(value);
     }
 
     public boolean isEmpty() {
