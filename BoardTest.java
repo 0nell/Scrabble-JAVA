@@ -50,11 +50,12 @@ public class BoardTest {
 		try {
 			board.placeWord(player1, "i", 7, 7, "right");
 		} catch (IllegalArgumentException e) {
-			thrown = false;
+			thrown = true;
 		}
 		System.out.println("Placed 'i' which shouldn't throw an error as it is in the frame.\nEXPECTED: error thrown = false\nGOT: error thrown ="+thrown);
 		board.printBoard();
-		System.out.println("Updated Frame: "+player1.getFrame() + "\n\n");		
+		System.out.println("Updated Frame: "+player1.getFrame() + "\n\n");	
+		thrown = false;	
 		try {
 			board.placeWord(player1, "z", 7, 8, "right");
 		} catch (IllegalArgumentException e) {

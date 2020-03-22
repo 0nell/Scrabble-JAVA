@@ -1,5 +1,6 @@
 import java.util.ArrayList;
-
+import java.util.Arrays;
+import java.util.Scanner;
 /**
  * Team Name: El Cucharachas
  * 
@@ -11,7 +12,9 @@ public class Board {
 	Square squares[][];
 	boolean connects = false; // check if placed word connects with other words
 	static String lettersToRemove = ""; // contains letters to remove from player's frame after placement
-
+	static int taken[] = { 0, 0, 0, 0, 0, 0, 0 }; // needed to check whether word is placed around already paced letter
+	static int wordMultiplier = 1;
+	static int letterMultiplier = 1;
 	// Allows board to be reset
 	public void resetBoard() {
 		for (int i = 0; i < 15; i++) {
@@ -73,11 +76,11 @@ public class Board {
 
 	// Places the word on the board if it is valid and removes the used tiles from
 	// the Player's frame
-	public void placeWord(Player p, String word, int firstLetterX, int firstLetterY, String direction)
+	public int placeWord(Player p, String word, int firstLetterX, int firstLetterY, String direction)
 			throws IllegalArgumentException {
-
+		int score = 0;
 		word = word.toUpperCase(); // in case the user inputed lower case
-
+		lettersToRemove = ""; // reset letters to remove
 		// if the word is invalid throw an illegal argument exception
 		if (isValidWord(p, word, firstLetterX, firstLetterY, direction) != true) {
 			lettersToRemove = "";
@@ -85,12 +88,13 @@ public class Board {
 		}
 
 		// Put string (given word) into a tile array list, each letter = 1 tile
-		ArrayList<Tile> stringTiles = new ArrayList<Tile>();
+		ArrayList<Tile> stringTiles = new ArrayList<Tile>();			//added whole blank bit
 		for (int i = 0; i < word.length(); i++) {
-			Tile tempTile = new Tile(word.charAt(i));
-			stringTiles.add(tempTile);
+				Tile tempTile = new Tile(word.charAt(i));
+				stringTiles.add(tempTile);
 		}
 
+		score += scoring(p, firstLetterX, firstLetterY, direction, stringTiles);
 		// place on board based on direction specified
 		if (direction.equals("right")) {
 			for (int i = 0; i < stringTiles.size(); i++) {
@@ -107,7 +111,7 @@ public class Board {
 			throw new IllegalArgumentException("Invalid Direction");
 		}
 		p.getFrame().remove(lettersToRemove);
-		lettersToRemove = ""; // reset letters to remove
+		return score;
 	}
 
 	// checks if word is being placed around letters and if they conflict
@@ -127,23 +131,22 @@ public class Board {
 				if (!checkFirstWord(word, x, y, direction)) {
 					valid = false;
 				}
-			} else {
+			}
 
-				if (!checkConflict(word, x, y, direction)) {
+			if (!checkConflict(word, x, y, direction)) {
+				valid = false;
+			}
+
+			// test if players frame contains necessary letters
+			if (p.getFrame().isAvailable(lettersToRemove) != true) {
+				System.out.println("The players frame does not contain the letters needed for this word");
+				valid = false;
+			}
+
+			if (!connects && !squares[7][7].isEmpty()) // tests if word connects to another word (only if not first word), if not its not valid
+			{
+				if (!checkConnects(word, x, y, direction)) {
 					valid = false;
-				}
-
-				// test if players frame contains necessary letters
-				if (p.getFrame().isAvailable(lettersToRemove) != true) {
-					System.out.println("The players frame does not contain the letters needed for this word");
-					valid = false;
-				}
-
-				if (!connects) // tests if word connects to another word, if not its not valid
-				{
-					if (!checkConnects(word, x, y, direction)) {
-						valid = false;
-					}
 				}
 			}
 
@@ -240,7 +243,7 @@ public class Board {
 		return false;
 	}
 	boolean checkConflict(String word, int x, int y, String direction) {
-		int taken[] = { 0, 0, 0, 0, 0, 0, 0 }; // needed to check whether word is placed around already paced letter
+		Arrays.fill(taken, 0);
 		boolean valid = true;
 		if (direction == "right") {
 			for (int i = 0; i < word.length(); i++) {
@@ -308,4 +311,298 @@ public class Board {
 			return true;
 	}
 
+	int scoring(Player p, int x, int y, String direction, ArrayList<Tile> stringTiles)
+	{
+	    wordMultiplier = 1;
+		letterMultiplier = 1;
+		int score = 0;
+		int currentWordScore = 0;
+		int gridx = x;
+		int gridy = y;
+		boolean word = false;
+		boolean end = false;
+		boolean last = false;
+
+		for(int index = 0; index < stringTiles.size();index++) //only for these ones side wordds
+		{
+			word = false;
+			if(direction.equals("right"))
+			{
+				if(!last)
+				{
+					if(squares[y][x].isEmpty())      //need to figure out
+					{
+							if (y != 0)     //these two groups of if statements check if their is a word on the line
+							{
+								if (squares[y - 1][x].isEmpty() == false)
+								{
+									word = true;
+								}
+							}
+
+							if (y != 14)
+							{
+								if (squares[y + 1][x].isEmpty() == false)
+								{
+									word = true;
+								}
+							}
+
+							if(word)
+							{
+								multiplier(squares[y][x].getValue());
+								y = rewind('d',x,y);
+								
+								while(y < 15 && !end)
+								{
+									if(squares[y][x].isEmpty())
+									{
+										end = true;
+									}
+									else 
+									{
+										
+										if(y == gridy)
+										{
+											currentWordScore += (stringTiles.get(index).getValue() * letterMultiplier);
+										}
+										else
+										{
+											currentWordScore += squares[y][x].getTile().getValue();
+										}
+										y++;
+									}
+								}
+								score += (currentWordScore * wordMultiplier);
+								currentWordScore = 0;
+								wordMultiplier = 1;
+								letterMultiplier = 1;
+								y = gridy;
+								x++;
+								end = false;
+
+								if(index == stringTiles.size() -1)
+								{
+									index = -1; //resets loop
+									last = true;
+								}
+							}
+					}
+					else
+					{
+						index--; //-- to counteract the ++ in loop
+						x++; //moves across the taken letter
+					}
+				}
+				else
+				{
+					x = gridx;
+					x = rewind('r',x,y);
+					
+					while(x < gridx && !end)    //end = false before it gets to last so this only runs once aka until the placed letters
+					{
+						if(squares[y][x].isEmpty())
+						{
+							end = true;
+						}
+						else 
+						{
+							currentWordScore += squares[y][x].getTile().getValue();
+							x++;
+						}
+					}
+
+					if(!squares[y][x].isEmpty())
+					{
+						currentWordScore += squares[y][x].getTile().getValue();
+						x++;
+						index--;
+					}
+					else
+					{
+						multiplier(squares[y][x].getValue());
+						currentWordScore += (stringTiles.get(index).getValue() * letterMultiplier);
+						letterMultiplier = 1;
+						x++;
+
+						if(index == stringTiles.size() -1)
+						{
+							currentWordScore *= wordMultiplier;
+							score += currentWordScore;
+						}
+					}
+				}
+			}
+			else if(direction.equals("down"))
+			{
+				if(!last)
+				{
+					if(squares[y][x].isEmpty())      //need to figure out
+					{
+							if (x != 0)     //these two groups of if statements check if their is a word on the line
+							{
+								if (squares[y][x-1].isEmpty() == false)
+								{
+									word = true;
+								}
+							}
+
+							if (x != 14)
+							{
+								if (squares[y][x + 1].isEmpty() == false)
+								{
+									word = true;
+								}
+							}
+
+							if(word)
+							{
+								multiplier(squares[y][x].getValue());
+								x = rewind('r',x,y);
+								
+								while(x < 15 && !end)
+								{
+									if(squares[y][x].isEmpty())
+									{
+										end = true;
+									}
+									else 
+									{
+										
+										if(x == gridx)
+										{
+											currentWordScore += (stringTiles.get(index).getValue() * letterMultiplier);
+										}
+										else
+										{
+											currentWordScore += squares[y][x].getTile().getValue();
+										}
+										x++;
+									}
+								}
+								score += (currentWordScore * wordMultiplier);
+								currentWordScore = 0;
+								wordMultiplier = 1;
+								letterMultiplier = 1;
+								x = gridx;
+								y++;
+								end = false;
+
+								if(index == stringTiles.size() -1)
+								{
+									index = -1; //resets loop
+									last = true;
+								}
+							}
+					}
+					else
+					{
+						index--; //-- to counteract the ++ in loop
+						y++; //moves across the taken letter
+					}
+				}
+				else
+				{
+					y = gridy;
+					y = rewind('d',x,y);
+					
+					while(y < gridy && !end)    //end = false before it gets to last so this only runs once aka until the placed letters
+					{
+						if(squares[y][x].isEmpty())
+						{
+							end = true;
+						}
+						else 
+						{
+							currentWordScore += squares[y][x].getTile().getValue();
+							y++;
+						}
+					}
+
+					if(!squares[y][x].isEmpty())
+					{
+						currentWordScore += squares[y][x].getTile().getValue();
+						y++;
+						index--;
+					}
+					else
+					{
+						multiplier(squares[y][x].getValue());
+						currentWordScore += (stringTiles.get(index).getValue() * letterMultiplier);
+						letterMultiplier = 1;
+						y++;
+
+						if(index == stringTiles.size() -1)
+						{
+							currentWordScore *= wordMultiplier;
+							score += currentWordScore;
+						}
+					}
+				}
+			}
+		}
+
+
+		if(stringTiles.size() == 7)
+		{
+			score +=50;
+		}
+
+		//////////////////////////////////////////////////////
+		return score;
+	}
+
+	void multiplier(String m)
+	{
+		switch(m)
+		{
+			case "3W": wordMultiplier *= 3;
+					break;
+			case "3L": letterMultiplier = 3;
+					break;
+			case "2W": wordMultiplier *= 2;
+					break;
+			case "2L": letterMultiplier = 2; //need to change for main word
+					break;
+			default: break;
+
+		}
+	}
+
+	int rewind(char direction, int x, int y)
+	{
+		boolean done = false;
+		if(direction == 'd')
+		{
+			while(y >= 0 && !done)
+			{
+				if(squares[y][x].isEmpty())
+				{
+					done = true;
+				}
+				else 
+				{
+					y--;
+				}
+			}
+
+			return y+1;
+		}
+		else
+		{
+			while(x >= 0 && !done)
+			{
+				if(squares[y][x].isEmpty())
+				{
+					done = true;
+				}
+				else
+				{
+					x--;
+				}
+			}
+
+			return x+1;
+		}
+	}
 }
