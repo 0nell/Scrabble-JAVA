@@ -26,42 +26,115 @@ public class Scrabble {
 		player2.getFrame().refill(pool);
 		
 		Player p;
-		String word, direction;
+		String word, direction, command, letters;
+		int loop_breaker = 0;
+		int loop_breaker2 = 0;
 		int x, y;
+		
 		//game ends when pool is empty & one player has no tiles left || no possible plays
+		outerloop:
 		while (!pool.isEmpty()&&(!player1.getFrame().isEmpty()||!player2.getFrame().isEmpty())) {
 			System.out.println("\nGAME ON");
 			Board board = new Board();
 			board.printBoard();
-	
+			loop_breaker = 0;
+			loop_breaker2 = 0;
+			
+			
 			p = player1;
-			System.out.println(player1.getFrame());
-			System.out.println(player1.getName() + " insert word: ");
-			word = scan.next();
-			System.out.println(player1.getName() + " insert x coordinate: ");
-			scan.nextLine();
-			x = scan.nextInt();
-			System.out.println(player1.getName() + " insert y coordinate: ");
-			y = scan.nextInt();
-			System.out.println(player1.getName() + " insert direction: ");
-			direction = scan.next();
-			System.out.println(x + word + direction + y);
-			board.placeWord(p, word, x, y, direction);
-			board.printBoard();
+			innerloop:
+			while (loop_breaker == 0) {
+				
+				System.out.println(player1.getFrame());
+				System.out.println(player1.getName() + " insert command: ");
+				command = scan.next();
+				if (!command.equals("QUIT") && !command.equals("PASS") && !command.equals("HELP")) {
+					System.out.println(player1.getName() + " insert x coordinate: ");
+					scan.nextLine();
+					x = scan.nextInt();
+					System.out.println(player1.getName() + " insert y coordinate: ");
+					y = scan.nextInt();
+					System.out.println(player1.getName() + " insert direction: ");
+					direction = scan.next();
+					System.out.println(player1.getName() + " insert word: ");
+					word = scan.next();
+					
+					System.out.println(x + word + direction + y);
+					board.placeWord(p, word, x, y, direction);
+					board.printBoard();
+					loop_breaker = 1;
+				}
+				
+				if (command.equals("QUIT")) {
+					break outerloop;
+				}
+
+				if (command.equals("HELP")) {
+					System.out.println("Display help message here");
+					
+				}
+				
+				if (command.equals("PASS")) {
+					break innerloop;
+				}
+				
+				if(command.equals("EXCHANGE")) {
+					System.out.println(player1.getName() + " what letters do you want exchanged? ");
+					letters = scan.next();
+					player1.getFrame().remove(letters);
+					player1.getFrame().refill(pool);
+					loop_breaker = 1;
+				}
+				
+			}
+			
 			
 			p= player2;
-			System.out.println(player2.getFrame());
-			System.out.println(player2.getName() + " insert word: ");
-			word = scan.next();
-			System.out.println(player2.getName() + " insert x coordinate: ");
-			x = scan.nextInt();
-			System.out.println(player2.getName() + " insert y coordinate: ");
-			y = scan.nextInt();
-			System.out.println(player2.getName() + " insert direction: ");
-			direction = scan.next();
-			board.placeWord(p, word, x, y, direction);
-			board.printBoard();
-			break;
+			innerloop:
+			while(loop_breaker2 == 0) {
+				System.out.println(player2.getFrame());
+				System.out.println(player2.getName() + " insert command: ");
+				command = scan.next();
+				if (!command.equals("QUIT") && !command.equals("PASS") && !command.equals("HELP")) {
+					System.out.println(player2.getName() + " insert x coordinate: ");
+					scan.nextLine();
+					x = scan.nextInt();
+					System.out.println(player2.getName() + " insert y coordinate: ");
+					y = scan.nextInt();
+					System.out.println(player2.getName() + " insert direction: ");
+					direction = scan.next();
+					System.out.println(player2.getName() + " insert word: ");
+					word = scan.next();
+					
+					System.out.println(x + word + direction + y);
+					board.placeWord(p, word, x, y, direction);
+					board.printBoard();
+					loop_breaker2 = 1;
+				}
+				
+				if (command.equals("QUIT")) {
+					break outerloop;
+				}
+
+				if (command.equals("HELP")) {
+					System.out.println("Display help message here");
+					
+				}
+				
+				if (command.equals("PASS")) {
+					break innerloop;
+				}
+				
+				if(command.equals("EXCHANGE")) {
+					System.out.println(player2.getName() + " what letters do you want exchanged? ");
+					letters = scan.next();
+					player2.getFrame().remove(letters);
+					player2.getFrame().refill(pool);
+					loop_breaker2 = 1;
+				}
+			}
+			
+			
 			
 		}
 		
