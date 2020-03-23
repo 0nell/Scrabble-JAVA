@@ -1,8 +1,8 @@
 
 
-/**
+/*
  * Team Name: El Cucharachas
- * 
+ *
  * Students:
  * - Ahmed Jouda 	18329393
  * - Sean Mcdonnell 18391961
@@ -19,7 +19,7 @@ public class Square extends Label {
     Square() {
         empty = true;
         value = "  ";
-        this.setPrefSize(60,60);
+        this.setPrefSize(30,30);
         this.setStyle("-fx-font-size: 50; ");
         this.setStyle("-fx-border-color: black;");
     }
@@ -27,7 +27,11 @@ public class Square extends Label {
     void setTile(Tile tile) {
         this.tile = tile;
         this.setEmpty(false);
-        this.setText(String.valueOf(tile.getLetter()));
+        if(tile == null){
+            this.setText("");
+        }
+        else
+            this.setText(String.valueOf(tile.getLetter()));
     }
 
     Tile getTile() {

@@ -1,3 +1,8 @@
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+import static javafx.application.Application.*;
+
 /**
  * Team Name: El Cucharachas
  * 
@@ -7,9 +12,13 @@
  * - Lleno Anya 	18357493
  *
  */
-public class BoardTest {
-
+public class BoardTest extends Application {
 	public static void main(String[] args) {
+		launch(args);
+	}
+
+	@Override
+	public void start(Stage primaryStage) {
 		
 		System.out.println("***************************************************************");
 		System.out.println("\nTEST ONE : CONSTRUCT BOARD & DISPLAY BOARD W/ COORDINATES");
