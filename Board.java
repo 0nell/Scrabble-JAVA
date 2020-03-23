@@ -96,7 +96,7 @@ public class Board {
 
 		score += scoring(p, firstLetterX, firstLetterY, direction, stringTiles);
 		// place on board based on direction specified
-		if (direction.equals("right")) {
+		if (direction.equals("across")) {
 			for (int i = 0; i < stringTiles.size(); i++) {
 				squares[firstLetterY][firstLetterX].setTile(stringTiles.get(i));
 				firstLetterX++;
@@ -156,7 +156,7 @@ public class Board {
 
 	// Checks if the first word is being placed in the center
 	boolean checkFirstWord(String word, int x, int y, String direction) {
-		if (direction.equals("right")) {
+		if (direction.equals("across")) {
 			for (int i = 0; i < word.length(); i++) {
 				if (x == 7 && y == 7) {
 					return true;
@@ -179,7 +179,7 @@ public class Board {
 
 	// Checks if the the word being placed connects with previously placed words
 	boolean checkConnects(String word, int x, int y, String direction) {
-		if (direction.equals("right")) {
+		if (direction.equals("across")) {
 			for (int i = 0; i < word.length() && !connects; i++) {
 				if (i == 0 && x != 0) {
 					if (squares[y][x - 1].isEmpty() == false) {
@@ -245,7 +245,7 @@ public class Board {
 	boolean checkConflict(String word, int x, int y, String direction) {
 		Arrays.fill(taken, 0);
 		boolean valid = true;
-		if (direction == "right") {
+		if (direction == "across") {
 			for (int i = 0; i < word.length(); i++) {
 				if (squares[y][x].isEmpty() != true) {
 					if (word.charAt(i) != squares[y][x].getTile().getLetter()) {
@@ -301,7 +301,7 @@ public class Board {
 		if (x > 14 || x < 0 || y < 0 || y > 14) {
 			System.out.println("The word is not within the bounds of the board");
 			return false;
-		} else if (direction == "right" && x + word.length() - 1 > 14) {
+		} else if (direction == "across" && x + word.length() - 1 > 14) {
 			System.out.println("The word is not within the bounds of the board");
 			return false;
 		} else if (direction == "down" && y + word.length() - 1 > 14) {
@@ -326,7 +326,7 @@ public class Board {
 		for(int index = 0; index < stringTiles.size();index++) //only for these ones side wordds
 		{
 			word = false;
-			if(direction.equals("right"))
+			if(direction.equals("across"))
 			{
 				if(!last)
 				{
