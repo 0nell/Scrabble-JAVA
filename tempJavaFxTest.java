@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class tempJavaFxTest extends Application {
     Stage window;
     Scene game;
+    UI ui;
 
     public static void main(String[] args) {
         launch(args);
@@ -16,10 +17,10 @@ public class tempJavaFxTest extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        UI ui = new UI();
+        ui = new UI();
         window = primaryStage;
-        game = new Scene(ui.printBoard(), 900, 900);
         runScrabble(ui.getBoard());
+        game = new Scene(ui.printGame(), 650, 550);
         window.setScene(game);
         window.setTitle("Scrabble");
         window.setResizable(false);
@@ -52,6 +53,7 @@ public class tempJavaFxTest extends Application {
         //fill both players frames
         player1.getFrame().refill(pool);
         player2.getFrame().refill(pool);
+        Platform.runLater(() -> ui.setFrame(player1.getFrame()));
 
         Player p;
         String word, direction;

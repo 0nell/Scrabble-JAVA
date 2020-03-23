@@ -1,3 +1,5 @@
+import javafx.scene.Node;
+
 /**
  * Team Name: El Cucharachas
  * 
@@ -7,7 +9,7 @@
  * - Lleno Anya 	18357493
  *
  */
-public class Tile {
+public class Tile extends Node {
 
     private static final int BLANK_VALUE = 0;
     private static final int[] TILE_VALUE = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
@@ -61,4 +63,8 @@ public class Tile {
         }
     }
 
+    @Override
+    public Node getStyleableNode() {
+        return null;
+    }
 }
