@@ -33,7 +33,6 @@ public class UI {
             turn += parseInput(textBox.getText());
             STEP++;
             setFrame(players[turn%2].getFrame());
-            label.setText("Enter command " + players[turn%2].getName());
             textBox.clear();
             if(checkWin()){
                 label.setText("Game Over");
@@ -74,20 +73,24 @@ public class UI {
             frames[i].setText(" ");
         }
         for(int j = 0; j < frame.size(); j++) {
-            frames[j].setText(frame.getTiles().get(j).toString());
+            frames[j].setTile(frame.getTiles().get(j));
         }
     }
 
 
     TilePane printBoard(){
         TilePane tilePane = new TilePane();
-        tilePane.setPrefColumns(15);
-        tilePane.setPrefRows(15);
+        tilePane.setPrefColumns(16);
+        tilePane.setPrefRows(16);
         for(int i = 0; i < 15; i++) {
             for(int j = 0; j < 15; j++) {
                 tilePane.getChildren().add(board.squares[i][j]);
                 tilePane.setTileAlignment(Pos.TOP_LEFT);
             }
+            tilePane.getChildren().add(new Label(Integer.toString(i)));
+        }
+        for (int i = 0; i < 15; i++) {
+            tilePane.getChildren().add(new Label(" "+ i));
         }
         return tilePane;
     }
@@ -119,7 +122,7 @@ public class UI {
             return 0;
         }
         else {
-
+            label.setText("Enter command " + players[(turn+1)%2].getName());
             text = command.split(" ", 0);
             int i = 0;
 
