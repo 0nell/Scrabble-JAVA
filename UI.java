@@ -30,6 +30,7 @@ public class UI {
             turn += parseInput(textBox.getText());
             STEP++;
             setFrame(players[turn%2].getFrame());
+            label.setText("Enter command " + players[turn%2].getName());
             textBox.clear();
         });
         label = new Label("Player 1 insert name: ");
@@ -117,8 +118,8 @@ public class UI {
                     return 0;
                 case "EXCHANGE":
                     String letters = text[++i];
-                    currentPlayer.getFrame().remove(letters);
-                    currentPlayer.getFrame().refill(pool);
+                    players[turn%2].getFrame().remove(letters);
+                    players[turn%2].getFrame().refill(pool);
                     return 1;
                 default:
                     try{
@@ -126,7 +127,7 @@ public class UI {
                     int y = Integer.parseInt(text[i++]);
                     String direction = text[i++];
                     String word = text[i];
-                    board.placeWord(players[turn], word, x, y, direction);
+                    players[turn%2].addScore(board.placeWord(players[turn], word, x, y, direction));
                     return 1;
                     } catch (Exception e){
                         System.out.println(e);
