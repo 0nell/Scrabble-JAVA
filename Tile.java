@@ -1,6 +1,3 @@
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-
 /**
  * Team Name: El Cucharachas
  * 
@@ -10,7 +7,7 @@ import javafx.scene.control.Label;
  * - Lleno Anya 	18357493
  *
  */
-public class Tile extends Label {
+public class Tile{
 
     private static final int BLANK_VALUE = 0;
     private static final int[] TILE_VALUE = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
@@ -21,10 +18,6 @@ public class Tile extends Label {
 
     // Tile precondition: must be uppercase letter
     Tile(char letter) {
-        this.setPrefSize(30,30);
-        this.setStyle("-fx-font-size: 50; ");
-        this.setStyle("-fx-border-color: black;");
-        this.setText(Character.toString(letter));
         if (letter == '_') {
             this.blank = true;
             this.value = BLANK_VALUE;
@@ -69,8 +62,4 @@ public class Tile extends Label {
         }
     }
 
-   /* @Override
-    public Node getStyleableNode() {
-        return null;
-    }*/
 }
