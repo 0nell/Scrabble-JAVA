@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
+
 /**
  * Team Name: El Cucharachas
  * 
@@ -9,22 +9,12 @@ import java.util.Scanner;
  *
  */
 public class Board {
-	Square squares[][];
+	static int[] taken = { 0, 0, 0, 0, 0, 0, 0 }; // needed to check whether word is placed around already paced letter
 	boolean connects = false; // check if placed word connects with other words
 	static String lettersToRemove = ""; // contains letters to remove from player's frame after placement
-	static int taken[] = { 0, 0, 0, 0, 0, 0, 0 }; // needed to check whether word is placed around already paced letter
+	Square[][] squares;
 	static int wordMultiplier = 1;
 	static int letterMultiplier = 1;
-	// Allows board to be reset
-	public void resetBoard() {
-		for (int i = 0; i < 15; i++) {
-			for (int j = 0; j < 15; j++) {
-				squares[i][j].setTile(null);
-				squares[i][j].setEmpty(true);
-			}
-		}
-	}
-
 	// Constructor
 	Board() {
 		squares = new Square[15][15];
@@ -51,7 +41,17 @@ public class Board {
 
 			}
 		}
-		squares[7][7].setValue("**");
+		squares[7][7].setValue("★");
+	}
+
+	// Allows the board to be reset
+	public void resetBoard() {
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 15; j++) {
+				squares[i][j].setTile(null);
+				squares[i][j].setEmpty(true);
+			}
+		}
 	}
 
 	public void printBoard() {
@@ -79,31 +79,32 @@ public class Board {
 	public int placeWord(Player p, String word, int firstLetterX, int firstLetterY, String direction)
 			throws IllegalArgumentException {
 		int score = 0;
-		word = word.toUpperCase(); // in case the user inputed lower case
+		direction = direction.toLowerCase();
+		word = word.toUpperCase(); // in case the user input lower case
 		lettersToRemove = ""; // reset letters to remove
 		// if the word is invalid throw an illegal argument exception
-		if (isValidWord(p, word, firstLetterX, firstLetterY, direction) != true) {
+		if (!isValidWord(p, word, firstLetterX, firstLetterY, direction)) {
 			lettersToRemove = "";
 			throw new IllegalArgumentException("Word is invalid");
 		}
 
 		// Put string (given word) into a tile array list, each letter = 1 tile
-		ArrayList<Tile> stringTiles = new ArrayList<Tile>();			//added whole blank bit
+		ArrayList<Tile> stringTiles = new ArrayList<>();			//added whole blank bit
 		for (int i = 0; i < word.length(); i++) {
 				Tile tempTile = new Tile(word.charAt(i));
 				stringTiles.add(tempTile);
 		}
 
-		score += scoring(p, firstLetterX, firstLetterY, direction, stringTiles);
+		score += scoring(firstLetterX, firstLetterY, direction, stringTiles);
 		// place on board based on direction specified
 		if (direction.equals("across")) {
-			for (int i = 0; i < stringTiles.size(); i++) {
-				squares[firstLetterY][firstLetterX].setTile(stringTiles.get(i));
+			for(Tile stringTile : stringTiles) {
+				squares[firstLetterY][firstLetterX].setTile(stringTile);
 				firstLetterX++;
 			}
 		} else if (direction.equals("down")) {
-			for (int i = 0; i < stringTiles.size(); i++) {
-				squares[firstLetterY][firstLetterX].setTile(stringTiles.get(i));
+			for(Tile stringTile : stringTiles) {
+				squares[firstLetterY][firstLetterX].setTile(stringTile);
 				firstLetterY++;
 			}
 
@@ -120,33 +121,31 @@ public class Board {
 	// Checks if word is valid and returns an indicative result
 	public boolean isValidWord(Player p, String word, int firstLetterX, int firstLetterY, String direction) {
 		boolean valid = true; // boolean to return
-		int x = firstLetterX; // coordinates to place
-		int y = firstLetterY;
 		connects = false;
-		if (checkBounds(word, x, y, direction)) {
+		if (checkBounds(word, firstLetterX, firstLetterY, direction)) {
 			if (squares[7][7].isEmpty()) {
 
 				// test if its the first word being placed is in the center, if not its not
 				// valid
-				if (!checkFirstWord(word, x, y, direction)) {
+				if (!checkFirstWord(word, firstLetterX, firstLetterY, direction)) {
 					valid = false;
 				}
 			}
 
-			if (!checkConflict(word, x, y, direction)) {
+			if (!checkConflict(word, firstLetterX, firstLetterY, direction)) {
 				valid = false;
 
 			}
 
 			// test if players frame contains necessary letters
-			if (p.getFrame().isAvailable(lettersToRemove) != true) {
+			if (!p.getFrame().isAvailable(lettersToRemove)) {
 				System.out.println("The players frame does not contain the letters needed for this word");
 				valid = false;
 			}
 
 			if (!connects && !squares[7][7].isEmpty()) // tests if word connects to another word (only if not first word), if not its not valid
 			{
-				if (!checkConnects(word, x, y, direction)) {
+				if (!checkConnects(word, firstLetterX, firstLetterY, direction)) {
 					valid = false;
 				}
 			}
@@ -183,25 +182,25 @@ public class Board {
 		if (direction.equals("across")) {
 			for (int i = 0; i < word.length() && !connects; i++) {
 				if (i == 0 && x != 0) {
-					if (squares[y][x - 1].isEmpty() == false) {
+					if (!squares[y][x - 1].isEmpty()) {
 						return true;
 					}
 				}
 
 				if (y != 0) {
-					if (squares[y - 1][x].isEmpty() == false) {
+					if (!squares[y - 1][x].isEmpty()) {
 						return true;
 					}
 				}
 
 				if (y != 14) {
-					if (squares[y + 1][x].isEmpty() == false) {
+					if (!squares[y + 1][x].isEmpty()) {
 						return true;
 					}
 				}
 
 				if (i == word.length() - 1 && x != 14) {
-					if (squares[y][x + 1].isEmpty() == false) {
+					if (!squares[y][x + 1].isEmpty()) {
 						return true;
 					}
 				}
@@ -212,25 +211,25 @@ public class Board {
 			for (int i = 0; i < word.length() && !connects; i++) {
 				{
 					if (i == 0 && y != 0) {
-						if (squares[y - 1][x].isEmpty() == false) {
+						if (!squares[y - 1][x].isEmpty()) {
 							return true;
 						}
 					}
 
 					if (x != 0) {
-						if (squares[y][x - 1].isEmpty() == false) {
+						if (!squares[y][x - 1].isEmpty()) {
 							return true;
 						}
 					}
 
 					if (x != 14) {
-						if (squares[y][x + 1].isEmpty() == false) {
+						if (!squares[y][x + 1].isEmpty()) {
 							return true;
 						}
 					}
 
 					if (i == word.length() - 1 && y != 14) {
-						if (squares[y + 1][x].isEmpty() == false) {
+						if (!squares[y + 1][x].isEmpty()) {
 							return true;
 						}
 					}
@@ -246,9 +245,9 @@ public class Board {
 	boolean checkConflict(String word, int x, int y, String direction) {
 		Arrays.fill(taken, 0);
 		boolean valid = true;
-		if (direction == "across") {
+		if (direction.equals("across")) {
 			for (int i = 0; i < word.length(); i++) {
-				if (squares[y][x].isEmpty() != true) {
+				if (!squares[y][x].isEmpty()) {
 					if (word.charAt(i) != squares[y][x].getTile().getLetter()) {
 						System.out.println("Word cannot be placed because it is being placed on top of a letter");
 						valid = false;
@@ -258,9 +257,9 @@ public class Board {
 				}
 				x++;
 			}
-		} else if (direction == "down") {
+		} else if (direction.equals("down")) {
 			for (int i = 0; i < word.length(); i++) {
-				if (squares[y][x].isEmpty() != true) {
+				if (!squares[y][x].isEmpty()) {
 					if (word.charAt(i) != squares[y][x].getTile().getLetter()) {
 						System.out.println("Word cannot be placed because it conflicts with existing letters");
 						valid = false;
@@ -302,17 +301,17 @@ public class Board {
 		if (x > 14 || x < 0 || y < 0 || y > 14) {
 			System.out.println("The word is not within the bounds of the board");
 			return false;
-		} else if (direction == "across" && x + word.length() - 1 > 14) {
+		} else if (direction.equals("across") && x + word.length() - 1 > 14) {
 			System.out.println("The word is not within the bounds of the board");
 			return false;
-		} else if (direction == "down" && y + word.length() - 1 > 14) {
+		} else if (direction.equals("down") && y + word.length() - 1 > 14) {
 			System.out.println("The word is not within the bounds of the board");
 			return false;
 		} else
 			return true;
 	}
 
-	int scoring(Player p, int x, int y, String direction, ArrayList<Tile> stringTiles)
+	int scoring(int x, int y, String direction, ArrayList<Tile> stringTiles)
 	{
 	    wordMultiplier = 1;
 		letterMultiplier = 1;
@@ -320,7 +319,7 @@ public class Board {
 		int currentWordScore = 0;
 		int gridx = x;
 		int gridy = y;
-		boolean word = false;
+		boolean word;
 		boolean end = false;
 		boolean last = false;
 
@@ -335,7 +334,7 @@ public class Board {
 					{
 							if (y != 0)     //these two groups of if statements check if their is a word on the line
 							{
-								if (squares[y - 1][x].isEmpty() == false)
+								if (!squares[y - 1][x].isEmpty())
 								{
 									word = true;
 								}
@@ -343,7 +342,7 @@ public class Board {
 
 							if (y != 14)
 							{
-								if (squares[y + 1][x].isEmpty() == false)
+								if (!squares[y + 1][x].isEmpty())
 								{
 									word = true;
 								}
@@ -443,7 +442,7 @@ public class Board {
 					{
 							if (x != 0)     //these two groups of if statements check if their is a word on the line
 							{
-								if (squares[y][x-1].isEmpty() == false)
+								if (!squares[y][x - 1].isEmpty())
 								{
 									word = true;
 								}
@@ -451,7 +450,7 @@ public class Board {
 
 							if (x != 14)
 							{
-								if (squares[y][x + 1].isEmpty() == false)
+								if (!squares[y][x + 1].isEmpty())
 								{
 									word = true;
 								}

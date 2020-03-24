@@ -198,6 +198,9 @@ public class BoardTest extends Application {
 		board.printBoard();
 		int scoretest = 0;
 		player1.getFrame().refillForTest();
+
+		Player player2 = new Player();
+		player2.getFrame().refillForTest();
 		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
 		System.out.println("\nPlace 'CAT' down");
 		scoretest = board.placeWord(player1, "CAT", 7, 7, "across");
@@ -225,10 +228,11 @@ public class BoardTest extends Application {
 		System.out.println(scoretest);
 		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
 
+		System.out.println("Player's Tiles: "+player2.getFrame() + "\n\n");
 		board.printBoard();
-		scoretest = board.placeWord(player1, "WLW", 7, 7, "down");
+		scoretest = board.placeWord(player2, "WTI", 7, 7, "down");
 		System.out.println(scoretest);
-		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
+		System.out.println("Player's Tiles: "+player2.getFrame() + "\n\n");
 	}
 	
 
