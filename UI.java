@@ -5,7 +5,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 
 
-
+// todo work make blank tiles work
 
 public class UI {
     int STEP = 0;
@@ -44,6 +44,7 @@ public class UI {
         currentPlayer = new Player();
         pool = new Pool();
 
+
         for(int j = 0; j < 7; j++) {
             frames[j] = new Square();
         }
@@ -59,7 +60,7 @@ public class UI {
         if(pass >= 6){
             return true;
         }
-        else return !pool.isEmpty() && (!players[0].getFrame().isEmpty() || !players[1].getFrame().isEmpty());
+        else return !(!pool.isEmpty() && (!players[0].getFrame().isEmpty() || !players[1].getFrame().isEmpty()));
     }
 
     public TilePane getFramePane() {
@@ -69,6 +70,9 @@ public class UI {
 
     public void setFrame(Frame frame) {
         this.frame = frame;
+        for(int i = 0; i < 7; i++){
+            frames[i].setText(" ");
+        }
         for(int j = 0; j < frame.size(); j++) {
             frames[j].setText(frame.getTiles().get(j).toString());
         }
@@ -140,7 +144,8 @@ public class UI {
                     int y = Integer.parseInt(text[i++]);
                     String direction = text[i++];
                     String word = text[i];
-                    players[turn%2].addScore(board.placeWord(players[turn], word, x, y, direction));
+                    players[turn%2].addScore(board.placeWord(players[turn%2], word, x, y, direction));
+                    players[turn%2].getFrame().refill(pool);
                     pass = 0;
                     return 1;
                     } catch (Exception e){
