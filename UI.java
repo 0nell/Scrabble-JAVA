@@ -18,8 +18,11 @@ public class UI {
     String[] text;
     Board board;
     Pool pool;
+
     Player[] players = new Player[2];
     int turn = 0;
+    int pass = 0;
+
     UI(){
         board = new Board();
         textBox = new TextField();
@@ -32,6 +35,9 @@ public class UI {
             setFrame(players[turn%2].getFrame());
             label.setText("Enter command " + players[turn%2].getName());
             textBox.clear();
+            if(checkWin()){
+                label.setText("Game Over");
+            }
         });
         label = new Label("Player 1 insert name: ");
         framePane  = new TilePane();
@@ -49,7 +55,12 @@ public class UI {
 
     }
 
-    
+    boolean checkWin(){
+        if(pass >= 6){
+            return true;
+        }
+        else return !pool.isEmpty() && (!players[0].getFrame().isEmpty() || !players[1].getFrame().isEmpty());
+    }
 
     public TilePane getFramePane() {
         return framePane;
@@ -112,6 +123,7 @@ public class UI {
                 case "QUIT":
                     System.exit(0);
                 case "PASS":
+                    pass++;
                     return 1;
                 case "HELP":
                     label.setText("Display help message here");
@@ -120,6 +132,7 @@ public class UI {
                     String letters = text[++i];
                     players[turn%2].getFrame().remove(letters);
                     players[turn%2].getFrame().refill(pool);
+                    pass = 0;
                     return 1;
                 default:
                     try{
@@ -128,6 +141,7 @@ public class UI {
                     String direction = text[i++];
                     String word = text[i];
                     players[turn%2].addScore(board.placeWord(players[turn], word, x, y, direction));
+                    pass = 0;
                     return 1;
                     } catch (Exception e){
                         System.out.println(e);

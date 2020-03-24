@@ -7,7 +7,6 @@ public class tempJavaFxTest extends Application {
     Scene game;
     UI ui;
 
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -22,8 +21,5 @@ public class tempJavaFxTest extends Application {
         window.setResizable(false);
         window.show();
     }
-
-
-
 
 }
