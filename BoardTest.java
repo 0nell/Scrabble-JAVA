@@ -1,8 +1,6 @@
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import static javafx.application.Application.*;
-
 /**
  * Team Name: El Cucharachas
  * 
@@ -57,7 +55,7 @@ public class BoardTest extends Application {
 		System.out.println("Test Frame made: "+player1.getFrame() + "\n\n");
 		boolean thrown = false;
 		try {
-			board.placeWord(player1, "i", 7, 7, "right");
+			board.placeWord(player1, "i", 7, 7, "across");
 		} catch (IllegalArgumentException e) {
 			thrown = true;
 		}
@@ -66,7 +64,7 @@ public class BoardTest extends Application {
 		System.out.println("Updated Frame: "+player1.getFrame() + "\n\n");	
 		thrown = false;	
 		try {
-			board.placeWord(player1, "z", 7, 8, "right");
+			board.placeWord(player1, "z", 7, 8, "across");
 		} catch (IllegalArgumentException e) {
 			thrown = true;
 		}
@@ -81,13 +79,13 @@ public class BoardTest extends Application {
 		//Check if placement is within the bounds of the board
 		System.out.println("Try place at coordinates 17 & 20:");
 		System.out.println("EXPECTED: \nThe word is not within the bounds of the board" + "\nGOT: ");
-		board.checkBounds("A", 17, 20, "right");
+		board.checkBounds("A", 17, 20, "across");
 		System.out.println("\nTry place at coordinates 1 & 2:");
 		System.out.println("EXPECTED: *nothing as it passes (no error)*" + "\nGOT: ");
-		board.checkBounds("A", 1, 2, "right");
-		System.out.println("\nTry place a 3 letter word right, so not all letters are on the board, at coordinates 13 & 13:");
+		board.checkBounds("A", 1, 2, "across");
+		System.out.println("\nTry place a 3 letter word across, so not all letters are on the board, at coordinates 13 & 13:");
 		System.out.println("EXPECTED: \nThe word is not within the bounds of the board" + "\nGOT: ");
-		board.checkBounds("CAT", 13, 13, "right");
+		board.checkBounds("CAT", 13, 13, "across");
 		
 		System.out.println("\n***************************************************************");
 		System.out.println("\nTEST SIX : CHECK WHETHER PLACEMENT CONFLICTS WITH AN EXISTING LETTER");
@@ -97,7 +95,7 @@ public class BoardTest extends Application {
 		System.out.println("Test Frame made: "+player1.getFrame() + "\n\n");
 		System.out.println("Try place tile 'C' over an empty square at 7,8");
 		try {
-			board.placeWord(player1, "c", 7, 8, "right");
+			board.placeWord(player1, "c", 7, 8, "across");
 		} catch (IllegalArgumentException e) {
 			errorThrown=true;
 		}
@@ -105,7 +103,7 @@ public class BoardTest extends Application {
 		System.out.println("Placed 'C' over empty square which shouldn't throw an error.\nEXPECTED: error thrown = false\nGOT: error thrown =" + errorThrown);
 		System.out.println("\n\nTry place tile 'T' over 'I' at 7,7");
 		try {
-			board.placeWord(player1, "t", 7, 7, "right");
+			board.placeWord(player1, "t", 7, 7, "across");
 		} catch (Exception e) {
 			errorThrown=true;
 		}
@@ -118,13 +116,13 @@ public class BoardTest extends Application {
 		board.resetBoard();
 		System.out.println("Remaining tiles: "+player1.getFrame() + "\n\n");
 		System.out.println("Try place 'WAT' at the center.");
-		board.placeWord(player1, "WAT", 7, 7, "right");
+		board.placeWord(player1, "WAT", 7, 7, "across");
 		board.printBoard();
 		System.out.println("Reset Board. Try place 'NL' at anywhere but the center the center.");
 		board.resetBoard();
 		boolean center = true;
 		try {
-			board.placeWord(player1, "NL", 7, 8, "right");
+			board.placeWord(player1, "NL", 7, 8, "across");
 		} catch (IllegalArgumentException e) {
 			center = false;
 		}
@@ -138,24 +136,24 @@ public class BoardTest extends Application {
 		board.resetBoard();
 		System.out.println("Remaining tiles: "+player1.getFrame() + "\n\n");
 		System.out.println("Place 'N' at the center.");
-		board.placeWord(player1, "N", 7, 7, "right");
+		board.placeWord(player1, "N", 7, 7, "across");
 		board.printBoard();
 		System.out.println("Now try place L somewhere unconnected with N.");
 		boolean connect = true;		
 		try {
-			board.placeWord(player1, "L", 10, 8, "right");
+			board.placeWord(player1, "L", 10, 8, "across");
 		} catch (IllegalArgumentException e) {
 			connect = false;
 		}
 		System.out.println("It fails. Its is not connected.\nExpected: false\nGot: "+connect);
 		board.printBoard();
 		System.out.println("Now try place L somewhere connected with N.");
-		board.placeWord(player1, "L", 7, 8, "right");
+		board.placeWord(player1, "L", 7, 8, "across");
 		board.printBoard();
 		System.out.println("It works and L is added.");
 		
 		System.out.println("\n***************************************************************");
-		System.out.println("\nTEST NINE : PLACE WORDS TEST - DOWN & RIGHT");
+		System.out.println("\nTEST NINE : PLACE WORDS TEST - DOWN & across");
 		System.out.println("\n***************************************************************");
 		//reset the board to start fresh & refill frame
 		board.resetBoard();
@@ -164,8 +162,8 @@ public class BoardTest extends Application {
 		System.out.println("\nTest to place 'CAT' down");
 		board.placeWord(player1, "CAT", 7, 7, "down");
 		board.printBoard();
-		System.out.println("\nTest to place 'TIN' right");
-		board.placeWord(player1, "TIN", 7, 9, "right");
+		System.out.println("\nTest to place 'TIN' across");
+		board.placeWord(player1, "TIN", 7, 9, "across");
 		board.printBoard();
 
 		System.out.println("\n***************************************************************");
