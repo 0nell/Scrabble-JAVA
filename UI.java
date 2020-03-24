@@ -1,5 +1,4 @@
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -7,8 +6,10 @@ import javafx.scene.layout.TilePane;
 
 
 
+
 public class UI {
-    Scene game;
+    int STEP = 0;
+    Square[] frames = new Square[7];
     TextField textBox;
     Player currentPlayer;
     TilePane framePane;
@@ -16,65 +17,51 @@ public class UI {
     Label label;
     String[] text;
     Board board;
-    Pool tempPool;
-
+    Pool pool;
+    Player[] players = new Player[2];
+    int turn = 0;
     UI(){
         board = new Board();
         textBox = new TextField();
-        textBox.setOnAction(e->parseInput(textBox.getText()));
-        label = new Label("Enter text");
+        players[0] = new Player();
+        players[1] = new Player();
+
+        textBox.setOnAction(e->{
+            turn += parseInput(textBox.getText());
+            STEP++;
+            setFrame(players[turn%2].getFrame());
+            textBox.clear();
+        });
+        label = new Label("Player 1 insert name: ");
         framePane  = new TilePane();
         currentPlayer = new Player();
-        tempPool = new Pool();
+        pool = new Pool();
 
         for(int j = 0; j < 7; j++) {
-            framePane.getChildren().add(new Tile('_'));
+            frames[j] = new Square();
+        }
+        for(int j = 0; j < 7; j++) {
+            framePane.getChildren().add(frames[j]);
             framePane.setTileAlignment(Pos.TOP_LEFT);
         }
 
 
     }
 
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
+    
 
     public TilePane getFramePane() {
         return framePane;
     }
 
-    public Frame getFrame() {
-
-        return frame;
-    }
 
     public void setFrame(Frame frame) {
         this.frame = frame;
-        framePane.getChildren().removeAll(framePane.getChildren());
         for(int j = 0; j < frame.size(); j++) {
-            framePane.getChildren().add(getFrame().getTiles().get(j));
+            frames[j].setText(frame.getTiles().get(j).toString());
         }
     }
 
-    public Label getLabel() {
-        return label;
-    }
-
-    public String[] getText() {
-        return text;
-    }
-
-    public void setText(String[] text) {
-        this.text = text;
-    }
-
-    public Board getBoard() {
-        return board;
-    }
 
     TilePane printBoard(){
         TilePane tilePane = new TilePane();
@@ -99,43 +86,56 @@ public class UI {
         gridPane.add(getFramePane(), 0,4);
         return gridPane;
     }
-    TilePane printFrame(){
-        return framePane;
-    }
-
-    void parseInput(String command){
-        text = command.split(" ", 0);
-        int i = 0;
-        if (!text[i].equals("QUIT") && !text[i].equals("PASS") && !text[i].equals("HELP") && !text[i].equals("EXCHANGE")) {
-            i++;
-            int x = Integer.parseInt(text[i++]);
-            int y = Integer.parseInt(text[i++]);
-            String direction = text[i++];
-            String word = text[i++];
 
 
-            board.placeWord(currentPlayer, word, x, y, direction);
-            board.printBoard();
-
+    int parseInput(String command){
+        if(STEP == 0){
+            label.setText("Player 2 insert name: ");
+            players[0].setName(command);
+            players[0].getFrame().refill(pool);
+            return 0;
         }
-
-        if (text[i].equals("QUIT")) {
-            System.exit(0);
+        else if(STEP == 1){
+            label.setText("Enter command " + players[turn%2].getName());
+            players[1].setName(command);
+            players[1].getFrame().refill(pool);
+            setFrame(players[turn].getFrame());
+            return 0;
         }
+        else {
 
-        if (text[i].equals("HELP")) {
-            label.setText("Display help message here");
+            text = command.split(" ", 0);
+            int i = 0;
 
-        }
+            switch(text[i]) {
+                case "QUIT":
+                    System.exit(0);
+                case "PASS":
+                    return 1;
+                case "HELP":
+                    label.setText("Display help message here");
+                    return 0;
+                case "EXCHANGE":
+                    String letters = text[++i];
+                    currentPlayer.getFrame().remove(letters);
+                    currentPlayer.getFrame().refill(pool);
+                    return 1;
+                default:
+                    try{
+                    int x = Integer.parseInt(text[i++]);
+                    int y = Integer.parseInt(text[i++]);
+                    String direction = text[i++];
+                    String word = text[i];
+                    board.placeWord(players[turn], word, x, y, direction);
+                    return 1;
+                    } catch (Exception e){
+                        System.out.println(e);
+                    }
+                    return  0;
+            }
 
-        if (text[i].equals("PASS")) {
-            return;
-        }
 
-        if(text[i].equals("EXCHANGE")) {
-            String letters =  text[i++];
-            currentPlayer.getFrame().remove(letters);
-            currentPlayer.getFrame().refill(tempPool);
+
         }
     }
 }
