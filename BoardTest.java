@@ -26,7 +26,7 @@ public class BoardTest extends Application {
 		//Print / Display board with coordinates
 		System.out.println("EXPECTED: Full Scrabble board with square values and coordinates.\nGOT:");
 		board.printBoard();
-		
+
 		System.out.println("\n***************************************************************");
 		System.out.println("\nTEST TWO : PLACES & STORES CURRENT TILE POSITIONS");
 		System.out.println("\n***************************************************************");
@@ -185,6 +185,50 @@ public class BoardTest extends Application {
 		}
 		System.out.println("Placed 'CAT'over 'CAT' which should return an error.\nEXPECTED: error thrown = true\nGOT: error thrown ="+used);
 		board.printBoard();
+
+
+
+
+
+		System.out.println("\n***************************************************************");
+		System.out.println("\nTEST 11 : USED FOR TESTS OF BOARD FUNCTIONAITY EXTRA");
+		System.out.println("\n***************************************************************");
+		//reset the board to start fresh & refill frame
+		board.resetBoard();
+		board.printBoard();
+		int scoretest = 0;
+		player1.getFrame().refillForTest();
+		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
+		System.out.println("\nPlace 'CAT' down");
+		scoretest = board.placeWord(player1, "CAT", 7, 7, "across");
+		System.out.println(scoretest);
+		board.printBoard();
+		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
+		player1.getFrame().refillForTest();
+		//Trying to put 'CAT' over 'CAT' which uses no new tiles form framE
+		scoretest = board.placeWord(player1, "CAT", 8, 6, "down");
+		System.out.println(scoretest);
+		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
+
+		board.printBoard();
+		scoretest = board.placeWord(player1, "WLWIN", 10, 7, "across");
+		System.out.println(scoretest);
+		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
+
+		board.printBoard();
+		//past this point is simply proof that board placement and score works here even though it does not in scrabble
+		board.resetBoard();
+		board.printBoard();
+		player1.getFrame().refillForTest();
+		//Trying to put 'CAT' over 'CAT' which uses no new tiles form framE
+		scoretest = board.placeWord(player1, "CAT", 7, 7, "across");
+		System.out.println(scoretest);
+		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
+
+		board.printBoard();
+		scoretest = board.placeWord(player1, "WLW", 7, 7, "down");
+		System.out.println(scoretest);
+		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
 	}
 	
 

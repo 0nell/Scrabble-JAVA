@@ -122,7 +122,7 @@ public class Board {
 		boolean valid = true; // boolean to return
 		int x = firstLetterX; // coordinates to place
 		int y = firstLetterY;
-
+		connects = false;
 		if (checkBounds(word, x, y, direction)) {
 			if (squares[7][7].isEmpty()) {
 
@@ -135,6 +135,7 @@ public class Board {
 
 			if (!checkConflict(word, x, y, direction)) {
 				valid = false;
+
 			}
 
 			// test if players frame contains necessary letters
@@ -352,7 +353,7 @@ public class Board {
 							{
 								multiplier(squares[y][x].getValue());
 								y = rewind('d',x,y);
-								
+
 								while(y < 15 && !end)
 								{
 									if(squares[y][x].isEmpty())
@@ -380,57 +381,58 @@ public class Board {
 								y = gridy;
 								x++;
 								end = false;
-
-								if(index == stringTiles.size() -1)
-								{
-									index = -1; //resets loop
-									last = true;
-								}
 							}
+							else{
+								x++;
+							}
+
+						if(index == stringTiles.size() -1)
+						{
+							index = -1; //resets loop
+							last = true;
+							x = gridx;
+							x = rewind('r', x, y);//System.out.println(x);
+						}
 					}
 					else
 					{
-						index--; //-- to counteract the ++ in loop
 						x++; //moves across the taken letter
 					}
 				}
 				else
 				{
-					x = gridx;
-					x = rewind('r',x,y);
-					
-					while(x < gridx && !end)    //end = false before it gets to last so this only runs once aka until the placed letters
+					while(x < gridx)    //end = false before it gets to last so this only runs once aka until the placed letters
 					{
-						if(squares[y][x].isEmpty())
-						{
-							end = true;
-						}
-						else 
-						{
 							currentWordScore += squares[y][x].getTile().getValue();
 							x++;
-						}
 					}
 
-					if(!squares[y][x].isEmpty())
-					{
-						currentWordScore += squares[y][x].getTile().getValue();
-						x++;
-						index--;
-					}
-					else
+					if(squares[y][x].isEmpty())
 					{
 						multiplier(squares[y][x].getValue());
+					}
+
 						currentWordScore += (stringTiles.get(index).getValue() * letterMultiplier);
 						letterMultiplier = 1;
 						x++;
 
 						if(index == stringTiles.size() -1)
 						{
+							end = false;
+							while(x < 15 && !end)
+							{
+								if(squares[y][x].isEmpty())
+								{
+									end = true;
+								}else{
+									currentWordScore += squares[y][x].getTile().getValue();
+									x++;
+								}
+							}
+
 							currentWordScore *= wordMultiplier;
 							score += currentWordScore;
 						}
-					}
 				}
 			}
 			else if(direction.equals("down"))
@@ -487,63 +489,62 @@ public class Board {
 								x = gridx;
 								y++;
 								end = false;
-
-								if(index == stringTiles.size() -1)
-								{
-									index = -1; //resets loop
-									last = true;
-								}
 							}
+							else{
+								y++;
+							}
+
+						if(index == stringTiles.size() -1)
+						{
+							index = -1; //resets loop
+							last = true;
+							y = gridy;
+							y = rewind('d', x, y);
+						}
 					}
 					else
 					{
-						index--; //-- to counteract the ++ in loop
 						y++; //moves across the taken letter
 					}
 				}
 				else
 				{
-					y = gridy;
-					y = rewind('d',x,y);
-					
-					while(y < gridy && !end)    //end = false before it gets to last so this only runs once aka until the placed letters
-					{
-						if(squares[y][x].isEmpty())
-						{
-							end = true;
-						}
-						else 
-						{
-							currentWordScore += squares[y][x].getTile().getValue();
-							y++;
-						}
-					}
-
-					if(!squares[y][x].isEmpty())
+					while(y < gridy) //end = false before it gets to last so this only runs once aka until the placed letters
 					{
 						currentWordScore += squares[y][x].getTile().getValue();
 						y++;
-						index--;
 					}
-					else
+
+					if(squares[y][x].isEmpty())
 					{
 						multiplier(squares[y][x].getValue());
+					}
+
 						currentWordScore += (stringTiles.get(index).getValue() * letterMultiplier);
 						letterMultiplier = 1;
 						y++;
 
 						if(index == stringTiles.size() -1)
 						{
+							end = false;
+							while(y < 15 && !end)
+							{
+								if(squares[y][x].isEmpty())
+								{
+									end = true;
+								}else{
+									currentWordScore += squares[y][x].getTile().getValue();
+									y++;
+								}
+							}
 							currentWordScore *= wordMultiplier;
 							score += currentWordScore;
 						}
-					}
 				}
 			}
 		}
 
-
-		if(stringTiles.size() == 7)
+		if(lettersToRemove.length() == 7)
 		{
 			score +=50;
 		}
@@ -574,35 +575,35 @@ public class Board {
 		boolean done = false;
 		if(direction == 'd')
 		{
-			while(y >= 0 && !done)
+			while(y > 0 && !done)
 			{
-				if(squares[y][x].isEmpty())
-				{
-					done = true;
-				}
-				else 
+				if(!squares[y-1][x].isEmpty())
 				{
 					y--;
 				}
-			}
-
-			return y+1;
-		}
-		else
-		{
-			while(x >= 0 && !done)
-			{
-				if(squares[y][x].isEmpty())
+				else 
 				{
 					done = true;
 				}
-				else
+			}
+
+			return y;
+		}
+		else
+		{
+			while(x > 0 && !done)
+			{
+				if(!squares[y][x - 1].isEmpty())
 				{
 					x--;
 				}
+				else
+				{
+					done = true;
+				}
 			}
 
-			return x+1;
+			return x;
 		}
 	}
 }

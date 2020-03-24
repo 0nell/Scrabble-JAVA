@@ -138,7 +138,9 @@ public class tempJavaFxTest extends Application {
 					word = scan.next();
 					
 					//System.out.println(x + word + direction + y);
+					//Platform.runLater(() -> {
 					board.placeWord(p, word, x, y, direction);
+					//});
 					Player finalP1 = p;
 		            String finalWord1 = word;
 		            int finalX1 = x;

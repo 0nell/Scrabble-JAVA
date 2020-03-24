@@ -69,8 +69,8 @@ public class Tile extends Label {
         }
     }
 
-    @Override
+   /* @Override
     public Node getStyleableNode() {
         return null;
-    }
+    }*/
 }
