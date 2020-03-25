@@ -62,4 +62,9 @@ public class Tile{
         }
     }
 
+    public void setLetter(char letter)      //used for putting symbolic letters on blank tiles
+    {
+        this.letter = letter;
+    }
+
 }

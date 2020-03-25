@@ -30,8 +30,10 @@ public class Frame {
 		return tiles.size() == MAX_TILES;
 	}
 	
-	public boolean isAvailable(String letters) {
+	public String isAvailable(String letters) {
 		boolean found = true;
+		boolean blank = false;
+		String val = "";	//1 = true pass; > 1 = blank true; 0 = false
 		if (letters.length() > tiles.size()) {
 			found = false;
 		}
@@ -41,13 +43,30 @@ public class Frame {
 				Tile tileSought = new Tile(letters.charAt(i));
 				if (copyTiles.contains(tileSought)) {
 					copyTiles.remove(tileSought);
-				}
-				else {
-					found = false;
+				} else {
+					Tile tileSoughtBlank = new Tile('_');
+					if(copyTiles.contains(tileSoughtBlank))
+					{
+						val += "" + i;
+						copyTiles.remove(tileSoughtBlank);
+						blank = true;
+					}
+					else
+					{
+						found = false;
+					}
 				}
 			}
 		}
-		return found;
+		if(found && !blank)
+		{
+			val += "t";
+		}else if(!found)
+		{
+			val += "f";
+		}
+
+		return val;
 	}
 	
 	public ArrayList<Tile> getTiles() {
@@ -71,13 +90,13 @@ public class Frame {
 	//Method used for testing to avoid randomization
 	public void refillForTest() {
 		ArrayList<Tile> draw = new ArrayList<Tile>();
-		Tile tempTile = new Tile('W');
+		Tile tempTile = new Tile('_');
 		draw.add(tempTile);
 		tempTile = new Tile('C');
 		draw.add(tempTile);
 		tempTile = new Tile('A');
 		draw.add(tempTile);
-		tempTile = new Tile('T');
+		tempTile = new Tile('_');
 		draw.add(tempTile);
 		tempTile = new Tile('I');
 		draw.add(tempTile);

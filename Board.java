@@ -15,6 +15,7 @@ public class Board {
 	Square[][] squares;
 	static int wordMultiplier = 1;
 	static int letterMultiplier = 1;
+	static String symbolicBlankLetters = "";
 	// Constructor
 	Board() {
 		squares = new Square[15][15];
@@ -87,15 +88,60 @@ public class Board {
 			lettersToRemove = "";
 			throw new IllegalArgumentException("Word is invalid");
 		}
-
+		/*System.out.println("--------------------------------");
+		System.out.println(symbolicBlankLetters);
+		System.out.println(lettersToRemove);
+		System.out.println(word);
+		for(int i = 0; i < word.length(); i++)
+		{
+			System.out.print(taken[i]);
+		}
+		System.out.println("\n --------------------------------");*/
 		// Put string (given word) into a tile array list, each letter = 1 tile
+		int blankIndex = 0;
+		int lettersToRemoveIndex = 0;
 		ArrayList<Tile> stringTiles = new ArrayList<>();			//added whole blank bit
 		for (int i = 0; i < word.length(); i++) {
-				Tile tempTile = new Tile(word.charAt(i));
+			if(taken[i] == 1)
+			{
+				if(direction.equals("across"))
+				{
+					if(squares[firstLetterY][firstLetterX+i].getTile().isBlank())
+					{
+						Tile tempTile = new Tile('_');
+						tempTile.setLetter(squares[firstLetterY][firstLetterX+i].getTile().getLetter());
+						stringTiles.add(tempTile);
+					}else{
+						Tile tempTile = new Tile(word.charAt(i));
+						stringTiles.add(tempTile);
+					}
+				}else if(direction.equals("down"))
+				{
+					if(squares[firstLetterY+i][firstLetterX].getTile().isBlank())
+					{
+						Tile tempTile = new Tile('_');
+						tempTile.setLetter(squares[firstLetterY+i][firstLetterX].getTile().getLetter());
+						stringTiles.add(tempTile);
+					}else{
+						Tile tempTile = new Tile(word.charAt(i));
+						stringTiles.add(tempTile);
+					}
+				}
+			}else{
+				Tile tempTile = new Tile(lettersToRemove.charAt(lettersToRemoveIndex));
+				if(lettersToRemove.charAt(lettersToRemoveIndex) == '_')
+				{
+					tempTile.setLetter(symbolicBlankLetters.charAt(blankIndex));
+					blankIndex += 1;
+				}
 				stringTiles.add(tempTile);
+				lettersToRemoveIndex += 1;
+			}
 		}
+		symbolicBlankLetters = "";
 
 		score += scoring(firstLetterX, firstLetterY, direction, stringTiles);
+
 		// place on board based on direction specified
 		if (direction.equals("across")) {
 			for(Tile stringTile : stringTiles) {
@@ -138,10 +184,35 @@ public class Board {
 			}
 
 			// test if players frame contains necessary letters
-			if (!p.getFrame().isAvailable(lettersToRemove)) {
+			if (p.getFrame().isAvailable(lettersToRemove).contains("f")) {
 				System.out.println("The players frame does not contain the letters needed for this word");
 				valid = false;
+			}else if(!p.getFrame().isAvailable(lettersToRemove).contains("t"))		//blank placement helper
+			{
+				int num = 0;
+				String val = p.getFrame().isAvailable(lettersToRemove);
+				String temp = "";
+				for(int i = 0;i < val.length(); i++)
+				{
+					temp = "";
+					num = Character.getNumericValue(val.charAt(i));
+					for(int j = 0;j < lettersToRemove.length(); j++)
+					{
+						if(j == num)
+						{
+							symbolicBlankLetters += "" + lettersToRemove.charAt(j);
+							temp += "_";
+						}else
+						{
+							temp += "" + lettersToRemove.charAt(j);
+						}
+					}
+					lettersToRemove = "";
+					lettersToRemove += temp;
+				}
+
 			}
+
 
 			if (!connects && !squares[7][7].isEmpty()) // tests if word connects to another word (only if not first word), if not its not valid
 			{
@@ -282,7 +353,7 @@ public class Board {
 		boolean atLeastOne = false; // placement uses at least one letter from the rack
 		for (int i = 0; i < word.length(); i++) {
 			if (taken[i] == 0) {
-				lettersToRemove += word.charAt(i);
+				lettersToRemove += "" + word.charAt(i);
 				atLeastOne = true; // placement uses at least one letter from the rack
 			} else {
 				connects = true;
@@ -352,10 +423,9 @@ public class Board {
 							{
 								multiplier(squares[y][x].getValue());
 								y = rewind('d',x,y);
-
 								while(y < 15 && !end)
 								{
-									if(squares[y][x].isEmpty())
+									if(squares[y][x].isEmpty() && y != gridy)
 									{
 										end = true;
 									}
@@ -390,7 +460,7 @@ public class Board {
 							index = -1; //resets loop
 							last = true;
 							x = gridx;
-							x = rewind('r', x, y);//System.out.println(x);
+							x = rewind('r', x, y);
 						}
 					}
 					else
@@ -463,7 +533,7 @@ public class Board {
 								
 								while(x < 15 && !end)
 								{
-									if(squares[y][x].isEmpty())
+									if(squares[y][x].isEmpty() && x != gridx)
 									{
 										end = true;
 									}

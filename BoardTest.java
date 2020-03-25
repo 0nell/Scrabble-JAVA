@@ -55,7 +55,7 @@ public class BoardTest extends Application {
 		System.out.println("Test Frame made: "+player1.getFrame() + "\n\n");
 		boolean thrown = false;
 		try {
-			board.placeWord(player1, "i", 7, 7, "across");
+			board.placeWord(player1, "z", 7, 7, "across");
 		} catch (IllegalArgumentException e) {
 			thrown = true;
 		}
@@ -64,10 +64,11 @@ public class BoardTest extends Application {
 		System.out.println("Updated Frame: "+player1.getFrame() + "\n\n");	
 		thrown = false;	
 		try {
-			board.placeWord(player1, "z", 7, 8, "across");
+			board.placeWord(player1, "z", 7, 8, "down");
 		} catch (IllegalArgumentException e) {
 			thrown = true;
 		}
+
 		System.out.println("Placed 'z' which should throw an error as it isn't in the frame.\nEXPECTED: error thrown = true\nGOT: error thrown = " + thrown);
 		board.printBoard();
 		System.out.println("Updated Frame: "+player1.getFrame() + "\n\n");
@@ -108,7 +109,7 @@ public class BoardTest extends Application {
 			errorThrown=true;
 		}
 		System.out.println("Placed 't' over 'I' which should throw an error.\nEXPECTED: error thrown = true\nGOT: error thrown =" + errorThrown);
-		
+		player1.getFrame().refillForTest();
 		System.out.println("\n***************************************************************");
 		System.out.println("\nTEST SEVEN : IF ITS THE 1ST WORD, IT MUST BE AT THE CENTRE");
 		System.out.println("\n***************************************************************");
@@ -148,7 +149,7 @@ public class BoardTest extends Application {
 		System.out.println("It fails. Its is not connected.\nExpected: false\nGot: "+connect);
 		board.printBoard();
 		System.out.println("Now try place L somewhere connected with N.");
-		board.placeWord(player1, "L", 7, 8, "across");
+		board.placeWord(player1, "L", 7, 8, "down");
 		board.printBoard();
 		System.out.println("It works and L is added.");
 		
@@ -223,16 +224,18 @@ public class BoardTest extends Application {
 		board.resetBoard();
 		board.printBoard();
 		player1.getFrame().refillForTest();
-		//Trying to put 'CAT' over 'CAT' which uses no new tiles form framE
-		scoretest = board.placeWord(player1, "CAT", 7, 7, "across");
+		 //Trying to put 'CAT' over 'CAT' which uses no new tiles form framE
+		scoretest = board.placeWord(player1, "A", 7, 7, "across");
 		System.out.println(scoretest);
 		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
 
 		System.out.println("Player's Tiles: "+player2.getFrame() + "\n\n");
 		board.printBoard();
-		scoretest = board.placeWord(player2, "WTI", 7, 7, "down");
+		scoretest = board.placeWord(player2, "N", 7, 8, "down");
 		System.out.println(scoretest);
 		System.out.println("Player's Tiles: "+player2.getFrame() + "\n\n");
+		board.printBoard();
+
 	}
 	
 

@@ -131,7 +131,8 @@ public class UI {
             return 0;
         }
         else {
-            label.setText("Enter command " + players[(turn+1)%2].getName());
+            System.out.println(turn);
+            label.setText("Enter command " + players[(turn)%2].getName());
             text = command.split(" ", 0);
             int i = 0;
 
@@ -175,6 +176,10 @@ public class UI {
                     int y = Integer.parseInt(text[i++]);
                     String direction = text[i++];
                     String word = text[i];
+                    if(word.contains("_"))
+                    {
+                        label.setText("Please enter command BLANK <followed by the letter");
+                    }
                     players[turn%2].addScore(lastScore = board.placeWord(players[turn%2], word, x, y, direction));
                     players[turn%2].getFrame().refill(pool);
                     pass = 0;

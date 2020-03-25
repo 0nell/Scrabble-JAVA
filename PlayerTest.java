@@ -81,7 +81,7 @@ public class PlayerTest {
 		System.out.printf("Expected: true\n");
 		System.out.println(frame);
 		System.out.printf("Expected: empty\n");
-		boolean available = frame.isAvailable("A");
+		boolean available = !frame.isAvailable("A").contains("f");
 		System.out.println(available);
 		System.out.printf("Expected: false\n");
 		frame.refill(pool);          
@@ -98,10 +98,10 @@ public class PlayerTest {
 			drawString = drawString + draw.get(i).toString();
 		}
 		System.out.println(draw);
-		available = frame.isAvailable(drawString.substring(0,6));
+		available = !frame.isAvailable(drawString.substring(0,6)).contains("f");
 		System.out.println(available);
 		System.out.printf("Expected: true\n");
-		available = frame.isAvailable("X");
+		available = !frame.isAvailable("X").contains("f");
 		System.out.println(available);
 		System.out.printf("Expected: false\n");
 		frame.remove(drawString.substring(0,3));
