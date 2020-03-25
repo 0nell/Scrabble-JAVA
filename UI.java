@@ -20,14 +20,14 @@ public class UI {
     String[] text;
     Board board;
     Pool pool;
-    Rectangle2D screenBounds;
+    static  Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
     Player[] players = new Player[2];
     int turn = 0;
     int pass = 0;
 
     UI(){
-        screenBounds = Screen.getPrimary().getBounds();
+
         board = new Board();
         textBox = new TextField();
         players[0] = new Player();
@@ -104,7 +104,6 @@ public class UI {
 
     GridPane printGame(){
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
         gridPane.setVgap(15);
         gridPane.add(printBoard(), 0,0);
         gridPane.add(textBox, 1,4);
