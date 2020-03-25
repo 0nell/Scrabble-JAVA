@@ -7,11 +7,14 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Screen;
 
 
-// todo work make blank tiles work
+
 
 public class UI {
+    static  Rectangle2D screenBounds = Screen.getPrimary().getBounds();
     int STEP = 0;
     Square[] frames = new Square[7];
+    Label score1;
+    Label score2;
     TextField textBox;
     Player currentPlayer;
     TilePane framePane;
@@ -20,11 +23,14 @@ public class UI {
     String[] text;
     Board board;
     Pool pool;
-    static  Rectangle2D screenBounds = Screen.getPrimary().getBounds();
-
+    Label turnLabel;
+    TilePane scores;
     Player[] players = new Player[2];
     int turn = 0;
     int pass = 0;
+    int lastScore = 0; //score of last word placed
+    int player0negative = 0, player1negative = 0;
+    String challenge = null;
 
     UI(){
 
@@ -35,6 +41,9 @@ public class UI {
 
         textBox.setOnAction(e->{
             turn += parseInput(textBox.getText());
+            if(STEP >1){
+                turnLabel.setText("Enter command " + players[(turn)%2].getName());
+            }
             STEP++;
             setFrame(players[turn%2].getFrame());
             textBox.clear();
@@ -44,8 +53,14 @@ public class UI {
                 players[1].addScore(player1negative);
             }
         });
-        label = new Label("Player 1 insert name: ");
+        label = new Label("'HELP' to get instructions");
+        label.setWrapText(true);
+        label.setMaxWidth(200);
         label.setAlignment(Pos.CENTER);
+
+        turnLabel = new Label("Player 1 insert name: ");
+        turnLabel.setAlignment(Pos.CENTER);
+        turnLabel.setMaxSize(200, 50);
         framePane  = new TilePane();
         currentPlayer = new Player();
         pool = new Pool();
@@ -59,7 +74,26 @@ public class UI {
             framePane.setTileAlignment(Pos.TOP_LEFT);
         }
 
+        setScores();
 
+
+
+    }
+
+    public TilePane getScores() {
+        return scores;
+    }
+
+    public void setScores() {
+        scores = new TilePane();
+        scores.setMaxWidth(200);
+        scores.setHgap(25);
+        score1 = new Label();
+
+        score2 = new Label();
+
+        scores.getChildren().add(score1);
+        scores.getChildren().add(score2);
     }
 
     boolean checkWin(){
@@ -73,7 +107,6 @@ public class UI {
         return framePane;
     }
 
-
     public void setFrame(Frame frame) {
         this.frame = frame;
         for(int i = 0; i < 7; i++){
@@ -84,9 +117,9 @@ public class UI {
         }
     }
 
-
     TilePane printBoard(){
         TilePane tilePane = new TilePane();
+        tilePane.setPrefSize(800, 0);
         tilePane.setPrefColumns(16);
         tilePane.setPrefRows(16);
         for(int i = 0; i < 15; i++) {
@@ -94,10 +127,10 @@ public class UI {
                 tilePane.getChildren().add(board.squares[i][j]);
                 tilePane.setTileAlignment(Pos.TOP_LEFT);
             }
-            tilePane.getChildren().add(new Label(Integer.toString(i)));
+            tilePane.getChildren().add(new Label(Integer.toString(i+1)));
         }
         for (int i = 0; i < 15; i++) {
-            tilePane.getChildren().add(new Label(" "+ i));
+            tilePane.getChildren().add(new Label(" "+ (char)(i+65)));
         }
         return tilePane;
     }
@@ -106,32 +139,33 @@ public class UI {
         GridPane gridPane = new GridPane();
         gridPane.setVgap(15);
         gridPane.add(printBoard(), 0,0);
-        gridPane.add(textBox, 1,4);
-        gridPane.add(label, 1,0);
+        gridPane.add(textBox, 2,4);
+        gridPane.add(label, 2,1);
+        gridPane.add(turnLabel, 2, 2);
         gridPane.add(getFramePane(), 0,4);
+        gridPane.add(getScores(), 2, 0);
         return gridPane;
     }
-    
-    int lastScore = 0; //score of last word placed
-    int player0negative = 0, player1negative = 0;
-    String challenge = null;
 
     int parseInput(String command){
         if(STEP == 0){
-            label.setText("Player 2 insert name: ");
+            turnLabel.setText("Player 2 insert name: ");
             players[0].setName(command);
             players[0].getFrame().refill(pool);
+            score1.setText(players[0].getName() + "\n"+ players[0].getScore());
+
             return 0;
         }
         else if(STEP == 1){
-            label.setText("Enter command " + players[turn%2].getName());
+            turnLabel.setText("Enter command " + players[turn%2].getName());
             players[1].setName(command);
             players[1].getFrame().refill(pool);
             setFrame(players[turn].getFrame());
+            score2.setText(players[1].getName() + "\n"+ players[1].getScore());
             return 0;
         }
         else {
-            label.setText("Enter command " + players[(turn)%2].getName());
+
             text = command.split(" ", 0);
             int i = 0;
 
@@ -180,18 +214,23 @@ public class UI {
                     try{
                         String gridRef = text[i++];
                         char xGridRef = gridRef.charAt(0);
-                        int y = Character.getNumericValue(gridRef.charAt(1));
-                        String direction = text[i++];
-                        String word = text[i];
+                        String yCoord = gridRef.substring(1);
+                        int y = Integer.parseInt(yCoord) - 1;
+                    String direction = text[i++];
+                    String word = text[i];
 
-                        players[turn%2].addScore(lastScore = board.placeWord(players[turn%2], word, xGridRef, y, direction));
-                        players[turn%2].getFrame().refill(pool);
-                        pass = 0;
-                        return 1;
-                        } catch (Exception e){
-                            System.out.println(e);
-                        }
-                        return  0;
+                    players[turn%2].addScore(lastScore = board.placeWord(players[turn%2], word, xGridRef, y, direction));
+
+
+                    score1.setText(players[0].getName() + "\n"+ players[0].getScore());
+                    score2.setText(players[1].getName() + "\n"+ players[1].getScore());
+                    players[turn%2].getFrame().refill(pool);
+                    pass = 0;
+                    return 1;
+                    } catch (Exception e){
+                        System.out.println(e);
+                    }
+                    return  0;
             }
         }
     }
