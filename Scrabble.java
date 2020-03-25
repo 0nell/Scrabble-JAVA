@@ -1,5 +1,7 @@
 import javafx.application.Application;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class Scrabble extends Application {
@@ -16,7 +18,8 @@ public class Scrabble extends Application {
 		ui = new UI();
 		window = primaryStage;
 		game = new Scene(ui.printGame(), 1000, 900);
-
+		Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+		System.out.println(screenBounds);
 		window.setScene(game);
 		window.setTitle("Scrabble");
 
