@@ -11,18 +11,22 @@
  */
 
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
+import javafx.stage.Screen;
 
 public class Square extends Label {
     private boolean empty;
     private Tile tile;
     String value;
+    Rectangle2D screenBounds;
 
     Square() {
+        screenBounds = Screen.getPrimary().getBounds();
         empty = true;
         value = "  ";
-        this.setPrefSize(50,50);
-        this.setStyle("-fx-font-size: 70; ");
+        this.setPrefSize(screenBounds.getHeight()/21.6,screenBounds.getHeight()/21.6);
+        this.setStyle("-fx-font-size: screenBounds.getHeight()/15.4; ");
         this.setStyle("-fx-background-color: rgb(216, 226, 238); -fx-text-fill: black; -fx-border-color: black;");
         this.setAlignment(Pos.CENTER);
     }
