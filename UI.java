@@ -77,7 +77,10 @@ public class UI {
         }
     }
 
+    Label[] coord = new Label[15];
+    void setCoord(){
 
+    }
     TilePane printBoard(){
         TilePane tilePane = new TilePane();
         tilePane.setPrefColumns(16);
@@ -87,7 +90,9 @@ public class UI {
                 tilePane.getChildren().add(board.squares[i][j]);
                 tilePane.setTileAlignment(Pos.TOP_LEFT);
             }
-            tilePane.getChildren().add(new Label(Integer.toString(i)));
+            coord[i] = new Label();
+            coord[i].setText(Integer.toString(i));
+            tilePane.getChildren().add(coord[i]);
         }
         for (int i = 0; i < 15; i++) {
             tilePane.getChildren().add(new Label(" "+ i));
