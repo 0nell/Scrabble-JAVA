@@ -17,9 +17,10 @@ public class Scrabble extends Application {
 	public void start(Stage primaryStage) {
 		ui = new UI();
 		window = primaryStage;
-		game = new Scene(ui.printGame(), 1000, 900);
 		Rectangle2D screenBounds = Screen.getPrimary().getBounds();
-		System.out.println(screenBounds);
+		game = new Scene(ui.printGame(), screenBounds.getWidth()/1.92, screenBounds.getHeight()/1.2);
+
+
 		window.setScene(game);
 		window.setTitle("Scrabble");
 

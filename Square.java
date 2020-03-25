@@ -9,8 +9,9 @@
  * - Lleno Anya 	18357493
  *
  */
+
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.text.TextAlignment;
 
 public class Square extends Label {
     private boolean empty;
@@ -21,9 +22,9 @@ public class Square extends Label {
         empty = true;
         value = "  ";
         this.setPrefSize(50,50);
-        this.setStyle("-fx-font-size: 50; ");
+        this.setStyle("-fx-font-size: 70; ");
         this.setStyle("-fx-background-color: rgb(216, 226, 238); -fx-text-fill: black; -fx-border-color: black;");
-        this.setTextAlignment(TextAlignment.CENTER);
+        this.setAlignment(Pos.CENTER);
     }
 
     void setTile(Tile tile) {
