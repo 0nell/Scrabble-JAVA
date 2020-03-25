@@ -149,11 +149,18 @@ public class UI {
                     		+ "- To quit game, enter QUIT");
                     return 0;
                 case "EXCHANGE":
-                    String letters = text[++i];
-                    players[turn%2].getFrame().remove(letters);
-                    players[turn%2].getFrame().refill(pool);
-                    pass = 0;
-                    return 1;
+                    if(pool.size() < 7)
+                {
+                    label.setText("Cannot exchange\n" +
+                            "There are less than 7 tiles left in the pool");
+                    return 0;
+                }else {
+                        String letters = text[++i];
+                        players[turn % 2].getFrame().remove(letters);
+                        players[turn % 2].getFrame().refill(pool);
+                        pass = 0;
+                        return 1;
+                    }
                 case "CHALLENGE":
                     label.setText("Previous word has been challenged" +
                     		"\nLast Score was: " + lastScore + "\nIs it a correct word? (YES / NO)");
@@ -174,27 +181,18 @@ public class UI {
                         String gridRef = text[i++];
                         char xGridRef = gridRef.charAt(0);
                         int y = Character.getNumericValue(gridRef.charAt(1));
-                        //then would obvo pass xGridRef in with y and delete the two lines below
-                   // int x = Integer.parseInt(text[i++]);
-                   // int y = Integer.parseInt(text[i++]);
-                    String direction = text[i++];
-                    String word = text[i];
-                    if(word.contains("_"))
-                    {
-                        label.setText("Please enter command BLANK <followed by the letter");
-                    }
-                    players[turn%2].addScore(lastScore = board.placeWord(players[turn%2], word, xGridRef, y, direction));
-                    players[turn%2].getFrame().refill(pool);
-                    pass = 0;
-                    return 1;
-                    } catch (Exception e){
-                        System.out.println(e);
-                    }
-                    return  0;
+                        String direction = text[i++];
+                        String word = text[i];
+
+                        players[turn%2].addScore(lastScore = board.placeWord(players[turn%2], word, xGridRef, y, direction));
+                        players[turn%2].getFrame().refill(pool);
+                        pass = 0;
+                        return 1;
+                        } catch (Exception e){
+                            System.out.println(e);
+                        }
+                        return  0;
             }
-
-
-
         }
     }
 }
