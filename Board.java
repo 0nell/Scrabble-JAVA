@@ -1,3 +1,5 @@
+import javafx.scene.layout.TilePane;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -8,7 +10,7 @@ import java.util.Arrays;
  * 18357493
  *
  */
-public class Board {
+public class Board  extends TilePane {
 	static int[] taken = { 0, 0, 0, 0, 0, 0, 0 }; // needed to check whether word is placed around already paced letter
 	boolean connects = false; // check if placed word connects with other words
 	static String lettersToRemove = ""; // contains letters to remove from player's frame after placement
