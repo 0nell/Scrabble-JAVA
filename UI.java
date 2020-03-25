@@ -1,10 +1,10 @@
-import com.sun.xml.internal.fastinfoset.algorithm.BuiltInEncodingAlgorithm.WordListener;
-
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
+import javafx.stage.Screen;
 
 
 // todo work make blank tiles work
@@ -20,12 +20,14 @@ public class UI {
     String[] text;
     Board board;
     Pool pool;
+    static  Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
     Player[] players = new Player[2];
     int turn = 0;
     int pass = 0;
 
     UI(){
+
         board = new Board();
         textBox = new TextField();
         players[0] = new Player();
@@ -43,6 +45,7 @@ public class UI {
             }
         });
         label = new Label("Player 1 insert name: ");
+        label.setAlignment(Pos.CENTER);
         framePane  = new TilePane();
         currentPlayer = new Player();
         pool = new Pool();
@@ -81,9 +84,7 @@ public class UI {
         }
     }
 
-    void setCoord(){
 
-    }
     TilePane printBoard(){
         TilePane tilePane = new TilePane();
         tilePane.setPrefColumns(16);
@@ -103,7 +104,6 @@ public class UI {
 
     GridPane printGame(){
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
         gridPane.setVgap(15);
         gridPane.add(printBoard(), 0,0);
         gridPane.add(textBox, 1,4);
