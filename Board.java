@@ -77,9 +77,11 @@ public class Board {
 
 	// Places the word on the board if it is valid and removes the used tiles from
 	// the Player's frame
-	public int placeWord(Player p, String word, int firstLetterX, int firstLetterY, String direction)
+	public int placeWord(Player p, String word, char alphFirstLetterX, int firstLetterY, String direction)
 			throws IllegalArgumentException {
+		int firstLetterX = 0;
 		int score = 0;
+		firstLetterX = letterGridToIndex(Character.toUpperCase(alphFirstLetterX));
 		direction = direction.toLowerCase();
 		word = word.toUpperCase(); // in case the user input lower case
 		lettersToRemove = ""; // reset letters to remove
@@ -674,5 +676,20 @@ public class Board {
 
 			return x;
 		}
+	}
+
+	int letterGridToIndex(char letterGridRef)
+	{
+		int xGridVal = 0;
+		String alphabet = "ABCDEFGHIJKLMNO";
+		for(int i = 0; i < 15;i++)
+		{
+			if(alphabet.charAt(i) == letterGridRef)
+			{
+				xGridVal = i;
+				break;
+			}
+		}
+		return xGridVal;
 	}
 }

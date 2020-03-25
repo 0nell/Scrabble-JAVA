@@ -131,7 +131,6 @@ public class UI {
             return 0;
         }
         else {
-            System.out.println(turn);
             label.setText("Enter command " + players[(turn)%2].getName());
             text = command.split(" ", 0);
             int i = 0;
@@ -163,15 +162,19 @@ public class UI {
                     if (challenge.equals("YES") && players[turn%2] == players[1]) {
 						player0negative -= lastScore;
 					}
-                    if (challenge.equals("YES") && players[turn%2] == players[0]) {
+                    else if (challenge.equals("YES") && players[turn%2] == players[0]) {
 						player1negative -= lastScore;
 					}
                     else {
                     	label.setText("Challenge failed");
                     }
-                    
+                    return 0;
                 default:
                     try{
+                        //String gridRef = text[i++];
+                        //char xGridRef = gridRef.charAt(0);
+                        //int y = Character.getNumericValue(gridRef.charAt(1));
+                        //then would obvo pass xGridRef in with y and delete the two lines below
                     int x = Integer.parseInt(text[i++]);
                     int y = Integer.parseInt(text[i++]);
                     String direction = text[i++];

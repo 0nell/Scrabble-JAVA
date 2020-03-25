@@ -55,7 +55,7 @@ public class BoardTest extends Application {
 		System.out.println("Test Frame made: "+player1.getFrame() + "\n\n");
 		boolean thrown = false;
 		try {
-			board.placeWord(player1, "z", 7, 7, "across");
+			board.placeWord(player1, "z", 'H', 7, "across");
 		} catch (IllegalArgumentException e) {
 			thrown = true;
 		}
@@ -64,7 +64,7 @@ public class BoardTest extends Application {
 		System.out.println("Updated Frame: "+player1.getFrame() + "\n\n");	
 		thrown = false;	
 		try {
-			board.placeWord(player1, "z", 7, 8, "down");
+			board.placeWord(player1, "z", 'H', 8, "down");
 		} catch (IllegalArgumentException e) {
 			thrown = true;
 		}
@@ -96,7 +96,7 @@ public class BoardTest extends Application {
 		System.out.println("Test Frame made: "+player1.getFrame() + "\n\n");
 		System.out.println("Try place tile 'C' over an empty square at 7,8");
 		try {
-			board.placeWord(player1, "c", 7, 8, "across");
+			board.placeWord(player1, "c", 'H', 8, "across");
 		} catch (IllegalArgumentException e) {
 			errorThrown=true;
 		}
@@ -104,7 +104,7 @@ public class BoardTest extends Application {
 		System.out.println("Placed 'C' over empty square which shouldn't throw an error.\nEXPECTED: error thrown = false\nGOT: error thrown =" + errorThrown);
 		System.out.println("\n\nTry place tile 'T' over 'I' at 7,7");
 		try {
-			board.placeWord(player1, "t", 7, 7, "across");
+			board.placeWord(player1, "t", 'H', 7, "across");
 		} catch (Exception e) {
 			errorThrown=true;
 		}
@@ -117,13 +117,13 @@ public class BoardTest extends Application {
 		board.resetBoard();
 		System.out.println("Remaining tiles: "+player1.getFrame() + "\n\n");
 		System.out.println("Try place 'WAT' at the center.");
-		board.placeWord(player1, "WAT", 7, 7, "across");
+		board.placeWord(player1, "WAT", 'H', 7, "across");
 		board.printBoard();
 		System.out.println("Reset Board. Try place 'NL' at anywhere but the center the center.");
 		board.resetBoard();
 		boolean center = true;
 		try {
-			board.placeWord(player1, "NL", 7, 8, "across");
+			board.placeWord(player1, "NL", 'H', 8, "across");
 		} catch (IllegalArgumentException e) {
 			center = false;
 		}
@@ -137,19 +137,19 @@ public class BoardTest extends Application {
 		board.resetBoard();
 		System.out.println("Remaining tiles: "+player1.getFrame() + "\n\n");
 		System.out.println("Place 'N' at the center.");
-		board.placeWord(player1, "N", 7, 7, "across");
+		board.placeWord(player1, "N", 'H', 7, "across");
 		board.printBoard();
 		System.out.println("Now try place L somewhere unconnected with N.");
 		boolean connect = true;		
 		try {
-			board.placeWord(player1, "L", 10, 8, "across");
+			board.placeWord(player1, "L", 'K', 8, "across");
 		} catch (IllegalArgumentException e) {
 			connect = false;
 		}
 		System.out.println("It fails. Its is not connected.\nExpected: false\nGot: "+connect);
 		board.printBoard();
 		System.out.println("Now try place L somewhere connected with N.");
-		board.placeWord(player1, "L", 7, 8, "down");
+		board.placeWord(player1, "L", 'H', 8, "down");
 		board.printBoard();
 		System.out.println("It works and L is added.");
 		
@@ -161,10 +161,10 @@ public class BoardTest extends Application {
 		player1.getFrame().refillForTest();
 		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
 		System.out.println("\nTest to place 'CAT' down");
-		board.placeWord(player1, "CAT", 7, 7, "down");
+		board.placeWord(player1, "CAT", 'H', 7, "down");
 		board.printBoard();
 		System.out.println("\nTest to place 'TIN' across");
-		board.placeWord(player1, "TIN", 7, 9, "across");
+		board.placeWord(player1, "TIN", 'H', 9, "across");
 		board.printBoard();
 
 		System.out.println("\n***************************************************************");
@@ -175,12 +175,12 @@ public class BoardTest extends Application {
 		player1.getFrame().refillForTest();
 		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
 		System.out.println("\nPlace 'CAT' down");
-		board.placeWord(player1, "CAT", 7, 7, "down");
+		board.placeWord(player1, "CAT", 'H', 7, "down");
 		board.printBoard();
 		boolean used = false;
 		//Trying to put 'CAT' over 'CAT' which uses no new tiles form frame
 		try {
-			board.placeWord(player1, "CAT", 7, 7, "down");
+			board.placeWord(player1, "CAT", 'H', 7, "down");
 		} catch (IllegalArgumentException e) {
 			used = true;
 		}
@@ -204,18 +204,18 @@ public class BoardTest extends Application {
 		player2.getFrame().refillForTest();
 		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
 		System.out.println("\nPlace 'CAT' down");
-		scoretest = board.placeWord(player1, "CAT", 7, 7, "across");
+		scoretest = board.placeWord(player1, "CAT", 'H', 7, "across");
 		System.out.println(scoretest);
 		board.printBoard();
 		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
 		player1.getFrame().refillForTest();
 		//Trying to put 'CAT' over 'CAT' which uses no new tiles form framE
-		scoretest = board.placeWord(player1, "CAT", 8, 6, "down");
+		scoretest = board.placeWord(player1, "CAT", 'I', 6, "down");
 		System.out.println(scoretest);
 		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
 
 		board.printBoard();
-		scoretest = board.placeWord(player1, "WLWIN", 10, 7, "across");
+		scoretest = board.placeWord(player1, "WLWIN", 'K', 7, "across");
 		System.out.println(scoretest);
 		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
 
@@ -225,13 +225,13 @@ public class BoardTest extends Application {
 		board.printBoard();
 		player1.getFrame().refillForTest();
 		 //Trying to put 'CAT' over 'CAT' which uses no new tiles form framE
-		scoretest = board.placeWord(player1, "A", 7, 7, "across");
+		scoretest = board.placeWord(player1, "A", 'H', 7, "across");
 		System.out.println(scoretest);
 		System.out.println("Player's Tiles: "+player1.getFrame() + "\n\n");
 
 		System.out.println("Player's Tiles: "+player2.getFrame() + "\n\n");
 		board.printBoard();
-		scoretest = board.placeWord(player2, "N", 7, 8, "down");
+		scoretest = board.placeWord(player2, "N", 'H', 8, "down");
 		System.out.println(scoretest);
 		System.out.println("Player's Tiles: "+player2.getFrame() + "\n\n");
 		board.printBoard();
