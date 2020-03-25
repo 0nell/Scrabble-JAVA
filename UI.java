@@ -171,19 +171,19 @@ public class UI {
                     return 0;
                 default:
                     try{
-                        //String gridRef = text[i++];
-                        //char xGridRef = gridRef.charAt(0);
-                        //int y = Character.getNumericValue(gridRef.charAt(1));
+                        String gridRef = text[i++];
+                        char xGridRef = gridRef.charAt(0);
+                        int y = Character.getNumericValue(gridRef.charAt(1));
                         //then would obvo pass xGridRef in with y and delete the two lines below
-                    int x = Integer.parseInt(text[i++]);
-                    int y = Integer.parseInt(text[i++]);
+                   // int x = Integer.parseInt(text[i++]);
+                   // int y = Integer.parseInt(text[i++]);
                     String direction = text[i++];
                     String word = text[i];
                     if(word.contains("_"))
                     {
                         label.setText("Please enter command BLANK <followed by the letter");
                     }
-                    players[turn%2].addScore(lastScore = board.placeWord(players[turn%2], word, x, y, direction));
+                    players[turn%2].addScore(lastScore = board.placeWord(players[turn%2], word, xGridRef, y, direction));
                     players[turn%2].getFrame().refill(pool);
                     pass = 0;
                     return 1;
