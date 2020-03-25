@@ -1,3 +1,5 @@
+import com.sun.xml.internal.fastinfoset.algorithm.BuiltInEncodingAlgorithm.WordListener;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -36,6 +38,8 @@ public class UI {
             textBox.clear();
             if(checkWin()){
                 label.setText("Game Over");
+                players[0].addScore(player0negative);
+                players[1].addScore(player1negative);
             }
         });
         label = new Label("Player 1 insert name: ");
@@ -107,7 +111,10 @@ public class UI {
         gridPane.add(getFramePane(), 0,4);
         return gridPane;
     }
-
+    
+    int lastScore = 0; //score of last word placed
+    int player0negative = 0, player1negative = 0;
+    String challenge = null;
 
     int parseInput(String command){
         if(STEP == 0){
@@ -135,7 +142,11 @@ public class UI {
                     pass++;
                     return 1;
                 case "HELP":
-                    label.setText("Display help message here");
+                    label.setText("- To place words enter: <x-coordinate> <y-coordinate> <across/down> <word>\n"
+                    		+ "- To Exchange letters, enter: EXCHANGE <letters to exchange>\n"
+                    		+ "- To pass turn, enter: PASS\n"
+                    		+ "- To challenge previous word, enter CHALLENGE\n"
+                    		+ "- To quit game, enter QUIT");
                     return 0;
                 case "EXCHANGE":
                     String letters = text[++i];
@@ -143,13 +154,28 @@ public class UI {
                     players[turn%2].getFrame().refill(pool);
                     pass = 0;
                     return 1;
+                case "CHALLENGE":
+                    label.setText("Previous word has been challenged" +
+                    		"\nLast Score was: " + lastScore + "\nIs it a correct word? (YES / NO)");
+                    
+                    challenge = "YES";
+                    if (challenge.equals("YES") && players[turn%2] == players[1]) {
+						player0negative -= lastScore;
+					}
+                    if (challenge.equals("YES") && players[turn%2] == players[0]) {
+						player1negative -= lastScore;
+					}
+                    else {
+                    	label.setText("Challenge failed");
+                    }
+                    
                 default:
                     try{
                     int x = Integer.parseInt(text[i++]);
                     int y = Integer.parseInt(text[i++]);
                     String direction = text[i++];
                     String word = text[i];
-                    players[turn%2].addScore(board.placeWord(players[turn%2], word, x, y, direction));
+                    players[turn%2].addScore(lastScore = board.placeWord(players[turn%2], word, x, y, direction));
                     players[turn%2].getFrame().refill(pool);
                     pass = 0;
                     return 1;
