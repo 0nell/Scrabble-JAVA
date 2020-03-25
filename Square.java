@@ -20,7 +20,7 @@ public class Square extends Label {
     Square() {
         empty = true;
         value = "  ";
-        this.setPrefSize(30,30);
+        this.setPrefSize(50,50);
         this.setStyle("-fx-font-size: 50; ");
         this.setStyle("-fx-background-color: rgb(216, 226, 238); -fx-text-fill: black; -fx-border-color: black;");
         this.setTextAlignment(TextAlignment.CENTER);
