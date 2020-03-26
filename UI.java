@@ -5,6 +5,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Screen;
+import java.util.ArrayList;
 
 
 
@@ -51,6 +52,50 @@ public class UI {
                 label.setText("Game Over");
                 players[0].addScore(player0negative);
                 players[1].addScore(player1negative);
+                int scoreFromPlayerFrame1 = 0;
+                int scoreFromPlayerFrame2 = 0;
+
+                ArrayList<Tile> temp = players[1].getFrame().getTiles();
+                for(int i = 0; i < players[1].getFrame().size(); i++)
+                {
+                    scoreFromPlayerFrame1 += temp.get(i).getValue();
+                }
+
+
+                temp = players[0].getFrame().getTiles();
+                for(int i = 0; i < players[0].getFrame().size(); i++)
+                {
+                    scoreFromPlayerFrame2 += temp.get(i).getValue();
+                }
+
+
+                if(players[0].getFrame().isEmpty())
+                {
+                    scoreFromPlayerFrame1 *= 2;
+                    players[0].addScore(scoreFromPlayerFrame1);
+                }else if(players[1].getFrame().isEmpty())
+                {
+                    scoreFromPlayerFrame2 *= 2;
+                    players[1].addScore(scoreFromPlayerFrame2);
+
+                }else
+                {
+                    scoreFromPlayerFrame1 *= -1;
+                    scoreFromPlayerFrame2 *= -1;
+                    players[0].addScore(scoreFromPlayerFrame1);
+                    players[1].addScore(scoreFromPlayerFrame2);
+                }
+
+                if(players[0].getScore() > players[1].getScore())
+                {
+                    label.setText(players[0].getName() + " WINS!!!");
+                }else if(players[1].getScore() > players[0].getScore())
+                {
+                    label.setText(players[1].getName() + " WINS!!!");
+                }else
+                {
+                    label.setText(" ITS A TIE!!!");
+                }
             }
         });
         label = new Label("'HELP' to get instructions");
@@ -176,8 +221,9 @@ public class UI {
                     pass++;
                     return 1;
                 case "HELP":
-                    label.setText("- To place words enter: <x-coordinate> <y-coordinate> <across/down> <word>\n"
-                    		+ "- To Exchange letters, enter: EXCHANGE <letters to exchange>\n"
+                    label.setText("- To place words enter: <x-coordinate><y-coordinate> <across/down> <word>\n to use a blank tile simply type the word you want\n" +
+                            "the blank tile will automatically be placed instead of the tile you don't have\n"
+                    		+ "- To Exchange letters, enter: EXCHANGE <letters to exchange>\n with blank tiles represented by an underscore\n"
                     		+ "- To pass turn, enter: PASS\n"
                     		+ "- To challenge previous word, enter CHALLENGE\n"
                     		+ "- To quit game, enter QUIT");
