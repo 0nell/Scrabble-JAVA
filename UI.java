@@ -27,6 +27,7 @@ public class UI {
     Frame currentFrame;
     Label instructionLabel;
     String[] inputText;
+    TilePane boardPane;
     Board board;
     Pool pool;
     Label turnLabel;
@@ -38,6 +39,7 @@ public class UI {
     int player0negative = 0, player1negative = 0;
     int challenge = 0;
 
+
     UI(){
         pool = new Pool();
         board = new Board();
@@ -45,10 +47,11 @@ public class UI {
         players[0] = new Player();
         players[1] = new Player();
 
-        setLabel();
+        setInstructionLabel();
         setTurnLabel();
         setFramePane();
         setScores();
+        setBoardPane();
 
         textBox.setOnAction(e->{
             turn += parseInput(textBox.getText());
@@ -119,7 +122,7 @@ public class UI {
 
     }
 
-    public void setLabel() {
+    public void setInstructionLabel() {
         instructionLabel = new Label("'HELP' to get instructions");
         instructionLabel.setWrapText(true);
         instructionLabel.setMaxWidth(UI.screenBounds.getWidth()/10);
@@ -191,38 +194,41 @@ public class UI {
         this.currentFrame = currentFrame;
         for(int i = 0; i < 7; i++){
             frameHolder[i].setText(" ");
-            frameHolder[i].setStyle("-fx-background-color: rgb(244, 205, 175); -fx-text-fill: black; -fx-border-color: black;");
+            frameHolder[i].setStyle("-fx-background-color: rgb(216, 226, 238); -fx-text-fill: black; -fx-border-color: black;");
         }
-        System.out.println(currentFrame.size());
         for(int j = 0; j < currentFrame.size(); j++) {
             frameHolder[j].setTile(currentFrame.getTiles().get(j));
-
         }
+
     }
 
-    TilePane printBoard(){
-        TilePane tilePane = new TilePane();
-        tilePane.setPrefSize(UI.screenBounds.getWidth()/2.4, 0);
-        tilePane.setPrefColumns(16);
-        tilePane.setPrefRows(16);
+    public TilePane getBoardPane() {
+        return boardPane;
+    }
+
+    void setBoardPane(){
+        boardPane = new TilePane();
+        boardPane.setPrefSize(UI.screenBounds.getWidth()/2.4, 0);
+        boardPane.setPrefColumns(16);
+        boardPane.setPrefRows(16);
         for(int i = 0; i < 15; i++) {
             for(int j = 0; j < 15; j++) {
-                tilePane.getChildren().add(board.squares[i][j]);
-                tilePane.setTileAlignment(Pos.TOP_LEFT);
+                boardPane.getChildren().add(board.squares[i][j]);
+                boardPane.setTileAlignment(Pos.TOP_LEFT);
             }
-            tilePane.getChildren().add(new Label(Integer.toString(i+1))); //Adding the Y co-ordinates
+            boardPane.getChildren().add(new Label(Integer.toString(i+1))); //Adding the Y co-ordinates
         }
         for (int i = 0; i < 15; i++) {
-            tilePane.getChildren().add(new Label(" "+ (char)(i+65))); //Adding the x co-ordinates
+            boardPane.getChildren().add(new Label(" "+ (char)(i+65))); //Adding the x co-ordinates
         }
-        return tilePane;
+
     }
 
     GridPane printGame(){
         GridPane gridPane = new GridPane();
         gridPane.setVgap(15);
         gridPane.add(getScores(), 0, 0);
-        gridPane.add(printBoard(), 0,1);
+        gridPane.add(getBoardPane(), 0,1);
         gridPane.add(getFramePane(), 0,2);
 
         gridPane.add(instructionLabel, 1,1);
