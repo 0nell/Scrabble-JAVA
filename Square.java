@@ -22,7 +22,6 @@ public class Square extends Label {
         empty = true;
         value = "  ";
         this.setPrefSize(UI.screenBounds.getHeight()/22.5,UI.screenBounds.getHeight()/22.5);
-        this.setStyle("-fx-font-size: " + UI.screenBounds.getHeight()+";");
         this.setStyle("-fx-background-color: rgb(216, 226, 238); -fx-text-fill: black; -fx-border-color: black;");
         this.setAlignment(Pos.CENTER);
     }
