@@ -233,7 +233,7 @@ public class UI {
 		command = command.toUpperCase();
 		// If the command is Help it overrides other commands
 		if (command.equals("HELP")) {
-			instructionLabel.setText("- To place words enter: <x-coordinate><y-coordinate> <across/down> <word>\n"
+			instructionLabel.setText("- To place words enter: <x-coordinate><y-coordinate> <across/down> <word>\n Example: 'A1 DOWN HELLO'\n"
 					+ "to use a blank tile simply write the word out and the blank tile will automatically replace the tile not in your frame"
 					+ "- To Exchange letters, enter: EXCHANGE <letters to exchange>\n"
 					+ "Use underscore to represent the blank tile in exchange\n" + "- To pass turn, enter: PASS\n"
@@ -343,7 +343,7 @@ public class UI {
 						pass = 0;
 						return 1;
 					} catch (Exception e) {
-						System.out.println(e);
+						instructionLabel.setText("Invalid input\nType HELP for help");
 					}
 					return 0;
 				}
