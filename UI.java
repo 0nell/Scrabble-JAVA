@@ -29,7 +29,7 @@ public class UI {
     int pass = 0;
     int lastScore = 0; //score of last word placed
     int player0negative = 0, player1negative = 0;
-    String challenge = null;
+    int challenge = 0;
 
     UI(){
         pool = new Pool();
@@ -56,9 +56,8 @@ public class UI {
                 players[0].addScore(player0negative);
                 players[1].addScore(player1negative);
             }
+            pool.drawTiles(86);
         });
-
-
 
 
     }
@@ -135,9 +134,12 @@ public class UI {
         this.currentFrame = currentFrame;
         for(int i = 0; i < 7; i++){
             frameHolder[i].setText(" ");
+            frameHolder[i].setStyle("-fx-background-color: rgb(244, 205, 175); -fx-text-fill: black; -fx-border-color: black;");
         }
+        System.out.println(currentFrame.size());
         for(int j = 0; j < currentFrame.size(); j++) {
             frameHolder[j].setTile(currentFrame.getTiles().get(j));
+
         }
     }
 
@@ -203,6 +205,24 @@ public class UI {
             score2.setText(players[1].getName() + "\n"+ players[1].getScore());
             return 1;
         }
+        else if(challenge == 1){
+            instructionLabel.setText("'HELP' to get instructions");
+            if(command.equals("NO") && players[turn % 2].equals(players[1])) {
+                player0negative -= lastScore;
+                challenge = 0;
+            } else if(command.equals("NO") && players[turn % 2].equals(players[0])) {
+                player1negative -= lastScore;
+                challenge = 0;
+            } else if(command.equals("YES")){
+                challenge = 0;
+            }
+            else{
+                instructionLabel.setText("Incorrect Input\n Does the word exist? (YES / NO)");
+                challenge = 1;
+            }
+
+            return 0;
+        }
         else {
 
             inputText = command.split(" ", 0);
@@ -234,16 +254,10 @@ public class UI {
                     }
                 case "CHALLENGE":
                     instructionLabel.setText("Previous word has been challenged" +
-                            "\nLast Score was: " + lastScore + "\nIs it a correct word? (YES / NO)");
+                            "\nLast Score was: " + lastScore + "\nDoes the word exist? (YES / NO)");
 
-                    challenge = "YES";
-                    if(challenge.equals("YES") && players[turn % 2] == players[1]) {
-                        player0negative -= lastScore;
-                    } else if(challenge.equals("YES") && players[turn % 2] == players[0]) {
-                        player1negative -= lastScore;
-                    } else {
-                        instructionLabel.setText("Challenge failed");
-                    }
+                    challenge = 1;
+
                     return 0;
                 default:
                     try {

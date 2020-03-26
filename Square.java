@@ -31,6 +31,7 @@ public class Square extends Label {
         this.setEmpty(false);
         if(tile == null){
             this.setText("");
+            this.setStyle("-fx-background-color: rgb(216, 226, 238); -fx-text-fill: black; -fx-border-color: black;");
         }
         else
             this.setText(String.valueOf(tile.getLetter()));
