@@ -5,9 +5,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Screen;
+import java.util.ArrayList;
 
 
-
+/**
+ * Team Name: El Cucharachas
+ * 
+ * Students: - Ahmed Jouda 18329393 - Sean Mcdonnell 18391961 - Lleno Anya
+ * 18357493
+ *
+ */
 
 public class UI {
     static  Rectangle2D screenBounds = Screen.getPrimary().getBounds(); // used to make the program proportional to the users screen
@@ -58,8 +65,57 @@ public class UI {
                 instructionLabel.setText("Game Over");
                 players[0].addScore(player0negative);
                 players[1].addScore(player1negative);
+                int scoreFromPlayerFrame1 = 0;
+                int scoreFromPlayerFrame2 = 0;
+
+                ArrayList<Tile> temp = players[1].getFrame().getTiles();
+                for(int i = 0; i < players[1].getFrame().size(); i++)
+                {
+                    scoreFromPlayerFrame1 += temp.get(i).getValue();
+                }
+
+
+                temp = players[0].getFrame().getTiles();
+                for(int i = 0; i < players[0].getFrame().size(); i++)
+                {
+                    scoreFromPlayerFrame2 += temp.get(i).getValue();
+                }
+
+
+                if(players[0].getFrame().isEmpty())
+                {
+                    scoreFromPlayerFrame1 *= 2;
+                    players[0].addScore(scoreFromPlayerFrame1);
+                    score1.setText(players[0].getName() + "\n" + players[0].getScore());
+
+                }else if(players[1].getFrame().isEmpty())
+                {
+                    scoreFromPlayerFrame2 *= 2;
+                    players[1].addScore(scoreFromPlayerFrame2);
+                    score2.setText(players[1].getName() + "\n" + players[1].getScore());
+                }else
+                {
+                    scoreFromPlayerFrame1 *= -1;
+                    scoreFromPlayerFrame2 *= -1;
+                    players[0].addScore(scoreFromPlayerFrame2);
+                    players[1].addScore(scoreFromPlayerFrame1);
+                    score1.setText(players[0].getName() + "\n" + players[0].getScore());
+                    score2.setText(players[1].getName() + "\n" + players[1].getScore());
+                }
+
+                if(players[0].getScore() > players[1].getScore())
+                {
+                    instructionLabel.setText(players[0].getName() + " WINS!!!");
+                }else if(players[1].getScore() > players[0].getScore())
+                {
+                    instructionLabel.setText(players[1].getName() + " WINS!!!");
+                }else
+                {
+                    instructionLabel.setText(" ITS A TIE!!!");
+                }
+                textBox.setOnAction(null);
             }
-            pool.drawTiles(86);
+
         });
 
 
@@ -186,8 +242,10 @@ public class UI {
         command = command.toUpperCase();
         //If the command is HELp it overrides other commands
         if(command.equals("HELP")){
-            instructionLabel.setText("- To place words enter: <x-coordinate> <y-coordinate> <across/down> <word>\n"
-                    + "- To Exchange letters, enter: EXCHANGE <letters to exchange>\n"
+            instructionLabel.setText("- To place words enter: <x-coordinate><y-coordinate> <across/down> <word>\n" +
+                    "to use a blank tile simply write the word out and the blank tile will automatically replace the tile not in your frame"
+                    + "- To Exchange letters, enter: EXCHANGE <letters to exchange>\n" +
+                    "Use underscore to represent the blank tile in exchange\n"
                     + "- To pass turn, enter: PASS\n"
                     + "- To challenge previous word, enter CHALLENGE\n"
                     + "- To quit game, enter QUIT");
