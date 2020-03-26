@@ -34,7 +34,6 @@ public class UI {
 
     UI(){
         pool = new Pool();
-        pool.drawTiles(92);
         board = new Board();
         textBox = new TextField();
         players[0] = new Player();
@@ -105,8 +104,9 @@ public class UI {
                 {
                     instructionLabel.setText(" ITS A TIE!!!");
                 }
+                textBox.setOnAction(null);
             }
-            pool.drawTiles(86);
+
         });
 
 
