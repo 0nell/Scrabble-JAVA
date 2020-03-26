@@ -8,7 +8,13 @@ import javafx.stage.Screen;
 import java.util.ArrayList;
 
 
-
+/**
+ * Team Name: El Cucharachas
+ * 
+ * Students: - Ahmed Jouda 18329393 - Sean Mcdonnell 18391961 - Lleno Anya
+ * 18357493
+ *
+ */
 
 public class UI {
     static  Rectangle2D screenBounds = Screen.getPrimary().getBounds(); // used to make the program proportional to the users screen
