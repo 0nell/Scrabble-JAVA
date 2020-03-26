@@ -60,6 +60,7 @@ public class UI {
             textBox.clear();
             if(checkWin()){
                 instructionLabel.setText("Game Over");
+                //remove successfully challenged words scores
                 players[0].addScore(player0negative);
                 players[1].addScore(player1negative);
                 int scoreFromPlayerFrame1 = 0;
@@ -232,9 +233,11 @@ public class UI {
         return gridPane;
     }
 
+    //takes in a string "command" and returns an int, if 1 then give turn to next player, if 0 give turn to same player
     int parseInput(String command){
+    	//change it to upper case incase user input it in lower case
         command = command.toUpperCase();
-        //If the command is HELp it overrides other commands
+        //If the command is Help it overrides other commands
         if(command.equals("HELP")){
             instructionLabel.setText("- To place words enter: <x-coordinate><y-coordinate> <across/down> <word>\n" +
                     "to use a blank tile simply write the word out and the blank tile will automatically replace the tile not in your frame"
@@ -246,7 +249,8 @@ public class UI {
             return 0;
         }
         else{
-
+        	
+        	//if it is the start set up player 2 as well
         if(turn == 0){
             turnLabel.setText("Player 2 insert name: ");
             players[0].setName(command);
@@ -255,6 +259,7 @@ public class UI {
 
             return 1;
         }
+        //otherwise prompt the player to input the command
         else if(turn == 1){
             turnLabel.setText("Enter command " + players[0].getName());
             players[1].setName(command);
@@ -263,6 +268,8 @@ public class UI {
             score2.setText(players[1].getName() + "\n"+ players[1].getScore());
             return 1;
         }
+        //if the player challenged for now manually subtract score at the end of the game
+        //each player has a negative score marker
         else if(challenge == 1){
             instructionLabel.setText("'HELP' to get instructions");
             if(command.equals("NO") && players[turn % 2].equals(players[1])) {
@@ -282,41 +289,51 @@ public class UI {
             return 0;
         }
         else {
-
+        	
             inputText = command.split(" ", 0);
             int i = 0;
 
             switch(inputText[i]) {
+            	//if the player inputed QUIT exit the system
                 case "QUIT":
                     System.exit(0);
+                //if the player inputed PASS then increment the pass counter and return 1 to pass the play to the other player
                 case "PASS":
                     pass++;
                     return 1;
+                //if the player inputs Exchange and a list of tiles
                 case "EXCHANGE":
+                	//check if pool has 7 or more tiles left
                     if(pool.size() < 7) {
                         instructionLabel.setText("Cannot exchange\n" +
                                 "There are less than 7 tiles left in the pool");
                         return 0;
                     } else {
                         String letters = inputText[++i];
+                        //check if the tiles inputed are actually in the player's frame
                         if(!players[turn % 2].getFrame().isAvailable(letters).contains("t")) {
                             instructionLabel.setText("Cannot exchange\n" +
                                     "Your frame does not contain the tiles you entered\n" + "(Use _ to represent a blank tile for exchange");
                             return 0;
                         } else {
+                        	//remove tiles and refill new ones
                             players[turn % 2].getFrame().remove(letters);
                             players[turn % 2].getFrame().refill(pool);
                             pass = 0;
                             return 1;
                         }
                     }
+                // if the user inputs challenge
                 case "CHALLENGE":
+                	//asks you manually if it is a word or not
                     instructionLabel.setText("Previous word has been challenged" +
                             "\nLast Score was: " + lastScore + "\nDoes the word exist? (YES / NO)");
 
                     challenge = 1;
 
                     return 0;
+                //otherwise the player has inputed a grid reference, direction and word
+                //if the word is placeable, place it and add its score to the player's score
                 default:
                     try {
                         String gridRef = inputText[i++];

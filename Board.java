@@ -90,15 +90,7 @@ public class Board {
 			lettersToRemove = "";
 			throw new IllegalArgumentException("Word is invalid");
 		}
-		/*System.out.println("--------------------------------");
-		System.out.println(symbolicBlankLetters);
-		System.out.println(lettersToRemove);
-		System.out.println(word);
-		for(int i = 0; i < word.length(); i++)
-		{
-			System.out.print(taken[i]);
-		}
-		System.out.println("\n --------------------------------");*/
+		
 		// Put string (given word) into a tile array list, each letter = 1 tile
 		int blankIndex = 0;
 		int lettersToRemoveIndex = 0;
