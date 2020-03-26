@@ -424,15 +424,15 @@ public class Board {
 						} else {
 							x++;
 						}
-
-						if (index == stringTiles.size() - 1) {
-							index = -1; // resets loop
-							last = true;
-							x = gridx;
-							x = rewind('r', x, y);
-						}
 					} else {
 						x++; // moves across the taken letter
+
+					}
+					if (index == stringTiles.size() - 1) {
+						index = -1; // resets loop
+						last = true;
+						x = gridx;
+						x = rewind('r', x, y);
 					}
 				} else {
 					while (x < gridx) // end = false before it gets to last so this only runs once aka until the
@@ -518,6 +518,12 @@ public class Board {
 						}
 					} else {
 						y++; // moves across the taken letter
+					}
+					if (index == stringTiles.size() - 1) {
+						index = -1; // resets loop
+						last = true;
+						y = gridy;
+						y = rewind('d', x, y);
 					}
 				} else {
 					while (y < gridy) // end = false before it gets to last so this only runs once aka until the
