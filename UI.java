@@ -34,6 +34,7 @@ public class UI {
 
     UI(){
         pool = new Pool();
+        pool.drawTiles(92);
         board = new Board();
         textBox = new TextField();
         players[0] = new Player();
@@ -77,17 +78,21 @@ public class UI {
                 {
                     scoreFromPlayerFrame1 *= 2;
                     players[0].addScore(scoreFromPlayerFrame1);
+                    score1.setText(players[0].getName() + "\n" + players[0].getScore());
+
                 }else if(players[1].getFrame().isEmpty())
                 {
                     scoreFromPlayerFrame2 *= 2;
                     players[1].addScore(scoreFromPlayerFrame2);
-
+                    score2.setText(players[1].getName() + "\n" + players[1].getScore());
                 }else
                 {
                     scoreFromPlayerFrame1 *= -1;
                     scoreFromPlayerFrame2 *= -1;
-                    players[0].addScore(scoreFromPlayerFrame1);
-                    players[1].addScore(scoreFromPlayerFrame2);
+                    players[0].addScore(scoreFromPlayerFrame2);
+                    players[1].addScore(scoreFromPlayerFrame1);
+                    score1.setText(players[0].getName() + "\n" + players[0].getScore());
+                    score2.setText(players[1].getName() + "\n" + players[1].getScore());
                 }
 
                 if(players[0].getScore() > players[1].getScore())
@@ -223,8 +228,10 @@ public class UI {
         command = command.toUpperCase();
         //If the command is HELp it overrides other commands
         if(command.equals("HELP")){
-            instructionLabel.setText("- To place words enter: <x-coordinate> <y-coordinate> <across/down> <word>\n"
-                    + "- To Exchange letters, enter: EXCHANGE <letters to exchange>\n"
+            instructionLabel.setText("- To place words enter: <x-coordinate><y-coordinate> <across/down> <word>\n" +
+                    "to use a blank tile simply write the word out and the blank tile will automatically replace the tile not in your frame"
+                    + "- To Exchange letters, enter: EXCHANGE <letters to exchange>\n" +
+                    "Use underscore to represent the blank tile in exchange\n"
                     + "- To pass turn, enter: PASS\n"
                     + "- To challenge previous word, enter CHALLENGE\n"
                     + "- To quit game, enter QUIT");
