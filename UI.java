@@ -66,8 +66,8 @@ public class UI {
     public void setLabel() {
         instructionLabel = new Label("'HELP' to get instructions");
         instructionLabel.setWrapText(true);
-        instructionLabel.setMaxWidth(UI.screenBounds.getHeight()/5.2);
-        instructionLabel.setMinHeight(UI.screenBounds.getHeight()* 2/3);
+        instructionLabel.setMaxWidth(UI.screenBounds.getWidth()/10);
+        instructionLabel.setMinHeight(UI.screenBounds.getHeight()* 2/4);
         instructionLabel.setAlignment(Pos.CENTER);
         instructionLabel.setStyle("-fx-background-color: rgba(5, 37, 4, .4)");
     }
@@ -143,7 +143,7 @@ public class UI {
 
     TilePane printBoard(){
         TilePane tilePane = new TilePane();
-        tilePane.setPrefSize(800, 0);
+        tilePane.setPrefSize(UI.screenBounds.getWidth()/2.4, 0);
         tilePane.setPrefColumns(16);
         tilePane.setPrefRows(16);
         for(int i = 0; i < 15; i++) {
