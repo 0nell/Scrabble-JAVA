@@ -100,7 +100,7 @@ public class UI {
         if(pass >= 6){
             return true;
         }
-        else return !(!pool.isEmpty() && (!players[0].getFrame().isEmpty() || !players[1].getFrame().isEmpty()));
+        else return (pool.isEmpty() && (players[0].getFrame().isEmpty() || players[1].getFrame().isEmpty()));
     }
 
     public TilePane getFramePane() {
@@ -190,10 +190,18 @@ public class UI {
                     return 0;
                 }else {
                         String letters = text[++i];
-                        players[turn % 2].getFrame().remove(letters);
-                        players[turn % 2].getFrame().refill(pool);
-                        pass = 0;
-                        return 1;
+                        if(!players[turn % 2].getFrame().isAvailable(letters).contains("t"))
+                        {
+                            label.setText("Cannot exchange\n" +
+                                    "Your frame does not contain the tiles you entered\n" + "(Use _ to represent a blank tile for exchange");
+                            return 0;
+                        }else
+                        {
+                            players[turn % 2].getFrame().remove(letters);
+                            players[turn % 2].getFrame().refill(pool);
+                            pass = 0;
+                            return 1;
+                        }
                     }
                 case "CHALLENGE":
                     label.setText("Previous word has been challenged" +
