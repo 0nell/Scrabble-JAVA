@@ -47,6 +47,12 @@ public class UI {
 		players[1] = new Player();
 		players[0].setName("Player 1");
 		players[1].setName("Player 2");
+		players[0].getFrame().refill(pool);
+		score1.setText(players[0].getName() + "\n" + players[0].getScore());
+		players[1].getFrame().refill(pool);
+		setCurrentFrame(players[turn].getFrame());
+		score2.setText(players[1].getName() + "\n" + players[1].getScore());
+
 
 		setInstructionLabel();
 		setTurnLabel();
@@ -122,7 +128,7 @@ public class UI {
 	}
 
 	public void setTurnLabel() {
-		turnLabel = new Label("Player 1 insert name: ");
+		turnLabel = new Label("Player 1 enter command: ");
 		turnLabel.setAlignment(Pos.CENTER);
 		turnLabel.setPrefSize(UI.screenBounds.getHeight() / 5.2, UI.screenBounds.getHeight() / 22.5);
 		turnLabel.setStyle("-fx-background-color: rgba(5, 37, 4, .6)");
@@ -244,28 +250,11 @@ public class UI {
 			return 0;
 		} else {
 
-			// if it is the start set up player 2 as well
-			if (turn == 0) {
-				//turnLabel.setText("Player 2 insert name: ");
-				//players[0].setName(command);
-				players[0].getFrame().refill(pool);
-				score1.setText(players[0].getName() + "\n" + players[0].getScore());
-
-				return 1;
-			}
-			// otherwise prompt the player to input the command
-			else if (turn == 1) {
-				//turnLabel.setText("Enter command " + players[0].getName());
-				//players[1].setName(command);
-				players[1].getFrame().refill(pool);
-				setCurrentFrame(players[turn].getFrame());
-				score2.setText(players[1].getName() + "\n" + players[1].getScore());
-				return 1;
-			}
+			
 			// if the player challenged for now manually subtract score at the end of the
 			// game
 			// each player has a negative score marker
-			else if (challenge == 1) {
+			if (challenge == 1) {
 				instructionLabel.setText("'HELP' to get instructions");
 				if (command.equals("NO") && players[turn % 2].equals(players[1])) {
 					player0negative -= lastScore;
