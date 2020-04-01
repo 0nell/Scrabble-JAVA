@@ -43,28 +43,21 @@ public class UI {
 		pool = new Pool();
 		board = new Board();
 		textBox = new TextField();
-		players[0] = new Player();
-		players[1] = new Player();
-		players[0].setName("Player 1");
-		players[1].setName("Player 2");
-		players[0].getFrame().refill(pool);
-		score1.setText(players[0].getName() + "\n" + players[0].getScore());
-		players[1].getFrame().refill(pool);
-		setCurrentFrame(players[turn].getFrame());
-		score2.setText(players[1].getName() + "\n" + players[1].getScore());
+		
 
 
 		setInstructionLabel();
 		setTurnLabel();
 		setFramePane();
 		setScores();
+		setPlayers();
 		setBoardPane();
 
 		textBox.setOnAction(e -> {
 			turn += parseInput(textBox.getText());
-			if (turn > 1) {
+			
 				turnLabel.setText("Enter command " + players[(turn) % 2].getName());
-			}
+			
 
 			setCurrentFrame(players[turn % 2].getFrame());
 			textBox.clear();
@@ -118,6 +111,18 @@ public class UI {
 
 	}
 
+	public void setPlayers() {
+		players[0] = new Player();
+		players[1] = new Player();
+		players[0].setName("Player 1");
+		players[1].setName("Player 2");
+		players[0].getFrame().refill(pool);
+		score1.setText(players[0].getName() + "\n" + players[0].getScore());
+		players[1].getFrame().refill(pool);
+		setCurrentFrame(players[turn].getFrame());
+		score2.setText(players[1].getName() + "\n" + players[1].getScore());
+	}
+	
 	public void setInstructionLabel() {
 		instructionLabel = new Label("'HELP' to get instructions");
 		instructionLabel.setWrapText(true);
@@ -128,7 +133,8 @@ public class UI {
 	}
 
 	public void setTurnLabel() {
-		turnLabel = new Label("Player 1 enter command: ");
+		
+		turnLabel = new Label("Enter command Player 1");
 		turnLabel.setAlignment(Pos.CENTER);
 		turnLabel.setPrefSize(UI.screenBounds.getHeight() / 5.2, UI.screenBounds.getHeight() / 22.5);
 		turnLabel.setStyle("-fx-background-color: rgba(5, 37, 4, .6)");
@@ -237,7 +243,8 @@ public class UI {
 	// takes in a string "command" and returns an int, if 1 then give turn to next
 	// player, if 0 give turn to same player
 	int parseInput(String command) {
-		
+		score1.setText(players[0].getName() + "\n" + players[0].getScore());
+		score2.setText(players[1].getName() + "\n" + players[1].getScore());
 		// change it to upper case incase user input it in lower case
 		command = command.toUpperCase();
 		// If the command is Help it overrides other commands
