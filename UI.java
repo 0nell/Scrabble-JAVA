@@ -45,6 +45,8 @@ public class UI {
 		textBox = new TextField();
 		players[0] = new Player();
 		players[1] = new Player();
+		players[0].setName("Player 1");
+		players[1].setName("Player 2");
 
 		setInstructionLabel();
 		setTurnLabel();
@@ -229,6 +231,7 @@ public class UI {
 	// takes in a string "command" and returns an int, if 1 then give turn to next
 	// player, if 0 give turn to same player
 	int parseInput(String command) {
+		
 		// change it to upper case incase user input it in lower case
 		command = command.toUpperCase();
 		// If the command is Help it overrides other commands
@@ -243,8 +246,8 @@ public class UI {
 
 			// if it is the start set up player 2 as well
 			if (turn == 0) {
-				turnLabel.setText("Player 2 insert name: ");
-				players[0].setName(command);
+				//turnLabel.setText("Player 2 insert name: ");
+				//players[0].setName(command);
 				players[0].getFrame().refill(pool);
 				score1.setText(players[0].getName() + "\n" + players[0].getScore());
 
@@ -252,8 +255,8 @@ public class UI {
 			}
 			// otherwise prompt the player to input the command
 			else if (turn == 1) {
-				turnLabel.setText("Enter command " + players[0].getName());
-				players[1].setName(command);
+				//turnLabel.setText("Enter command " + players[0].getName());
+				//players[1].setName(command);
 				players[1].getFrame().refill(pool);
 				setCurrentFrame(players[turn].getFrame());
 				score2.setText(players[1].getName() + "\n" + players[1].getScore());
@@ -292,6 +295,10 @@ public class UI {
 				case "PASS":
 					pass++;
 					return 1;
+				case "NAME":
+					String newName = inputText[++i];
+					players[turn%2].setName(newName);
+					return 0;
 				// if the player inputs Exchange and a list of tiles
 				case "EXCHANGE":
 					// check if pool has 7 or more tiles left
@@ -334,6 +341,9 @@ public class UI {
 						String direction = inputText[i++];
 						String word = inputText[i];
 
+						if (word.length()<=1) {
+							throw new IllegalArgumentException();
+						}
 						players[turn % 2]
 								.addScore(lastScore = board.placeWord(players[turn % 2], word, xGridRef, y, direction));
 
@@ -343,7 +353,7 @@ public class UI {
 						pass = 0;
 						return 1;
 					} catch (Exception e) {
-						instructionLabel.setText("Invalid input\nType HELP for help");
+						instructionLabel.setText("Invalid input\n*No one letter words allowed\nType HELP for help");
 					}
 					return 0;
 				}
