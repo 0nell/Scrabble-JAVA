@@ -9,13 +9,14 @@ import java.util.Arrays;
  *
  */
 public class Board {
-	static int[] taken = { 0, 0, 0, 0, 0, 0, 0 }; // needed to check whether word is placed around already paced letter
+	static int[] taken = { 0, 0, 0, 0, 0, 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0 }; // needed to check whether word is placed around already paced letter
 	boolean connects = false; // check if placed word connects with other words
 	static String lettersToRemove = ""; // contains letters to remove from player's frame after placement
 	Square[][] squares;
 	static int wordMultiplier = 1;
 	static int letterMultiplier = 1;
 	static String symbolicBlankLetters = "";
+	static String[] challengeWords = new String[8];
 
 	// Constructor
 	Board() {
@@ -92,6 +93,8 @@ public class Board {
 			throw new IllegalArgumentException("Word is invalid");
 		}
 
+		resetChallenge();
+
 		// Put string (given word) into a tile array list, each letter = 1 tile
 		int blankIndex = 0;
 		int lettersToRemoveIndex = 0;
@@ -130,6 +133,7 @@ public class Board {
 		symbolicBlankLetters = "";
 
 		score += scoring(firstLetterX, firstLetterY, direction, stringTiles);
+		printChallenge();
 
 		// place on board based on direction specified
 		if (direction.equals("across")) {
@@ -377,6 +381,7 @@ public class Board {
 		boolean word;
 		boolean end = false;
 		boolean last = false;
+		int wordCount = 0;
 
 		for (int index = 0; index < stringTiles.size(); index++) // only for these ones side wordds
 		{
@@ -407,8 +412,10 @@ public class Board {
 								} else {
 
 									if (y == gridy) {
+										challengeWords[wordCount] += "" + stringTiles.get(index).getLetter();
 										currentWordScore += (stringTiles.get(index).getValue() * letterMultiplier);
 									} else {
+										challengeWords[wordCount] += "" + squares[y][x].getTile().getLetter();
 										currentWordScore += squares[y][x].getTile().getValue();
 									}
 									y++;
@@ -420,6 +427,7 @@ public class Board {
 							letterMultiplier = 1;
 							y = gridy;
 							x++;
+							wordCount++;
 							end = false;
 						} else {
 							x++;
@@ -438,6 +446,7 @@ public class Board {
 					while (x < gridx) // end = false before it gets to last so this only runs once aka until the
 										// placed letters
 					{
+						challengeWords[wordCount] += "" + squares[y][x].getTile().getLetter();
 						currentWordScore += squares[y][x].getTile().getValue();
 						x++;
 					}
@@ -446,6 +455,7 @@ public class Board {
 						multiplier(squares[y][x].getValue());
 					}
 
+					challengeWords[wordCount] += "" + stringTiles.get(index).getLetter();
 					currentWordScore += (stringTiles.get(index).getValue() * letterMultiplier);
 					letterMultiplier = 1;
 					x++;
@@ -456,6 +466,7 @@ public class Board {
 							if (squares[y][x].isEmpty()) {
 								end = true;
 							} else {
+								challengeWords[wordCount] += "" + squares[y][x].getTile().getLetter();
 								currentWordScore += squares[y][x].getTile().getValue();
 								x++;
 							}
@@ -492,8 +503,10 @@ public class Board {
 								} else {
 
 									if (x == gridx) {
+										challengeWords[wordCount] += "" + stringTiles.get(index).getLetter();
 										currentWordScore += (stringTiles.get(index).getValue() * letterMultiplier);
 									} else {
+										challengeWords[wordCount] += "" + squares[y][x].getTile().getLetter();
 										currentWordScore += squares[y][x].getTile().getValue();
 									}
 									x++;
@@ -505,6 +518,7 @@ public class Board {
 							letterMultiplier = 1;
 							x = gridx;
 							y++;
+							wordCount++;
 							end = false;
 						} else {
 							y++;
@@ -529,6 +543,7 @@ public class Board {
 					while (y < gridy) // end = false before it gets to last so this only runs once aka until the
 										// placed letters
 					{
+						challengeWords[wordCount] += "" + squares[y][x].getTile().getLetter();
 						currentWordScore += squares[y][x].getTile().getValue();
 						y++;
 					}
@@ -537,6 +552,7 @@ public class Board {
 						multiplier(squares[y][x].getValue());
 					}
 
+					challengeWords[wordCount] += "" + stringTiles.get(index).getLetter();
 					currentWordScore += (stringTiles.get(index).getValue() * letterMultiplier);
 					letterMultiplier = 1;
 					y++;
@@ -547,6 +563,7 @@ public class Board {
 							if (squares[y][x].isEmpty()) {
 								end = true;
 							} else {
+								challengeWords[wordCount] += "" + squares[y][x].getTile().getLetter();
 								currentWordScore += squares[y][x].getTile().getValue();
 								y++;
 							}
@@ -621,5 +638,21 @@ public class Board {
 			}
 		}
 		return xGridVal;
+	}
+
+	void resetChallenge()
+	{
+		for(int i = 0;i < 8; i++)
+		{
+			challengeWords[i] = "";
+		}
+	}
+
+	void printChallenge()
+	{
+		for(int i = 0;i < 8; i++)
+		{
+			System.out.println(challengeWords[i]);
+		}
 	}
 }
