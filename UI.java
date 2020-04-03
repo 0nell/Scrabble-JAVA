@@ -5,6 +5,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Screen;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -36,8 +40,6 @@ public class UI {
 	int turn = 0;
 	int pass = 0;
 	int lastScore = 0; // score of last word placed
-	int player0negative = 0, player1negative = 0;
-	int challenge = 0;
 
 	UI() {
 		pool = new Pool();
@@ -64,8 +66,8 @@ public class UI {
 			if (checkWin()) {
 				instructionLabel.setText("Game Over");
 				// remove successfully challenged words scores
-				players[0].addScore(player0negative);
-				players[1].addScore(player1negative);
+				players[0].addScore(players[0].getNegativeScore());
+				players[1].addScore(players[1].getNegativeScore());
 				int scoreFromPlayerFrame1 = 0;
 				int scoreFromPlayerFrame2 = 0;
 
@@ -240,6 +242,18 @@ public class UI {
 		return gridPane;
 	}
 
+	boolean checkDictionary(String input) throws IOException {
+		BufferedReader reader = new BufferedReader(new FileReader("dictionary.txt"));
+		String line;
+		while((line = reader.readLine()) != null){
+			if(line.equals(input)){
+				return  true;
+			}
+		}
+		reader.close();
+		return false;
+
+	}
 	// takes in a string "command" and returns an int, if 1 then give turn to next
 	// player, if 0 give turn to same player
 	int parseInput(String command) {
@@ -261,23 +275,6 @@ public class UI {
 			// if the player challenged for now manually subtract score at the end of the
 			// game
 			// each player has a negative score marker
-			if (challenge == 1) {
-				instructionLabel.setText("'HELP' to get instructions");
-				if (command.equals("NO") && players[turn % 2].equals(players[1])) {
-					player0negative -= lastScore;
-					challenge = 0;
-				} else if (command.equals("NO") && players[turn % 2].equals(players[0])) {
-					player1negative -= lastScore;
-					challenge = 0;
-				} else if (command.equals("YES")) {
-					challenge = 0;
-				} else {
-					instructionLabel.setText("Incorrect Input\n Does the word exist? (YES / NO)");
-					challenge = 1;
-				}
-
-				return 0;
-			} else {
 
 				inputText = command.split(" ", 0);
 				int i = 0;
@@ -319,13 +316,18 @@ public class UI {
 					}
 					// if the user inputs challenge
 				case "CHALLENGE":
-					// asks you manually if it is a word or not
-					instructionLabel.setText("Previous word has been challenged" + "\nLast Score was: " + lastScore
-							+ "\nDoes the word exist? (YES / NO)");
-
-					challenge = 1;
-
-					return 0;
+					//Checks if the challenged words are valid
+					instructionLabel.setText("Previous word has been challenged" + "\nLast Score was: " + lastScore);
+					for(int j = 0; j < Board.challengeWords.length; j++){
+						try {
+							if(!checkDictionary(Board.challengeWords[i])){
+								players[(turn+1) %2].setNegativeScore(lastScore);
+							}
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+						return 0;
 				// otherwise the player has inputed a grid reference, direction and word
 				// if the word is placeable, place it and add its score to the player's score
 				default:
@@ -352,7 +354,7 @@ public class UI {
 						instructionLabel.setText("Invalid input\n*No one letter words allowed\nType HELP for help");
 					}
 					return 0;
-				}
+
 			}
 		}
 	}
