@@ -96,7 +96,6 @@ public class Frame {
 		for(Tile tile : previouslyDrawn) {
 			tiles.remove(tile);
 		}
-		tiles.removeAll(previouslyDrawn);
 		previouslyDrawn.clear();
 		tiles.addAll(placed);
 		placed.clear();

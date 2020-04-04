@@ -317,20 +317,34 @@ public class UI {
 					// if the user inputs challenge
 				case "CHALLENGE":
 					//Checks if the challenged words are valid
-					for(int j = 0; j < (Board.wordCount+1); j++){
-						if(!dictionary.find(Board.challengeWords[i])){
-							instructionLabel.setText("SUCCESSFUL CHALLENGE\nWORD NOT IN DICTIONARY");
-							players[(turn+1) %2].addScore(lastScore * -1);
-							score1.setText(players[0].getName() + "\n" + players[0].getScore());
-							score2.setText(players[1].getName() + "\n" + players[1].getScore());
-							board.removeLast();
-							players[(turn+1)%2].getFrame().revert(pool);
-						}else
-						{
-							instructionLabel.setText("UNSUCCESSFUL CHALLENGE\nWORD IN DICTIONARY");
-							return 1;		//skips challengers turn if challenge fails
+					if(pass == 0) {
+						if (!board.squares[7][7].isEmpty()) {
+							System.out.println("1");
+							for (int j = 0; j < (Board.wordCount + 1); j++) {
+								if (!dictionary.find(Board.challengeWords[i])) {
+									instructionLabel.setText("SUCCESSFUL CHALLENGE\nWORD NOT IN DICTIONARY");
+									players[(turn + 1) % 2].addScore(lastScore * -1);
+									score1.setText(players[0].getName() + "\n" + players[0].getScore());
+									score2.setText(players[1].getName() + "\n" + players[1].getScore());
+									board.removeLast();
+									players[(turn + 1) % 2].getFrame().revert(pool);
+								} else {
+									instructionLabel.setText("UNSUCCESSFUL CHALLENGE\nWORD IN DICTIONARY");
+									pass++;
+									return 1;        //skips challengers turn if challenge fails
+								}
+							}
+						} else {
+							instructionLabel.setText("CANNOT CHALLENGE\nNO WORD ON BOARD");
 						}
+					}else if(pass % 2 == 1)
+					{
+						instructionLabel.setText("CANNOT CHALLENGE YOUR OWN WORD");
+					}else if(pass % 2 == 0)
+					{
+						instructionLabel.setText("CANNOT CHALLENGE WORD A SECOND TIME");
 					}
+
 						return 0;
 				// otherwise the player has inputed a grid reference, direction and word
 				// if the word is placeable, place it and add its score to the player's score
