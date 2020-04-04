@@ -94,7 +94,9 @@ public class Frame {
 
 	public void revert(Pool pool){
 		tiles.removeAll(previouslyDrawn);
+		previouslyDrawn.clear();
 		tiles.addAll(placed);
+		placed.clear();
 		pool.returnTiles(previouslyDrawn);
 	}
 	
