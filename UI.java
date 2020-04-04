@@ -40,14 +40,19 @@ public class UI {
 	int turn = 0;
 	int pass = 0;
 	int lastScore = 0; // score of last word placed
+	Tree dictionary;
 
 	UI() {
 		pool = new Pool();
 		board = new Board();
 		textBox = new TextField();
-		
 
 
+		try {
+			readDictionary();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		setInstructionLabel();
 		setTurnLabel();
 		setFramePane();
@@ -60,9 +65,9 @@ public class UI {
 
 				turnLabel.setText("Enter command " + players[(turn) % 2].getName());
 			
-
+			System.out.println(players[turn % 2].getFrame().toString());
 			setCurrentFrame(players[turn % 2].getFrame());
-			textBox.clear();
+
 			if (checkWin()) {
 				instructionLabel.setText("Game Over");
 				int scoreFromPlayerFrame1 = 0;
@@ -105,6 +110,7 @@ public class UI {
 				}
 				textBox.setOnAction(null);
 			}
+			textBox.clear();
 
 		});
 
@@ -238,19 +244,16 @@ public class UI {
 		gridPane.setStyle("-fx-background-color: rgb(5, 37, 4, 0.658);");
 		return gridPane;
 	}
-
-	boolean checkDictionary(String input) throws IOException {
+	void readDictionary() throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader("dictionary.txt"));
 		String line;
+		dictionary = new Tree();
 		while((line = reader.readLine()) != null){
-			if(line.equals(input)){
-				return  true;
-			}
+			dictionary.set(line);
 		}
-		reader.close();
-		return false;
-
 	}
+
+
 	// takes in a string "command" and returns an int, if 1 then give turn to next
 	// player, if 0 give turn to same player
 	int parseInput(String command) {

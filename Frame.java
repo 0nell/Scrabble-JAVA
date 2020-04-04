@@ -13,9 +13,13 @@ public class Frame {
 
 	private static final int MAX_TILES = 7;
 	private ArrayList<Tile> tiles;
-	
+	private ArrayList<Tile> previouslyDrawn;
+	private ArrayList<Tile> placed;
+
 	Frame() {
-		tiles = new ArrayList<Tile>();
+		tiles = new ArrayList<>();
+		placed = new ArrayList<>();
+		previouslyDrawn = new ArrayList<>();
 	}
 
 	public int size() {
@@ -33,12 +37,12 @@ public class Frame {
 	public String isAvailable(String letters) {
 		boolean found = true;
 		boolean blank = false;
-		String val = "";	//1 = true pass; > 1 = blank true; 0 = false
+		StringBuilder val = new StringBuilder();	//1 = true pass; > 1 = blank true; 0 = false
 		if (letters.length() > tiles.size()) {
 			found = false;
 		}
 		else {
-			ArrayList<Tile> copyTiles = new ArrayList<Tile>(tiles);
+			ArrayList<Tile> copyTiles = new ArrayList<>(tiles);
 			for (int i=0; (i<letters.length()) && found; i++) {
 				Tile tileSought = new Tile(letters.charAt(i));
 				if (copyTiles.contains(tileSought)) {
@@ -47,7 +51,7 @@ public class Frame {
 					Tile tileSoughtBlank = new Tile('_');
 					if(copyTiles.contains(tileSoughtBlank))
 					{
-						val += "" + i;
+						val.append(i);
 						copyTiles.remove(tileSoughtBlank);
 						blank = true;
 					}
@@ -60,13 +64,13 @@ public class Frame {
 		}
 		if(found && !blank)
 		{
-			val += "t";
+			val.append("t");
 		}else if(!found)
 		{
-			val += "f";
+			val.append("f");
 		}
 
-		return val;
+		return val.toString();
 	}
 	
 	public ArrayList<Tile> getTiles() {
@@ -77,19 +81,27 @@ public class Frame {
 	public void remove(String letters) {
 		for (int i=0; (i<letters.length()); i++) {
 			tiles.remove(new Tile(letters.charAt(i)));
+			placed.add(new Tile(letters.charAt(i)));
+
 		}
 	}
 
 	public void refill(Pool pool) {
 		int numTilesToDraw = MAX_TILES - tiles.size();
-		ArrayList<Tile> draw = pool.drawTiles(numTilesToDraw);
-		tiles.addAll(draw);
+		previouslyDrawn = pool.drawTiles(numTilesToDraw);
+		tiles.addAll(previouslyDrawn);
+	}
+
+	public void revert(Pool pool){
+		tiles.removeAll(previouslyDrawn);
+		tiles.addAll(placed);
+		pool.returnTiles(previouslyDrawn);
 	}
 	
 	
 	//Method used for testing to avoid randomization
 	public void refillForTest() {
-		ArrayList<Tile> draw = new ArrayList<Tile>();
+		ArrayList<Tile> draw = new ArrayList<>();
 		Tile tempTile = new Tile('_');
 		draw.add(tempTile);
 		tempTile = new Tile('C');
