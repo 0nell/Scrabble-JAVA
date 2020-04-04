@@ -291,6 +291,8 @@ public class UI {
 				case "NAME":
 					String newName = inputText[++i];
 					players[turn%2].setName(newName);
+					score1.setText(players[0].getName() + "\n" + players[0].getScore());
+					score2.setText(players[1].getName() + "\n" + players[1].getScore());
 					return 0;
 				// if the player inputs Exchange and a list of tiles
 				case "EXCHANGE":
