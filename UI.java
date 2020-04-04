@@ -342,7 +342,7 @@ public class UI {
 						instructionLabel.setText("CANNOT CHALLENGE YOUR OWN WORD");
 					}else if(pass % 2 == 0)
 					{
-						instructionLabel.setText("CANNOT CHALLENGE WORD A SECOND TIME");
+						instructionLabel.setText("CANNOT CHALLENGE WORD PLACED BEFORE THE LAST TURN");
 					}
 
 						return 0;
