@@ -55,7 +55,7 @@ public class BoardTest extends Application {
 		System.out.println("Test Frame made: "+player1.getFrame() + "\n\n");
 		boolean thrown = false;
 		try {
-			board.placeWord(player1, "z", 'H', 7, "across");
+			board.placeWord(player1, "i", 'H', 7, "across");
 		} catch (IllegalArgumentException e) {
 			thrown = true;
 		}
