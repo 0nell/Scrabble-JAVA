@@ -86,5 +86,5 @@ public class Square extends Label {
     public void setEmpty(boolean empty) {
         this.empty = empty;
     }
-    
+
 }

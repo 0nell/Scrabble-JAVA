@@ -318,20 +318,17 @@ public class UI {
 				case "CHALLENGE":
 					//Checks if the challenged words are valid
 					for(int j = 0; j < (Board.wordCount+1); j++){
-						try {
-							if(!checkDictionary(Board.challengeWords[i])){
-								instructionLabel.setText("SUCCESSFUL CHALLENGE\nWORD NOT IN DICTIONARY");
-								players[(turn+1) %2].addScore(lastScore * -1);
-								score1.setText(players[0].getName() + "\n" + players[0].getScore());
-								score2.setText(players[1].getName() + "\n" + players[1].getScore());
-								board.removeLast();
-							}else
-							{
-								instructionLabel.setText("UNSUCCESSFUL CHALLENGE\nWORD IN DICTIONARY");
-								return 1;		//skips challengers turn if challenge fails
-							}
-						} catch (IOException e) {
-							e.printStackTrace();
+						if(!dictionary.find(Board.challengeWords[i])){
+							instructionLabel.setText("SUCCESSFUL CHALLENGE\nWORD NOT IN DICTIONARY");
+							players[(turn+1) %2].addScore(lastScore * -1);
+							score1.setText(players[0].getName() + "\n" + players[0].getScore());
+							score2.setText(players[1].getName() + "\n" + players[1].getScore());
+							board.removeLast();
+							players[(turn+1)%2].getFrame().revert(pool);
+						}else
+						{
+							instructionLabel.setText("UNSUCCESSFUL CHALLENGE\nWORD IN DICTIONARY");
+							return 1;		//skips challengers turn if challenge fails
 						}
 					}
 						return 0;
