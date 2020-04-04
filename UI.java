@@ -40,14 +40,19 @@ public class UI {
 	int turn = 0;
 	int pass = 0;
 	int lastScore = 0; // score of last word placed
+	Tree dictionary;
 
 	UI() {
 		pool = new Pool();
 		board = new Board();
 		textBox = new TextField();
-		
 
 
+		try {
+			readDictionary();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		setInstructionLabel();
 		setTurnLabel();
 		setFramePane();
@@ -60,9 +65,9 @@ public class UI {
 			
 				turnLabel.setText("Enter command " + players[(turn) % 2].getName());
 			
-
+			System.out.println(players[turn % 2].getFrame().toString());
 			setCurrentFrame(players[turn % 2].getFrame());
-			textBox.clear();
+
 			if (checkWin()) {
 				instructionLabel.setText("Game Over");
 				// remove successfully challenged words scores
@@ -108,6 +113,7 @@ public class UI {
 				}
 				textBox.setOnAction(null);
 			}
+			textBox.clear();
 
 		});
 
@@ -241,19 +247,16 @@ public class UI {
 		gridPane.setStyle("-fx-background-color: rgb(5, 37, 4, 0.658);");
 		return gridPane;
 	}
-
-	boolean checkDictionary(String input) throws IOException {
+	void readDictionary() throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader("dictionary.txt"));
 		String line;
+		dictionary = new Tree();
 		while((line = reader.readLine()) != null){
-			if(line.equals(input)){
-				return  true;
-			}
+			dictionary.set(line);
 		}
-		reader.close();
-		return false;
-
 	}
+
+
 	// takes in a string "command" and returns an int, if 1 then give turn to next
 	// player, if 0 give turn to same player
 	int parseInput(String command) {
@@ -317,15 +320,21 @@ public class UI {
 					// if the user inputs challenge
 				case "CHALLENGE":
 					//Checks if the challenged words are valid
-					instructionLabel.setText("Previous word has been challenged" + "\nLast Score was: " + lastScore);
+					boolean validWord = true;
 					for(int j = 0; j < Board.challengeWords.length; j++){
-						try {
-							if(!checkDictionary(Board.challengeWords[i])){
-								players[(turn+1) %2].setNegativeScore(lastScore);
-							}
-						} catch (IOException e) {
-							e.printStackTrace();
+						if(!dictionary.find(Board.challengeWords[i])) {
+							validWord = false;
 						}
+					}
+					if(!validWord){
+						instructionLabel.setText("Previous word has been challenged" + "\nLast Score was: " + lastScore
+								+ " Challenge succeeded");
+						players[(turn+1) %2].setNegativeScore(lastScore);
+						players[(turn+1)%2].getFrame().revert(pool);
+					}
+					else{
+						instructionLabel.setText("Previous word has been challenged" + "\nLast Score was: " + lastScore
+								+ " Challenge failed");
 					}
 						return 0;
 				// otherwise the player has inputed a grid reference, direction and word
@@ -340,7 +349,7 @@ public class UI {
 						String word = inputText[i];
 
 						if (word.length()<=1) {
-							throw new IllegalArgumentException();
+							throw new IllegalArgumentException("One word");
 						}
 						players[turn % 2]
 								.addScore(lastScore = board.placeWord(players[turn % 2], word, xGridRef, y, direction));
@@ -351,7 +360,7 @@ public class UI {
 						pass = 0;
 						return 1;
 					} catch (Exception e) {
-						instructionLabel.setText("Invalid input\n*No one letter words allowed\nType HELP for help");
+						System.out.println(e.getMessage());
 					}
 					return 0;
 

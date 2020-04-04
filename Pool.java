@@ -52,6 +52,9 @@ public class Pool {
 		}
 		return draw;
 	}
+	void  returnTiles(ArrayList<Tile> tiles){
+		pool.addAll(tiles);
+	}
 
 	@Override
 	public String toString() {
