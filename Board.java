@@ -10,6 +10,7 @@ import java.util.Arrays;
  */
 public class Board {
 	static int[] taken = { 0, 0, 0, 0, 0, 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0 }; // needed to check whether word is placed around already paced letter
+	static int[] prevTaken = { 0, 0, 0, 0, 0, 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0 };
 	boolean connects = false; // check if placed word connects with other words
 	static String lettersToRemove = ""; // contains letters to remove from player's frame after placement
 	Square[][] squares;
@@ -17,6 +18,11 @@ public class Board {
 	static int letterMultiplier = 1;
 	static String symbolicBlankLetters = "";
 	static String[] challengeWords = new String[8];
+	static int wordCount = 0;
+	static int prevFirstLetterX = 0;
+	static int prevFirstLetterY = 0;
+	static String prevDirection = "";
+	static int prevWordLength = 0;
 
 	// Constructor
 	Board() {
@@ -93,6 +99,12 @@ public class Board {
 			throw new IllegalArgumentException("Word is invalid");
 		}
 
+		System.arraycopy(taken,0,prevTaken,0,15);
+		prevFirstLetterX = firstLetterX;
+		prevFirstLetterY = firstLetterY;
+		prevDirection = "";
+		prevDirection += direction;
+		prevWordLength = word.length();
 		resetChallenge();
 
 		// Put string (given word) into a tile array list, each letter = 1 tile
@@ -133,7 +145,8 @@ public class Board {
 		symbolicBlankLetters = "";
 
 		score += scoring(firstLetterX, firstLetterY, direction, stringTiles);
-		printChallenge();
+		//lastScore = score;
+		//printChallenge();
 
 		// place on board based on direction specified
 		if (direction.equals("across")) {
@@ -381,7 +394,7 @@ public class Board {
 		boolean word;
 		boolean end = false;
 		boolean last = false;
-		int wordCount = 0;
+		wordCount = 0;
 
 		for (int index = 0; index < stringTiles.size(); index++) // only for these ones side wordds
 		{
@@ -655,4 +668,29 @@ public class Board {
 			System.out.println(challengeWords[i]);
 		}
 	}
+
+	void removeLast()
+	{
+		int i = 0;
+		if(prevDirection.equals("across"))
+		{
+			while((prevFirstLetterX + i) < 15 && i < prevWordLength)
+			{
+				if(prevTaken[i] == 0) {
+					squares[prevFirstLetterY][prevFirstLetterX + i].setTile(null);
+				}
+				i++;
+			}
+		}else
+		{
+			while((prevFirstLetterY + i) < 15 && i < prevWordLength)
+			{
+				if(prevTaken[i] == 0) {
+					squares[prevFirstLetterY+i][prevFirstLetterX].setTile(null);
+				}
+				i++;
+			}
+		}
+	}
+
 }

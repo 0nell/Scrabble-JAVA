@@ -28,14 +28,17 @@ public class Square extends Label {
 
     void setTile(Tile tile) {
         this.tile = tile;
-        this.setEmpty(false);
+
         if(tile == null){
             this.setText("");
+            this.setEmpty(true);
             this.setStyle("-fx-background-color: rgb(216, 226, 238); -fx-text-fill: black; -fx-border-color: black;");
         }
-        else
+        else {
+            this.setEmpty(false);
             this.setText(String.valueOf(tile.getLetter()));
-        this.setStyle("-fx-background-color: rgb(244, 205, 175); -fx-text-fill: black; -fx-border-color: black;");
+            this.setStyle("-fx-background-color: rgb(244, 205, 175); -fx-text-fill: black; -fx-border-color: black;");
+        }
     }
 
     Tile getTile() {
@@ -83,5 +86,5 @@ public class Square extends Label {
     public void setEmpty(boolean empty) {
         this.empty = empty;
     }
-
+    
 }

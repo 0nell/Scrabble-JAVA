@@ -12,23 +12,15 @@ public class Player {
 	private String name;
 	private int score;
 
-	private int negativeScore;
 
 	Player () {
 		name = "";
 		score = 0;
-		negativeScore = 0;
 		frame = new Frame();
 	}
 
-	public int getNegativeScore() {
-		return negativeScore;
-	}
+
 	private Frame frame;
-	
-	public void setNegativeScore(int negativeScore) {
-		this.negativeScore -= negativeScore;
-	}
 
 	public void setName (String text) {
 		name = text;

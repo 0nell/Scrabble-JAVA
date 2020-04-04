@@ -57,7 +57,7 @@ public class UI {
 
 		textBox.setOnAction(e -> {
 			turn += parseInput(textBox.getText());
-			
+
 				turnLabel.setText("Enter command " + players[(turn) % 2].getName());
 			
 
@@ -65,9 +65,6 @@ public class UI {
 			textBox.clear();
 			if (checkWin()) {
 				instructionLabel.setText("Game Over");
-				// remove successfully challenged words scores
-				players[0].addScore(players[0].getNegativeScore());
-				players[1].addScore(players[1].getNegativeScore());
 				int scoreFromPlayerFrame1 = 0;
 				int scoreFromPlayerFrame2 = 0;
 
@@ -317,11 +314,18 @@ public class UI {
 					// if the user inputs challenge
 				case "CHALLENGE":
 					//Checks if the challenged words are valid
-					instructionLabel.setText("Previous word has been challenged" + "\nLast Score was: " + lastScore);
-					for(int j = 0; j < Board.challengeWords.length; j++){
+					for(int j = 0; j < (Board.wordCount+1); j++){
 						try {
 							if(!checkDictionary(Board.challengeWords[i])){
-								players[(turn+1) %2].setNegativeScore(lastScore);
+								instructionLabel.setText("SUCCESSFUL CHALLENGE\nWORD NOT IN DICTIONARY");
+								players[(turn+1) %2].addScore(lastScore * -1);
+								score1.setText(players[0].getName() + "\n" + players[0].getScore());
+								score2.setText(players[1].getName() + "\n" + players[1].getScore());
+								board.removeLast();
+							}else
+							{
+								instructionLabel.setText("UNSUCCESSFUL CHALLENGE\nWORD IN DICTIONARY");
+								return 1;		//skips challengers turn if challenge fails
 							}
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -339,8 +343,8 @@ public class UI {
 						String direction = inputText[i++];
 						String word = inputText[i];
 
-						if (word.length()<=1) {
-							throw new IllegalArgumentException();
+						if (word.length()==1) {
+							throw new IllegalArgumentException("Cannot place a one letter word");
 						}
 						players[turn % 2]
 								.addScore(lastScore = board.placeWord(players[turn % 2], word, xGridRef, y, direction));
@@ -351,7 +355,7 @@ public class UI {
 						pass = 0;
 						return 1;
 					} catch (Exception e) {
-						instructionLabel.setText("Invalid input\n*No one letter words allowed\nType HELP for help");
+						instructionLabel.setText("Invalid input\n" + e.getMessage() + "\nType HELP for help");
 					}
 					return 0;
 
