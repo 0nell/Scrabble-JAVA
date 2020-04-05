@@ -7,8 +7,9 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Screen;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -242,7 +243,9 @@ public class UI {
 		return gridPane;
 	}
 	void readDictionary() throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader("dictionary.txt"));
+		InputStream is = getClass().getResourceAsStream("dictionary.txt");
+		InputStreamReader isr = new InputStreamReader(is);
+		BufferedReader reader = new BufferedReader(isr);
 		String line;
 		dictionary = new Tree();
 		while((line = reader.readLine()) != null){
