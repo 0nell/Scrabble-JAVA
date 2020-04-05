@@ -41,7 +41,7 @@ public class Square extends Label {
         }
     }
 
-  
+
     Tile getTile() {
         return this.tile;
     }
