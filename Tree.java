@@ -1,4 +1,10 @@
-
+/**
+ * Team Name: El Cucharachas
+ * 
+ * Students: - Ahmed Jouda 18329393 - Sean Mcdonnell 18391961 - Lleno Anya
+ * 18357493
+ *
+ */
 public class Tree {
 
     Tree[] children;
@@ -11,10 +17,12 @@ public class Tree {
         endOfWord = false;
     }
 
+    //Sets the letter based on the given int
     void fill(int i){
         this.letter = (char) (i + 65);
     }
-
+    
+    //Fills a child node with the appropriate letter value
     public void set(int i) {
         if(children[i] == null){
             children[i] = new Tree();
@@ -27,7 +35,8 @@ public class Tree {
     public String  toString() {
         return  String.valueOf(letter);
     }
-
+    
+    //To set the dictionary words into the tree data structure
     public void set(String cat) {
         int len = cat.length();
 
@@ -42,6 +51,7 @@ public class Tree {
         }
     }
 
+    //Searches for a given word and returns true if its in the dictionary
     public boolean find(String cat) {
         int len = cat.length();
 

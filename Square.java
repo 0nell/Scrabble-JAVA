@@ -41,13 +41,7 @@ public class Square extends Label {
         }
     }
 
-    void removeTile(){
-        this.setEmpty(false);
-        this.setText(String.valueOf(tile.getLetter()));
-        this.setStyle("-fx-background-color: rgb(244, 205, 175); -fx-text-fill: black; -fx-border-color: black;");
-        this.setValue(this.value);
-    }
-
+  
     Tile getTile() {
         return this.tile;
     }
