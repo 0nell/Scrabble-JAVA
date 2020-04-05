@@ -23,11 +23,11 @@ public class Board {
 	static int prevFirstLetterY = 0;
 	static String prevDirection = "";
 	static int prevWordLength = 0;
+	String error = "";
 
 	// Constructor
 	Board() {
 		squares = new Square[15][15];
-
 		// Sets Value of Each Square
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 15; j++) {
@@ -50,7 +50,7 @@ public class Board {
 
 			}
 		}
-		squares[7][7].setValue("★");
+		squares[7][7].setValue("*");
 	}
 
 	// Allows the board to be reset
@@ -92,11 +92,12 @@ public class Board {
 		firstLetterX = letterGridToIndex(Character.toUpperCase(alphFirstLetterX));
 		direction = direction.toLowerCase();
 		word = word.toUpperCase(); // in case the user input lower case
+		error = "";
 		lettersToRemove = ""; // reset letters to remove
 		// if the word is invalid throw an illegal argument exception
 		if (!isValidWord(p, word, firstLetterX, firstLetterY, direction)) {
 			lettersToRemove = "";
-			throw new IllegalArgumentException("Word is invalid");
+			throw new IllegalArgumentException(error);
 		}
 
 		System.arraycopy(taken,0,prevTaken,0,15);
@@ -161,7 +162,7 @@ public class Board {
 			}
 
 		} else {
-			throw new IllegalArgumentException("Invalid Direction");
+			throw new IllegalArgumentException("-Invalid Direction\n");
 		}
 		p.getFrame().remove(lettersToRemove);
 		return score;
@@ -190,7 +191,7 @@ public class Board {
 
 			// test if players frame contains necessary letters
 			if (p.getFrame().isAvailable(lettersToRemove).contains("f")) {
-				System.out.println("The players frame does not contain the letters needed for this word");
+				error += "-The players frame does not contain the letters needed for this word\n";
 				valid = false;
 			} else if (!p.getFrame().isAvailable(lettersToRemove).contains("t")) // blank placement helper
 			{
@@ -244,7 +245,7 @@ public class Board {
 			}
 		}
 
-		System.out.println("The first word is not placed covering the centre square");
+		error ="-The first word is not over the centre square\n";
 		return false;
 
 	}
@@ -311,7 +312,7 @@ public class Board {
 			}
 		}
 
-		System.out.println("The word does not connect to an existing word");
+		error = "-The word does not connect to an existing word\n";
 		return false;
 	}
 
@@ -322,7 +323,7 @@ public class Board {
 			for (int i = 0; i < word.length(); i++) {
 				if (!squares[y][x].isEmpty()) {
 					if (word.charAt(i) != squares[y][x].getTile().getLetter()) {
-						System.out.println("Word cannot be placed because it is being placed on top of a letter");
+						error = "Word cannot be placed because it is being placed on top of a letter\n";
 						valid = false;
 					} else {
 						taken[i] = 1;
@@ -334,7 +335,7 @@ public class Board {
 			for (int i = 0; i < word.length(); i++) {
 				if (!squares[y][x].isEmpty()) {
 					if (word.charAt(i) != squares[y][x].getTile().getLetter()) {
-						System.out.println("Word cannot be placed because it conflicts with existing letters");
+						error = "Word cannot be placed because it conflicts with existing letters\n";
 						valid = false;
 					} else {
 						taken[i] = 1;
@@ -363,7 +364,7 @@ public class Board {
 		}
 		// test if frame has at least one letter
 		if (!atLeastOne) {
-			System.out.println("Placement does not include at least one letter from the frame");
+			error = "Placement does not include at least one letter from the frame\n";
 			return false;
 		}
 		return true;
@@ -372,13 +373,13 @@ public class Board {
 	// tests if the word is within the bounds of the board
 	boolean checkBounds(String word, int x, int y, String direction) {
 		if (x > 14 || x < 0 || y < 0 || y > 14) {
-			System.out.println("The word is not within the bounds of the board");
+			error = "The word is not within the bounds of the board\n";
 			return false;
 		} else if (direction.equals("across") && x + word.length() - 1 > 14) {
-			System.out.println("The word is not within the bounds of the board");
+			error = "The word is not within the bounds of the board\n";
 			return false;
 		} else if (direction.equals("down") && y + word.length() - 1 > 14) {
-			System.out.println("The word is not within the bounds of the board");
+			error = "The word is not within the bounds of the board\n";
 			return false;
 		} else
 			return true;
@@ -661,13 +662,6 @@ public class Board {
 		}
 	}
 
-	void printChallenge()
-	{
-		for(int i = 0;i < 8; i++)
-		{
-			System.out.println(challengeWords[i]);
-		}
-	}
 
 	void removeLast()
 	{
