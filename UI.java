@@ -6,6 +6,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Screen;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -44,6 +47,12 @@ public class UI {
 		board = new Board();
 		textBox = new TextField();
 
+
+		try {
+			readDictionary();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		setInstructionLabel();
 		setTurnLabel();
 		setFramePane();
@@ -231,6 +240,14 @@ public class UI {
 
 		gridPane.setStyle("-fx-background-color: rgb(5, 37, 4, 0.658);");
 		return gridPane;
+	}
+	void readDictionary() throws IOException {
+		BufferedReader reader = new BufferedReader(new FileReader("dictionary.txt"));
+		String line;
+		dictionary = new Tree();
+		while((line = reader.readLine()) != null){
+			dictionary.set(line);
+		}
 	}
 
 
