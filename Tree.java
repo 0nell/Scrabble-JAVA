@@ -11,17 +11,8 @@ public class Tree {
         endOfWord = false;
     }
 
-    public boolean isEmpty(){
-        return letter==null;
-    }
-
     void fill(int i){
         this.letter = (char) (i + 65);
-    }
-
-
-    public Tree get(int i) {
-        return children[i];
     }
 
     public void set(int i) {
