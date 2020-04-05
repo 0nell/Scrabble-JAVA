@@ -301,19 +301,25 @@ public class UI {
 						instructionLabel.setText("Cannot exchange\n" + "There are less than 7 tiles left in the pool");
 						return 0;
 					} else {
-						String letters = inputText[++i];
-						// check if the tiles inputed are actually in the player's frame
-						if (!players[turn % 2].getFrame().isAvailable(letters).contains("t")) {
-							instructionLabel
-									.setText("Cannot exchange\n" + "Your frame does not contain the tiles you entered\n"
-											+ "(Use _ to represent a blank tile for exchange");
+						try {
+							String letters = inputText[++i];
+							// check if the tiles inputed are actually in the player's frame
+							if (!players[turn % 2].getFrame().isAvailable(letters).contains("t")) {
+								instructionLabel
+										.setText("Cannot exchange\n" + "Your frame does not contain the tiles you entered\n"
+												+ "(Use _ to represent a blank tile for exchange");
+								return 0;
+							} else {
+								// remove tiles and refill new ones
+								players[turn % 2].getFrame().remove(letters);
+								players[turn % 2].getFrame().refill(pool);
+								pass = 0;
+								return 1;
+							}
+						}catch(Exception e)
+						{
+							instructionLabel.setText("Cannot exchange\n No Letters Input");
 							return 0;
-						} else {
-							// remove tiles and refill new ones
-							players[turn % 2].getFrame().remove(letters);
-							players[turn % 2].getFrame().refill(pool);
-							pass = 0;
-							return 1;
 						}
 					}
 					// if the user inputs challenge
