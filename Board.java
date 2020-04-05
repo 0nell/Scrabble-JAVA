@@ -605,6 +605,7 @@ public class Board {
 		case "3L":
 			letterMultiplier = 3;
 			break;
+		case "*" :
 		case "2W":
 			wordMultiplier *= 2;
 			break;
