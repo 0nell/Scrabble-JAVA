@@ -30,15 +30,22 @@ public class Square extends Label {
         this.tile = tile;
 
         if(tile == null){
-            this.setText("");
             this.setEmpty(true);
             this.setStyle("-fx-background-color: rgb(216, 226, 238); -fx-text-fill: black; -fx-border-color: black;");
+            this.setValue(value);
         }
         else {
             this.setEmpty(false);
             this.setText(String.valueOf(tile.getLetter()));
             this.setStyle("-fx-background-color: rgb(244, 205, 175); -fx-text-fill: black; -fx-border-color: black;");
         }
+    }
+
+    void removeTile(){
+        this.setEmpty(false);
+        this.setText(String.valueOf(tile.getLetter()));
+        this.setStyle("-fx-background-color: rgb(244, 205, 175); -fx-text-fill: black; -fx-border-color: black;");
+        this.setValue(this.value);
     }
 
     Tile getTile() {
@@ -49,11 +56,12 @@ public class Square extends Label {
         return this.value;
     }
 
+
     void setValue(String value) {
         this.value = value;
         this.setText(value);
         switch(this.value) {
-            case "★":
+            case "*":
             case "2W":
                 this.setStyle("-fx-background-color: rgb(231, 40, 34); -fx-text-fill: white; -fx-border-color: black;");
                 break;
@@ -67,7 +75,6 @@ public class Square extends Label {
                 this.setStyle("-fx-background-color: rgb(4, 110, 159); -fx-text-fill: white; -fx-border-color: black;");
                 break;
             default:
-
                 break;
         }
     }

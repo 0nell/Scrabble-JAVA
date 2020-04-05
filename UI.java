@@ -62,10 +62,7 @@ public class UI {
 
 		textBox.setOnAction(e -> {
 			turn += parseInput(textBox.getText());
-
-				turnLabel.setText("Enter command " + players[(turn) % 2].getName());
-			
-			System.out.println(players[turn % 2].getFrame().toString());
+			turnLabel.setText("Enter command " + players[(turn) % 2].getName());
 			setCurrentFrame(players[turn % 2].getFrame());
 
 			if (checkWin()) {
@@ -259,7 +256,7 @@ public class UI {
 	int parseInput(String command) {
 		score1.setText(players[0].getName() + "\n" + players[0].getScore());
 		score2.setText(players[1].getName() + "\n" + players[1].getScore());
-		// change it to upper case incase user input it in lower case
+		// change it to upper case in case user input it in lower case
 		command = command.toUpperCase();
 		// If the command is Help it overrides other commands
 		if (command.equals("HELP")) {
@@ -270,8 +267,6 @@ public class UI {
 					+ "- To challenge previous word, enter CHALLENGE\n" + "- To quit game, enter QUIT");
 			return 0;
 		} else {
-
-			
 			// if the player challenged for now manually subtract score at the end of the
 			// game
 			// each player has a negative score marker
@@ -280,112 +275,116 @@ public class UI {
 				int i = 0;
 
 				switch (inputText[i]) {
-				// if the player inputed QUIT exit the system
-				case "QUIT":
-					System.exit(0);
-					// if the player inputed PASS then increment the pass counter and return 1 to
-					// pass the play to the other player
-				case "PASS":
-					pass++;
-					return 1;
-				case "NAME":
-					String newName = inputText[++i];
-					players[turn%2].setName(newName);
-					score1.setText(players[0].getName() + "\n" + players[0].getScore());
-					score2.setText(players[1].getName() + "\n" + players[1].getScore());
-					return 0;
-				// if the player inputs Exchange and a list of tiles
-				case "EXCHANGE":
-					// check if pool has 7 or more tiles left
-					if (pool.size() < 7) {
-						instructionLabel.setText("Cannot exchange\n" + "There are less than 7 tiles left in the pool");
+				// if the player input QUIT exit the system
+					case "":
 						return 0;
-					} else {
-						try {
-							String letters = inputText[++i];
-							// check if the tiles inputed are actually in the player's frame
-							if (!players[turn % 2].getFrame().isAvailable(letters).contains("t")) {
-								instructionLabel
-										.setText("Cannot exchange\n" + "Your frame does not contain the tiles you entered\n"
-												+ "(Use _ to represent a blank tile for exchange");
-								return 0;
-							} else {
-								// remove tiles and refill new ones
-								players[turn % 2].getFrame().remove(letters);
-								players[turn % 2].getFrame().refill(pool);
-								pass = 0;
-								return 1;
-							}
-						}catch(Exception e)
-						{
-							instructionLabel.setText("Cannot exchange\n No Letters Input");
-							return 0;
-						}
-					}
-					// if the user inputs challenge
-				case "CHALLENGE":
-					//Checks if the challenged words are valid
-					int returnInt = 0;
-					if(pass == 0) {
-						if (!board.squares[7][7].isEmpty()) {
-
-							for (int j = 0; j < (Board.wordCount + 1); j++) {
-								if (!dictionary.find(Board.challengeWords[j])) {
-									instructionLabel.setText("SUCCESSFUL CHALLENGE\nWORD NOT IN DICTIONARY");
-									players[(turn + 1) % 2].addScore(lastScore * -1);
-									score1.setText(players[0].getName() + "\n" + players[0].getScore());
-									score2.setText(players[1].getName() + "\n" + players[1].getScore());
-									board.removeLast();
-									players[(turn + 1) % 2].getFrame().revert(pool);
-									returnInt = 0;
-									break;
-								} else {
-									returnInt = 1;        //skips challengers turn if challenge fails
-								}
-							}
-							if(returnInt == 1)
-							{
-								instructionLabel.setText("UNSUCCESSFUL CHALLENGE\nWORD IN DICTIONARY");
-								pass++;
-							}
-						} else {
-							instructionLabel.setText("CANNOT CHALLENGE\nNO WORD ON BOARD");
-						}
-					}else if(pass % 2 == 1)
-					{
-						instructionLabel.setText("CANNOT CHALLENGE YOUR OWN WORD");
-					}else if(pass % 2 == 0)
-					{
-						instructionLabel.setText("CANNOT CHALLENGE WORD PLACED BEFORE THE LAST TURN");
-					}
-
-						return returnInt;
-				// otherwise the player has inputed a grid reference, direction and word
-				// if the word is placeable, place it and add its score to the player's score
-				default:
-					try {
-						String gridRef = inputText[i++];
-						char xGridRef = gridRef.charAt(0);
-						String yCoord = gridRef.substring(1);
-						int y = Integer.parseInt(yCoord) - 1;
-						String direction = inputText[i++];
-						String word = inputText[i];
-
-						if (word.length()==1) {
-							throw new IllegalArgumentException("Cannot place a one letter word");
-						}
-						players[turn % 2]
-								.addScore(lastScore = board.placeWord(players[turn % 2], word, xGridRef, y, direction));
-
+					case "QUIT":
+						System.exit(0);
+						// if the player input PASS then increment the pass counter and return 1 to
+						// pass the play to the other player
+					case "PASS":
+						pass++;
+						return 1;
+					case "NAME":
+						String newName = inputText[++i];
+						players[turn%2].setName(newName);
 						score1.setText(players[0].getName() + "\n" + players[0].getScore());
 						score2.setText(players[1].getName() + "\n" + players[1].getScore());
-						players[turn % 2].getFrame().refill(pool);
-						pass = 0;
-						return 1;
-					} catch (Exception e) {
-						instructionLabel.setText("Invalid input\n" + e.getMessage() + "\nType HELP for help");
-					}
-					return 0;
+						return 0;
+					// if the player inputs Exchange and a list of tiles
+					case "EXCHANGE":
+						// check if pool has 7 or more tiles left
+						if (pool.size() < 7) {
+							instructionLabel.setText("Cannot exchange\n" + "There are less than 7 tiles left in the pool");
+							return 0;
+						} else {
+							try {
+								String letters = inputText[++i];
+								// check if the tiles inputed are actually in the player's frame
+								if (!players[turn % 2].getFrame().isAvailable(letters).contains("t")) {
+									instructionLabel
+											.setText("Cannot exchange\n" + "Your frame does not contain the tiles you entered\n"
+													+ "(Use _ to represent a blank tile for exchange");
+									return 0;
+								} else {
+									// remove tiles and refill new ones
+									players[turn % 2].getFrame().remove(letters);
+									players[turn % 2].getFrame().refill(pool);
+									pass = 0;
+									instructionLabel.setText("'HELP' to get instructions");
+									return 1;
+								}
+							}catch(Exception e)
+							{
+								instructionLabel.setText("Cannot exchange\n No Letters Input");
+								return 0;
+							}
+						}
+						// if the user inputs challenge
+					case "CHALLENGE":
+						//Checks if the challenged words are valid
+						int returnInt = 0;
+						if(pass == 0) {
+							if (!board.squares[7][7].isEmpty()) {
+
+								for (int j = 0; j < (Board.wordCount + 1); j++) {
+									if (!dictionary.find(Board.challengeWords[j])) {
+										instructionLabel.setText("SUCCESSFUL CHALLENGE\nWORD NOT IN DICTIONARY");
+										players[(turn + 1) % 2].addScore(lastScore * -1);
+										score1.setText(players[0].getName() + "\n" + players[0].getScore());
+										score2.setText(players[1].getName() + "\n" + players[1].getScore());
+										board.removeLast();
+										players[(turn + 1) % 2].getFrame().revert(pool);
+										returnInt = 0;
+										break;
+									} else {
+										returnInt = 1;        //skips challengers turn if challenge fails
+									}
+								}
+								if(returnInt == 1)
+								{
+									instructionLabel.setText("UNSUCCESSFUL CHALLENGE\nWORD IN DICTIONARY");
+									pass++;
+								}
+							} else {
+								instructionLabel.setText("CANNOT CHALLENGE\nNO WORD ON BOARD");
+							}
+						}else if(pass % 2 == 1)
+						{
+							instructionLabel.setText("CANNOT CHALLENGE YOUR OWN WORD");
+						}else if(pass % 2 == 0)
+						{
+							instructionLabel.setText("CANNOT CHALLENGE WORD PLACED BEFORE THE LAST TURN");
+						}
+
+							return returnInt;
+					// otherwise the player has inputed a grid reference, direction and word
+					// if the word is placeable, place it and add its score to the player's score
+					default:
+						try {
+							String gridRef = inputText[i++];
+							char xGridRef = gridRef.charAt(0);
+							String yCoord = gridRef.substring(1);
+							int y = Integer.parseInt(yCoord) - 1;
+							String direction = inputText[i++];
+							String word = inputText[i];
+
+							if (word.length()==1) {
+								throw new IllegalArgumentException("Cannot place a one letter word");
+							}
+							players[turn % 2]
+									.addScore(lastScore = board.placeWord(players[turn % 2], word, xGridRef, y, direction));
+
+							score1.setText(players[0].getName() + "\n" + players[0].getScore());
+							score2.setText(players[1].getName() + "\n" + players[1].getScore());
+							players[turn % 2].getFrame().refill(pool);
+							pass = 0;
+							instructionLabel.setText("'HELP' to get instructions");
+							return 1;
+						} catch (Exception e) {
+							instructionLabel.setText("Invalid input\n" + e.getMessage() + "\nType HELP for help");
+						}
+						return 0;
 
 			}
 		}
