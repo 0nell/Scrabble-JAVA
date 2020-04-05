@@ -79,10 +79,10 @@ public class Frame {
 
 	// remove precondition: isAvailable(letters) is true
 	public void remove(String letters) {
+		placed.clear();
 		for (int i=0; (i<letters.length()); i++) {
 			tiles.remove(new Tile(letters.charAt(i)));
 			placed.add(new Tile(letters.charAt(i)));
-
 		}
 	}
 
@@ -96,7 +96,6 @@ public class Frame {
 		for(Tile tile : previouslyDrawn) {
 			tiles.remove(tile);
 		}
-		previouslyDrawn.clear();
 		tiles.addAll(placed);
 		placed.clear();
 		pool.returnTiles(previouslyDrawn);

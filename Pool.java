@@ -17,7 +17,7 @@ public class Pool {
 	private ArrayList<Tile> pool;
 	
 	Pool() {
-		pool = new ArrayList<Tile>();
+		pool = new ArrayList<>();
 		for (int i=0; i<TILES_BLANK; i++) {
 			pool.add(new Tile('_'));
 		}
@@ -37,13 +37,8 @@ public class Pool {
 	}
 
 	public ArrayList<Tile> drawTiles(int numRequested) {
-		int numGiven;
-		if (numRequested > pool.size()) {
-			numGiven = pool.size();
-		} else {
-			numGiven = numRequested;
-		}
-		ArrayList<Tile> draw = new ArrayList<Tile>();
+		int numGiven = Math.min(numRequested, pool.size());
+		ArrayList<Tile> draw = new ArrayList<>();
 		for (int i=0; i<numGiven; i++) {
 			int index = (int) (Math.random()*pool.size());
 			Tile tile = pool.get(index);
