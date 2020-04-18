@@ -1,0 +1,24 @@
+•A class called Pool that:
+    oStores the value of each tile
+    oStores the tiles currently in the pool
+    oAllows the pool to be reset
+    oAllows display of the number of tiles in the pool
+    oAllows the pool to be checked to see if it is empty
+    oAllows tiles to be drawn at random from the pool
+    oAllows the value of a tile to be queried
+•A class called Player that:
+    oAllows the player data to be reset
+    oAllows the name of the player to be set
+    oAllows a player’s score to be increased
+    oAllows access to their score
+    oAllows access to a player’s frame (tiles)
+    oAllows display of a players name
+•A class called Frame that:
+    oStores the letters that each player has in their frame
+    oAllows letters to be removed from a frame
+    oAllows a check to be made if letters are in the frame
+    oAllows a check to be made to see if the frame is empty
+    oAllows access to the letters in the frame
+    oAllows a frame to be refilled from the pool
+    oAllows a frame to be displayed
+•A class called PlayerTest with a main method that will run a series of tests on the classes and display the results.
